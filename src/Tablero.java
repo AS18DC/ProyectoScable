@@ -44,7 +44,7 @@ class Tablero {
                 tablero[fila + i][col] = palabra.charAt(i); // Colocar la palabra
             }
         }
-        return true; // Palabra colocada exitosamente
+        return true;
     }
 
     public void mostrarTablero() {

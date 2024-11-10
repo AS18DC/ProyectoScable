@@ -37,7 +37,7 @@ class Juego {
             int col = scanner.nextInt();
             System.out.print("¿Horizontal? (true/false): ");
             String horizontal = scanner.nextLine();
-            scanner.nextLine(); // Limpiar el buffer
+            scanner.nextLine();
 
             boolean horizontal2 = false;
 
@@ -70,7 +70,7 @@ class Juego {
 
     public void finalizarPartida() {
         long tiempoFin = System.currentTimeMillis();
-        long tiempoTotal = (tiempoFin - tiempoInicio) / 1000; // Tiempo en segundos
+        long tiempoTotal = (tiempoFin - tiempoInicio) / 1000;
         System.out.println("El juego ha terminado.");
         System.out.println("Ganador: " + (jugador1.getPuntaje() > jugador2.getPuntaje() ? jugador1.getNombre() : jugador2.getNombre()));
         System.out.println("Puntaje Jugador 1: " + jugador1.getPuntaje());
