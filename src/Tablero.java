@@ -48,9 +48,17 @@ class Tablero {
     }
 
     public void mostrarTablero() {
-        for (char[] fila : tablero) {
-            for (char letra : fila) {
-                System.out.print("[" + letra + "]");
+        System.out.print("   ");
+        for (int col = 0; col < tablero[0].length; col++) {
+            System.out.printf(" %2d ", col);
+        }
+        System.out.println();
+
+
+        for (int fila = 0; fila < tablero.length; fila++) {
+            System.out.printf("%2d  ", fila);
+            for (char letra : tablero[fila]) {
+                System.out.print("[" + letra + "] ");
             }
             System.out.println();
         }

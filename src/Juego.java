@@ -23,9 +23,9 @@ class Juego {
 
         while (true) {
             Jugador jugadorActual = turnoJugador1 ? jugador1 : jugador2;
-            System.out.println("Turno de " + jugadorActual.getNombre());
             tablero.mostrarTablero();
             //tablero.displayBoard();
+            System.out.println("Turno de " + jugadorActual.getNombre());
             System.out.println("Letras disponibles: " + jugadorActual.getLetras());
 
             Scanner scanner = new Scanner(System.in);
