@@ -1,19 +1,35 @@
-public class Jugador {
-    private String correo;
-    private String alias;
-    private int victorias;
+import java.util.ArrayList;
+import java.util.List;
 
-    public Jugador(String correo, String alias) {
-        this.correo = correo;
-        this.alias = alias;
-        this.victorias = 0;
+class Jugador {
+    private String nombre;
+    private int puntaje;
+    private List<String> letras;
+
+    public Jugador(String nombre) {
+        this.nombre = nombre;
+        this.puntaje = 0;
+        this.letras = new ArrayList<String>();
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getNombre() {
+        return nombre;
     }
 
-    public String getAlias() {
-        return alias;
+    public int getPuntaje() {
+        return puntaje;
+    }
+
+    public List<String> getLetras() {
+        return letras;
+    }
+
+    public void agregarLetra(String letra, int puntaje) {
+        letras.add(letra);
+        this.puntaje += puntaje;
+    }
+
+    public void usarLetras(List<Character> usadas) {
+        letras.removeAll(usadas);
     }
 }
