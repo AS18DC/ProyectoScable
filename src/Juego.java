@@ -8,6 +8,25 @@ class Juego {
     private Tablero tablero;
     private long tiempoInicio;
 
+
+
+    public int validarNumero(){
+        Scanner scanner = new Scanner(System.in);
+        int numero=0;
+        boolean entradaValida = false;
+        System.out.println(" (0-14):");
+        while (!entradaValida) {
+            numero = scanner.nextInt();
+                if (numero >= 0 && numero <= 14) {
+                    entradaValida = true;
+                }else{
+                    System.out.println("Error: El número debe estar entre 0 y 14. Intente de nuevo.");
+                    scanner.nextLine();
+                }
+        }
+        return numero;
+    }
+
     public Juego(Jugador jugador1, Jugador jugador2) {
         this.jugador1 = jugador1;
         this.jugador2 = jugador2;
@@ -16,6 +35,9 @@ class Juego {
         this.tiempoInicio = System.currentTimeMillis();
     }
 
+
+
+///************************************************************************************************\\\
     public void iniciarPartida() {
         saco.repartirLetras(jugador1);
         saco.repartirLetras(jugador2);
@@ -28,38 +50,66 @@ class Juego {
             System.out.println("Turno de " + jugadorActual.getNombre());
             System.out.println("Letras disponibles: " + jugadorActual.getLetras());
 
+    ///--------------------------------------------------------------------------------
+
+            System.out.println("Puede colocar palabra? Si/No");
             Scanner scanner = new Scanner(System.in);
-            System.out.print("Ingrese la palabra: ");
-            String palabra = scanner.nextLine();
-            System.out.print("Ingrese fila (0-14): ");
-            int fila = scanner.nextInt();
-            System.out.print("Ingrese columna (0-14): ");
-            int col = scanner.nextInt();
-            System.out.print("¿Horizontal? (true/false): ");
-            String horizontal = scanner.nextLine();
-            scanner.nextLine();
+            String disponibilidadturno = scanner.nextLine();
 
-            boolean horizontal2 = false;
+    ///--------------------------------------------------------------------------------
 
-            if (horizontal=="true"){
-                horizontal2 = true;
-            }
+            if (disponibilidadturno.equalsIgnoreCase("Si")) {
 
-            if (tablero.colocarPalabra(palabra, fila, col, horizontal2)) {
-                ArrayList<Character> usadas = new ArrayList<>();
-                for (char letra : palabra.toCharArray()) {
-                    usadas.add(letra);
+
+
+                System.out.print("Ingrese la palabra: ");
+                String palabra = scanner.nextLine();
+                //funcion para confirmar palabra existe y que esta en su baraja
+
+
+
+
+    ///--------------------------------------------------------------------------------
+
+                System.out.print("Ingrese fila");
+                //funcion para comprobar que este en ese rango
+                int fila = validarNumero();
+
+    ///--------------------------------------------------------------------------------
+
+                System.out.print("Ingrese columna");
+                //funcion para comprobar que este en ese rango
+                int col = validarNumero();
+
+    ///--------------------------------------------------------------------------------
+
+                System.out.print("¿Horizontal? (true/false): ");
+                String horizontal = scanner.nextLine();
+
+                boolean horizontal2 = false;
+
+                if (horizontal.equalsIgnoreCase("true")) {
+                    horizontal2 = true;
                 }
-                jugadorActual.usarLetras(usadas);
-                saco.repartirLetras(jugadorActual);
-            } else {
-                System.out.println("No se pudo colocar la palabra. Intente de nuevo.");
-                continue;
-            }
 
-            // Verificar si un jugador se quedó sin letras
-            if (jugador1.getLetras().isEmpty() || jugador2.getLetras().isEmpty()) {
-                break; // Terminar el juego
+                if (tablero.colocarPalabra(palabra, fila, col, horizontal2)) {
+                    ArrayList<Character> usadas = new ArrayList<>();
+                    for (char letra : palabra.toCharArray()) {
+                        usadas.add(letra);
+                    }
+                    jugadorActual.usarLetras(usadas);
+                    saco.repartirLetras(jugadorActual);
+                } else {
+                    System.out.println("No se pudo colocar la palabra. Intente de nuevo.");
+                    continue;
+                }
+
+    ///--------------------------------------------------------------------------------
+
+                // Verificar si un jugador se quedó sin letras
+                if (jugador1.getLetras().isEmpty() || jugador2.getLetras().isEmpty()) {
+                    break; // Terminar el juego
+                }
             }
 
             turnoJugador1 = !turnoJugador1; // Cambiar turno
