@@ -2,6 +2,7 @@ import java.util.*;
 
 class Jugador {
     private String nombre;
+    private String correoElectronico;
     private int puntaje;
     private List<String> letras;
 
@@ -11,12 +12,29 @@ class Jugador {
         this.letras = new ArrayList<String>();
     }
 
+    public Jugador(String correoElectronico, String nombre) {
+        this.correoElectronico = correoElectronico;
+        this.nombre = nombre;
+    }
+
     public String getNombre() {
         return nombre;
     }
 
     public int getPuntaje() {
         return puntaje;
+    }
+
+    public String getCorreoElectronico() {
+        return correoElectronico;
+    }
+
+    public void setCorreoElectronico(String correoElectronico) {
+        this.correoElectronico = correoElectronico;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public List<String> getLetras() {
