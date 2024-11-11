@@ -29,6 +29,10 @@ class Jugador {
         this.puntaje += puntaje;
     }
 
+    public boolean quitarLetra(String letra) {
+        return letras.remove(letra);
+    }
+
     public void usarLetras(List<Character> usadas) {
         letras.removeAll(usadas);
     }

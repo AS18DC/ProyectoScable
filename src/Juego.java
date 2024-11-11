@@ -49,14 +49,35 @@ class Juego {
             //tablero.displayBoard();
             System.out.println("Turno de " + jugadorActual.getNombre());
             System.out.println("Letras disponibles: " + jugadorActual.getLetras());
+            Scanner scanner = new Scanner(System.in);
 
-    ///--------------------------------------------------------------------------------
+            ///--------------------------------------------------------------------------------
+
+            System.out.println("Quiere cambiar alguna ficha? Si/No");
+            String cambioFicha = scanner.nextLine();
+
+            if (cambioFicha.equalsIgnoreCase("Si")){
+                System.out.println("Quiere cambiar todas las fichas? Si/No");
+                String cambioTodasLasFichas = scanner.nextLine();
+                if (cambioTodasLasFichas.equalsIgnoreCase("Si")){
+                    saco.devolverLetrasAlSaco(jugadorActual);
+                    saco.repartirLetras(jugadorActual);
+                    System.out.println("Nuevas Letras disponibles: " + jugadorActual.getLetras());
+                }else{
+                    System.out.println("Cual ficha quiere cambiar?");
+                    String letraACambiar = scanner.nextLine();
+                    saco.cambiarFicha(jugadorActual, letraACambiar);
+                    System.out.println("Nuevas Letra disponible: " + jugadorActual.getLetras());
+                }
+
+            }
+
+            ///--------------------------------------------------------------------------------
 
             System.out.println("Puede colocar palabra? Si/No");
-            Scanner scanner = new Scanner(System.in);
             String disponibilidadturno = scanner.nextLine();
 
-    ///--------------------------------------------------------------------------------
+            ///--------------------------------------------------------------------------------
 
             if (disponibilidadturno.equalsIgnoreCase("Si")) {
 
@@ -69,19 +90,19 @@ class Juego {
 
 
 
-    ///--------------------------------------------------------------------------------
+            ///--------------------------------------------------------------------------------
 
                 System.out.print("Ingrese fila");
                 //funcion para comprobar que este en ese rango
                 int fila = validarNumero();
 
-    ///--------------------------------------------------------------------------------
+            ///--------------------------------------------------------------------------------
 
                 System.out.print("Ingrese columna");
                 //funcion para comprobar que este en ese rango
                 int col = validarNumero();
 
-    ///--------------------------------------------------------------------------------
+            ///--------------------------------------------------------------------------------
 
                 System.out.print("¿Horizontal? (true/false): ");
                 String horizontal = scanner.nextLine();
@@ -104,7 +125,7 @@ class Juego {
                     continue;
                 }
 
-    ///--------------------------------------------------------------------------------
+            ///--------------------------------------------------------------------------------
 
                 // Verificar si un jugador se quedó sin letras
                 if (jugador1.getLetras().isEmpty() || jugador2.getLetras().isEmpty()) {
