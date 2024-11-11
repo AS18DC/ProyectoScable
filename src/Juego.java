@@ -56,86 +56,86 @@ class Juego {
             System.out.println("Quiere cambiar alguna ficha? Si/No");
             String cambioFicha = scanner.nextLine();
 
-            if (cambioFicha.equalsIgnoreCase("Si")){
+            if (cambioFicha.equalsIgnoreCase("Si")) {
                 System.out.println("Quiere cambiar todas las fichas? Si/No");
                 String cambioTodasLasFichas = scanner.nextLine();
-                if (cambioTodasLasFichas.equalsIgnoreCase("Si")){
+
+                if (cambioTodasLasFichas.equalsIgnoreCase("Si")) {
                     saco.devolverLetrasAlSaco(jugadorActual);
                     saco.repartirLetras(jugadorActual);
                     System.out.println("Nuevas Letras disponibles: " + jugadorActual.getLetras());
-                }else{
+
+                } else {
                     System.out.println("Cual ficha quiere cambiar?");
                     String letraACambiar = scanner.nextLine();
                     saco.cambiarFicha(jugadorActual, letraACambiar);
-                    System.out.println("Nuevas Letra disponible: " + jugadorActual.getLetras());
+                    System.out.println("Nueva Letra disponible: " + jugadorActual.getLetras());
                 }
+                turnoJugador1 = !turnoJugador1; // Cambiar turno
 
-            }
+            } else {
 
-            ///--------------------------------------------------------------------------------
+                ///--------------------------------------------------------------------------------
 
-            System.out.println("Puede colocar palabra? Si/No");
-            String disponibilidadturno = scanner.nextLine();
+                System.out.println("Puede colocar palabra? Si/No");
+                String disponibilidadTurno = scanner.nextLine();
 
-            ///--------------------------------------------------------------------------------
+                ///--------------------------------------------------------------------------------
 
-            if (disponibilidadturno.equalsIgnoreCase("Si")) {
-
-
-
-                System.out.print("Ingrese la palabra: ");
-                String palabra = scanner.nextLine();
-                //funcion para confirmar palabra existe y que esta en su baraja
+                if (disponibilidadTurno.equalsIgnoreCase("Si")) {
 
 
+                    System.out.print("Ingrese la palabra: ");
+                    String palabra = scanner.nextLine();
+                    //funcion para confirmar palabra existe y que esta en su baraja
 
 
-            ///--------------------------------------------------------------------------------
+                    ///--------------------------------------------------------------------------------
 
-                System.out.print("Ingrese fila");
-                //funcion para comprobar que este en ese rango
-                int fila = validarNumero();
+                    System.out.print("Ingrese fila");
+                    //funcion para comprobar que este en ese rango
+                    int fila = validarNumero();
 
-            ///--------------------------------------------------------------------------------
+                    ///--------------------------------------------------------------------------------
 
-                System.out.print("Ingrese columna");
-                //funcion para comprobar que este en ese rango
-                int col = validarNumero();
+                    System.out.print("Ingrese columna");
+                    //funcion para comprobar que este en ese rango
+                    int col = validarNumero();
 
-            ///--------------------------------------------------------------------------------
+                    ///--------------------------------------------------------------------------------
 
-                System.out.print("¿Horizontal? (true/false): ");
-                String horizontal = scanner.nextLine();
+                    System.out.print("¿Horizontal? (true/false): ");
+                    String horizontal = scanner.nextLine();
 
-                boolean horizontal2 = false;
+                    boolean horizontal2 = false;
 
-                if (horizontal.equalsIgnoreCase("true")) {
-                    horizontal2 = true;
-                }
-
-                if (tablero.colocarPalabra(palabra, fila, col, horizontal2)) {
-                    ArrayList<Character> usadas = new ArrayList<>();
-                    for (char letra : palabra.toCharArray()) {
-                        usadas.add(letra);
+                    if (horizontal.equalsIgnoreCase("true")) {
+                        horizontal2 = true;
                     }
-                    jugadorActual.usarLetras(usadas);
-                    saco.repartirLetras(jugadorActual);
-                } else {
-                    System.out.println("No se pudo colocar la palabra. Intente de nuevo.");
-                    continue;
+
+                    if (tablero.colocarPalabra(palabra, fila, col, horizontal2)) {
+                        ArrayList<Character> usadas = new ArrayList<>();
+                        for (char letra : palabra.toCharArray()) {
+                            usadas.add(letra);
+                        }
+                        jugadorActual.usarLetras(usadas);
+                        saco.repartirLetras(jugadorActual);
+                    } else {
+                        System.out.println("No se pudo colocar la palabra. Intente de nuevo.");
+                        continue;
+                    }
+
+                    ///--------------------------------------------------------------------------------
+
+                    // Verificar si un jugador se quedó sin letras
+                    if (jugador1.getLetras().isEmpty() || jugador2.getLetras().isEmpty()) {
+                        break; // Terminar el juego
+                    }
                 }
 
-            ///--------------------------------------------------------------------------------
-
-                // Verificar si un jugador se quedó sin letras
-                if (jugador1.getLetras().isEmpty() || jugador2.getLetras().isEmpty()) {
-                    break; // Terminar el juego
-                }
+                turnoJugador1 = !turnoJugador1; // Cambiar turno
             }
-
-            turnoJugador1 = !turnoJugador1; // Cambiar turno
         }
-
         finalizarPartida();
     }
 
