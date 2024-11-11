@@ -14,7 +14,7 @@ class Juego {
         Scanner scanner = new Scanner(System.in);
         int numero=0;
         boolean entradaValida = false;
-        System.out.println(" (0-14):");
+        System.out.print(" (0-14):");
         while (!entradaValida) {
             numero = scanner.nextInt();
                 if (numero >= 0 && numero <= 14) {
@@ -45,14 +45,20 @@ class Juego {
 
         while (true) {
             Jugador jugadorActual = turnoJugador1 ? jugador1 : jugador2;
+            System.out.println();
+            System.out.println();
+            System.out.println("**************************-SCRABBLE-****************************");
+
             tablero.mostrarTablero();
-            //tablero.displayBoard();
+            System.out.println();
+
             System.out.println("Turno de " + jugadorActual.getNombre());
             System.out.println("Letras disponibles: " + jugadorActual.getLetras());
             Scanner scanner = new Scanner(System.in);
+            System.out.println("___________________________________");
+
 
             ///--------------------------------------------------------------------------------
-
             System.out.println("Quiere cambiar alguna ficha? Si/No");
             String cambioFicha = scanner.nextLine();
 
@@ -80,57 +86,70 @@ class Juego {
                 System.out.println("Puede colocar palabra? Si/No");
                 String disponibilidadTurno = scanner.nextLine();
 
+
                 ///--------------------------------------------------------------------------------
 
                 if (disponibilidadTurno.equalsIgnoreCase("Si")) {
 
 
+
+
                     System.out.print("Ingrese la palabra: ");
                     String palabra = scanner.nextLine();
-                    //funcion para confirmar palabra existe y que esta en su baraja
 
-
-                    ///--------------------------------------------------------------------------------
-
-                    System.out.print("Ingrese fila");
-                    //funcion para comprobar que este en ese rango
-                    int fila = validarNumero();
-
-                    ///--------------------------------------------------------------------------------
-
-                    System.out.print("Ingrese columna");
-                    //funcion para comprobar que este en ese rango
-                    int col = validarNumero();
-
-                    ///--------------------------------------------------------------------------------
-
-                    System.out.print("¿Horizontal? (true/false): ");
-                    String horizontal = scanner.nextLine();
-
-                    boolean horizontal2 = false;
-
-                    if (horizontal.equalsIgnoreCase("true")) {
-                        horizontal2 = true;
-                    }
-
-                    if (tablero.colocarPalabra(palabra, fila, col, horizontal2)) {
-                        ArrayList<Character> usadas = new ArrayList<>();
-                        for (char letra : palabra.toCharArray()) {
-                            usadas.add(letra);
-                        }
-                        jugadorActual.usarLetras(usadas);
-                        saco.repartirLetras(jugadorActual);
+                    if (jugadorActual.verificarLetrasParaPalabra(palabra)) {
                     } else {
-                        System.out.println("No se pudo colocar la palabra. Intente de nuevo.");
-                        continue;
+                        while (!jugadorActual.verificarLetrasParaPalabra(palabra)) {
+                            System.out.println("El jugador no puede jugar la palabra: " + palabra);
+                            System.out.println("Ingrese palabra de acuerdo a sus fichas: ");
+                            palabra = scanner.nextLine();
+                            jugadorActual.verificarLetrasParaPalabra(palabra);
+                        }
                     }
+
+                        ///--------------------------------------------------------------------------------
+                        System.out.print("Ingrese fila");
+                        //funcion para comprobar que este en ese rango
+                        int fila = validarNumero();
 
                     ///--------------------------------------------------------------------------------
 
-                    // Verificar si un jugador se quedó sin letras
-                    if (jugador1.getLetras().isEmpty() || jugador2.getLetras().isEmpty()) {
-                        break; // Terminar el juego
-                    }
+                        System.out.print("Ingrese columna");
+                        //funcion para comprobar que este en ese rango
+                        int col = validarNumero();
+
+                        ///--------------------------------------------------------------------------------
+
+                        System.out.print("¿Horizontal? (true/false): ");
+                        String horizontal = scanner.nextLine();
+
+                        boolean horizontal2 = false;
+
+                        if (horizontal.equalsIgnoreCase("true")) {
+                            horizontal2 = true;
+                        }
+
+                        if (tablero.colocarPalabra(palabra, fila, col, horizontal2)) {
+                            ArrayList<Character> usadas = new ArrayList<>();
+                            for (char letra : palabra.toCharArray()) {
+                                usadas.add(letra);
+                            }
+                            jugadorActual.usarLetras(usadas);
+                            saco.repartirLetras(jugadorActual);
+                        } else {
+                            System.out.println("No se pudo colocar la palabra. Intente de nuevo.");
+                            continue;
+                        }
+                        System.out.println();
+
+
+                    ///--------------------------------------------------------------------------------
+
+                        // Verificar si un jugador se quedó sin letras
+                        if (jugador1.getLetras().isEmpty() || jugador2.getLetras().isEmpty()) {
+                            break; // Terminar el juego
+                        }
+
                 }
 
                 turnoJugador1 = !turnoJugador1; // Cambiar turno

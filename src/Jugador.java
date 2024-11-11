@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 class Jugador {
     private String nombre;
@@ -31,6 +30,28 @@ class Jugador {
 
     public boolean quitarLetra(String letra) {
         return letras.remove(letra);
+    }
+
+    public boolean verificarLetrasParaPalabra(String palabra) {
+        // Crear un mapa para contar las letras en la mano del jugador
+        Map<String, Integer> letrasEnMano = new HashMap<>();
+
+        // Contar las letras en la mano
+        for (String letra : letras) {
+            letrasEnMano.put(letra, letrasEnMano.getOrDefault(letra, 0) + 1);
+        }
+
+        // Verificar si el jugador tiene las letras necesarias para la palabra
+        for (char c : palabra.toCharArray()) {
+            String letra = String.valueOf(c).toUpperCase(); // Asegurarse de que la letra sea mayúscula
+            if (!letrasEnMano.containsKey(letra) || letrasEnMano.get(letra) <= 0) {
+                return false; // No tiene la letra necesaria
+            }
+            // Decrementar el conteo de la letra utilizada
+            letrasEnMano.put(letra, letrasEnMano.get(letra) - 1);
+        }
+
+        return true; // Todas las letras están disponibles
     }
 
     public void usarLetras(List<Character> usadas) {
