@@ -6,15 +6,11 @@ class Jugador {
     private int puntaje;
     private List<String> letras;
 
-    public Jugador(String nombre) {
-        this.nombre = nombre;
-        this.puntaje = 0;
-        this.letras = new ArrayList<String>();
-    }
-
     public Jugador(String correoElectronico, String nombre) {
         this.correoElectronico = correoElectronico;
         this.nombre = nombre;
+        this.puntaje = 0;
+        this.letras = new ArrayList<String>();
     }
 
     public String getNombre() {
@@ -49,6 +45,7 @@ class Jugador {
     public boolean quitarLetra(String letra) {
         return letras.remove(letra);
     }
+
 
     public boolean verificarLetrasParaPalabra(String palabra) {
         // Crear un mapa para contar las letras en la mano del jugador

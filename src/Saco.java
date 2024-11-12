@@ -67,9 +67,9 @@ class Saco {
         quitarLetrasJugador(jugador);
     }
 
-    public void repartirLetras(Jugador jugador) {
+    public void repartirLetras(Jugador jugador, int num) {
         Random rand = new Random();
-        while (jugador.getLetras().size() < 7 && !letras.isEmpty()) {
+        while (jugador.getLetras().size() < num && !letras.isEmpty()) {
             int index = rand.nextInt(letras.size());
             Letra letra = letras.get(index);
             if (letra.cantidad > 0) {
@@ -77,6 +77,38 @@ class Saco {
                 letra.cantidad--;
             }
         }
+    }
+
+
+    public boolean letraMasCercanaA(List<String> letra1, List<String> letra2) {
+        // Calculamos la distancia de cada letra a 'A'
+
+        String primer = letra1.get(0);
+        String segundo = letra2.get(0);
+        char primerCaracter1 = primer.charAt(0);
+        char primerCaracter2 = segundo.charAt(0);
+        int distancia1 = Math.abs(primerCaracter1 - 'A');
+        int distancia2 = Math.abs(primerCaracter2 - 'A');
+
+        char Ñ = 13;
+        if (primerCaracter1 == Ñ ){
+            distancia1 = Ñ;
+        }else if (primerCaracter2 == Ñ) {
+            distancia2 = Ñ;
+        }
+
+
+
+        if (distancia1 < distancia2) {
+            return true;
+        } else if (distancia2 < distancia1) {
+            return false;
+        } else {
+            // Si ambas distancias son iguales, podemos devolver cualquiera de las dos
+            System.out.println("Las dos letras son iguales se va a volver a sortear: ");
+            return true; // o letra2, dependiendo de la preferencia
+        }
+
     }
 
 
