@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 public class Gestion {
 
@@ -136,4 +137,89 @@ public class Gestion {
         }
         System.out.println("Jugador con alias \"" + alias + "\" no encontrado.");
     }
-}
+
+    public void menuRegistro (Gestion gestionJugador){
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n--- Menú de opciones ---");
+            System.out.println("1. Registrar jugador");
+            System.out.println("2. Consultar jugador");
+            System.out.println("3. Editar correo de un jugador");
+            System.out.println("4. Editar alias de un jugador");
+            System.out.println("5. Registrar partida");
+            System.out.println("6. Mostrar estadísticas de partidas");
+            System.out.println("7. Volver a menú principal");
+            System.out.print("Seleccione una opción: ");
+
+            int opcion = scanner.nextInt();
+            scanner.nextLine();
+
+            if (opcion == 1) {
+                System.out.print("Introduce el correo del jugador: ");
+                String correo = scanner.nextLine();
+                System.out.print("Introduce el alias del jugador: ");
+                String alias = scanner.nextLine();
+                gestionJugador.registrarJugador(correo, alias);
+
+
+            } else if (opcion == 2) {
+                System.out.print("Introduce el alias del jugador que deseas consultar: ");
+                String aliasConsulta = scanner.nextLine();
+                Jugador jugador = gestionJugador.consultarJugador(aliasConsulta);
+                if (jugador != null) {
+                    System.out.println("Jugador encontrado: " + jugador);
+                } else {
+                    System.out.println("Jugador con alias \"" + aliasConsulta + "\" no encontrado.");
+                }
+
+
+            } else if (opcion == 3) {
+                System.out.print("Introduce el alias del jugador cuyo correo deseas editar: ");
+                String aliasCorreo = scanner.nextLine();
+                System.out.print("Introduce el nuevo correo electrónico: ");
+                String nuevoCorreo = scanner.nextLine();
+                gestionJugador.editarCorreo(aliasCorreo, nuevoCorreo);
+
+
+            } else if (opcion == 4) {
+                System.out.print("Introduce el alias del jugador cuyo alias deseas editar: ");
+                String aliasEdicion = scanner.nextLine();
+                System.out.print("Introduce el nuevo alias: ");
+                String nuevoAlias = scanner.nextLine();
+                gestionJugador.editarAlias(aliasEdicion, nuevoAlias);
+
+
+            } else if (opcion == 5) {
+                System.out.print("Introduce el alias del jugador: ");
+                String aliasPartida = scanner.nextLine();
+                System.out.print("Introduce el puntaje de la partida: ");
+                int puntos = scanner.nextInt();
+                System.out.print("¿El jugador ganó la partida? (true/false): ");
+                boolean gano = scanner.nextBoolean();
+                System.out.print("Introduce el tiempo total de la partida (en segundos): ");
+                long tiempoTotal = scanner.nextLong();
+                System.out.print("Introduce el número de palabras colocadas: ");
+                int palabrasColocadas = scanner.nextInt();
+                scanner.nextLine();
+                Partida partida = new Partida(aliasPartida, puntos, gano, tiempoTotal, palabrasColocadas);
+                gestionJugador.agregarPartida(partida);
+
+
+            } else if (opcion == 6) {
+                System.out.print("Introduce el alias del jugador para mostrar sus estadísticas: ");
+                String aliasEstadisticas = scanner.nextLine();
+                gestionJugador.mostrarEstadisticasDePartidas(aliasEstadisticas);
+
+
+            } else if (opcion == 7) {
+                System.out.println("Volviendo a menú principal...");
+                break;
+
+            } else {
+                System.out.println("Opción inválida. Por favor, intente de nuevo.");
+            }
+        }
+    }
+    }
+

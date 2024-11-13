@@ -43,7 +43,6 @@ class Juego{
                     case 1:
                         System.out.println("Coloque el nombre del jugador: ");
                         String nombreExistente = scanner.next();
-                        //jugador1=buscarJugador(nombreExistente);
 
                         break;
                     case 2:
@@ -74,7 +73,7 @@ class Juego{
 
     public static void pausar(int milisegundos) {
         try {
-            Thread.sleep(milisegundos); // Pausa la ejecución
+            Thread.sleep(milisegundos);
         } catch (InterruptedException e) {
         }
     }
@@ -103,7 +102,7 @@ class Juego{
             System.out.println("El jugador que tiene el primer turno es: "+jugador1.getNombre());
         }else {
             System.out.println("El jugador que tiene el primer turno es: "+jugador2.getNombre());
-            turnoJugador1 = !turnoJugador1; // Cambiar turno
+            turnoJugador1 = !turnoJugador1;
         }
         saco.quitarLetrasJugador(jugador1);
         saco.quitarLetrasJugador(jugador2);
