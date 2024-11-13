@@ -39,7 +39,7 @@ class Saco {
         letras.add(new Letra("X", 10, 1));
         letras.add(new Letra("Y", 5, 1));
         letras.add(new Letra("Z", 10, 1));
-        letras.add(new Letra(" ", 2, 0));
+        letras.add(new Letra("-", 0, 2));
 
     }
 

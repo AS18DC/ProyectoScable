@@ -57,6 +57,8 @@ class Jugador {
         }
 
         // Verificar si el jugador tiene las letras necesarias para la palabra
+        ///cambiarlo a que lea en String
+        ///hacer funcion para leer los CH, LL, RR
         for (char c : palabra.toCharArray()) {
             String letra = String.valueOf(c).toUpperCase(); // Asegurarse de que la letra sea mayúscula
             if (!letrasEnMano.containsKey(letra) || letrasEnMano.get(letra) <= 0) {
