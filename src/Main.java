@@ -23,7 +23,6 @@ public class Main {
                     gestion.menuRegistro(gestion);
                     break;
                 case 2:
-                    System.out.println("Has seleccionado la Opción 2.");
                     Jugador jugador1 = new Jugador("", "");
                     Jugador jugador2 = new Jugador("", "");
                     Juego juego = new Juego(jugador1, jugador2);

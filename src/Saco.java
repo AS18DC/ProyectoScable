@@ -97,11 +97,9 @@ class Saco {
             distancia2 = Ñ;
         }
 
-
-
-        if (distancia1 < distancia2) {
+        if ((primerCaracter1=='-') || (distancia1 < distancia2)) {
             return true;
-        } else if (distancia2 < distancia1) {
+        } else if ((primerCaracter2=='-') || (distancia2 < distancia1)) {
             return false;
         } else {
             // Si ambas distancias son iguales, podemos devolver cualquiera de las dos
