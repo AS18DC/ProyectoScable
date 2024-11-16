@@ -26,41 +26,42 @@ class Juego{
         return numero;
     }
 
-
     public Jugador seleccionJugador() {
         Scanner scanner = new Scanner(System.in);
         Jugador jugador = new Jugador("", "");
-            int opcion;
-            do {
-                System.out.println("1. Jugador Existente");
-                System.out.println("2. Crear Jugador");
-                System.out.println("3. Salir");
-                System.out.print("Seleccione una opción: ");
-                opcion = scanner.nextInt();
-                System.out.println();
+        Validar validar = new Validar();
+        int opcion;
 
-                switch (opcion) {
-                    case 1:
-                        System.out.println("Coloque el nombre del jugador: ");
-                        String nombreExistente = scanner.next();
+        do {
+            System.out.println("1. Jugador Existente");
+            System.out.println("2. Crear Jugador");
+            System.out.println("3. Salir");
+            System.out.print("Seleccione una opción: ");
+            opcion = scanner.nextInt();
+            scanner.nextLine(); // Limpia el buffer
+            System.out.println();
 
-                        break;
-                    case 2:
-                        System.out.println("Iniciemos con la creacion del jugador");
-                        System.out.print("Coloque el nombre del jugador: ");
-                        String nombreCreado = scanner.next();
-                        System.out.print("Coloque el correo del jugador: ");
-                        String correoCreado = scanner.next();
-                        return new Jugador(correoCreado, nombreCreado);
-                    case 3:
-                        System.out.println("Saliendo del programa...");
-                        break;
-                    default:
-                        System.out.println("Opción no válida. Por favor, seleccione una opción del 1 al 4.");
-                }
-                System.out.println();
-                return jugador;
-            } while (opcion != 3);
+            switch (opcion) {
+                case 1:
+                    System.out.println("Coloque el nombre del jugador: ");
+                    String nombreExistente = scanner.nextLine(); // Cambiado a nextLine()
+                    break;
+                case 2:
+                    System.out.println("Iniciemos con la creacion del jugador");
+                    String correo = validar.validarEmail(scanner, validar);
+                    System.out.print("Coloque el nombre del jugador: ");
+                    String nombreCreado = scanner.nextLine();
+                    return new Jugador(correo, nombreCreado);
+
+                case 3:
+                    System.out.println("Saliendo del programa...");
+                    break;
+                default:
+                    System.out.println("Opción no válida. Por favor, seleccione una opción del 1 al 3.");
+            }
+            System.out.println();
+            return jugador;
+        } while (opcion != 3);
     }
 
     public Juego(Jugador jugador1, Jugador jugador2) {

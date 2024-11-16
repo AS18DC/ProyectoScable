@@ -1,8 +1,10 @@
 import java.io.File;
 import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.io.BufferedReader;
 
 public class Gestion {
 
@@ -45,6 +47,16 @@ public class Gestion {
         }
     }
 
+    public void leerPartidasEnArchivo() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("partidas.json"))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                System.out.println(linea);
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo: " + e.getMessage());
+        }
+    }
 
     public void mostrarEstadisticasDePartidas(String aliasJugador) {
         int partidasJugadas = 0;
@@ -138,8 +150,9 @@ public class Gestion {
         System.out.println("Jugador con alias \"" + alias + "\" no encontrado.");
     }
 
-    public void menuRegistro (Gestion gestionJugador){
+    public void menuRegistro(Gestion gestionJugador) {
         Scanner scanner = new Scanner(System.in);
+        Validar validar = new Validar();
 
         while (true) {
             System.out.println("\n--- Menú de opciones ---");
@@ -156,23 +169,21 @@ public class Gestion {
             scanner.nextLine();
 
             if (opcion == 1) {
-                System.out.print("Introduce el correo del jugador: ");
-                String correo = scanner.nextLine();
+                String correo = validar.validarEmail(scanner, validar);
                 System.out.print("Introduce el alias del jugador: ");
                 String alias = scanner.nextLine();
                 gestionJugador.registrarJugador(correo, alias);
-
 
             } else if (opcion == 2) {
                 System.out.print("Introduce el alias del jugador que deseas consultar: ");
                 String aliasConsulta = scanner.nextLine();
                 Jugador jugador = gestionJugador.consultarJugador(aliasConsulta);
+
                 if (jugador != null) {
                     System.out.println("Jugador encontrado: " + jugador);
                 } else {
                     System.out.println("Jugador con alias \"" + aliasConsulta + "\" no encontrado.");
                 }
-
 
             } else if (opcion == 3) {
                 System.out.print("Introduce el alias del jugador cuyo correo deseas editar: ");
@@ -181,7 +192,6 @@ public class Gestion {
                 String nuevoCorreo = scanner.nextLine();
                 gestionJugador.editarCorreo(aliasCorreo, nuevoCorreo);
 
-
             } else if (opcion == 4) {
                 System.out.print("Introduce el alias del jugador cuyo alias deseas editar: ");
                 String aliasEdicion = scanner.nextLine();
@@ -189,28 +199,28 @@ public class Gestion {
                 String nuevoAlias = scanner.nextLine();
                 gestionJugador.editarAlias(aliasEdicion, nuevoAlias);
 
-
             } else if (opcion == 5) {
                 System.out.print("Introduce el alias del jugador: ");
                 String aliasPartida = scanner.nextLine();
                 System.out.print("Introduce el puntaje de la partida: ");
                 int puntos = scanner.nextInt();
+                scanner.nextLine();
                 System.out.print("¿El jugador ganó la partida? (true/false): ");
                 boolean gano = scanner.nextBoolean();
+                scanner.nextLine();
                 System.out.print("Introduce el tiempo total de la partida (en segundos): ");
                 long tiempoTotal = scanner.nextLong();
+                scanner.nextLine();
                 System.out.print("Introduce el número de palabras colocadas: ");
                 int palabrasColocadas = scanner.nextInt();
                 scanner.nextLine();
                 Partida partida = new Partida(aliasPartida, puntos, gano, tiempoTotal, palabrasColocadas);
                 gestionJugador.agregarPartida(partida);
 
-
             } else if (opcion == 6) {
                 System.out.print("Introduce el alias del jugador para mostrar sus estadísticas: ");
                 String aliasEstadisticas = scanner.nextLine();
                 gestionJugador.mostrarEstadisticasDePartidas(aliasEstadisticas);
-
 
             } else if (opcion == 7) {
                 System.out.println("Volviendo a menú principal...");
@@ -221,5 +231,5 @@ public class Gestion {
             }
         }
     }
-    }
+}
 
