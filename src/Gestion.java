@@ -2,9 +2,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 import java.io.BufferedReader;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class Gestion {
 
@@ -49,9 +53,15 @@ public class Gestion {
 
     public void leerPartidasEnArchivo() {
         try (BufferedReader reader = new BufferedReader(new FileReader("partidas.json"))) {
-            String linea;
-            while ((linea = reader.readLine()) != null) {
-                System.out.println(linea);
+            Gson gson = new Gson();
+            Type partidaListType = new TypeToken<List<Partida>>() {}.getType();
+            List<Partida> partidaList = gson.fromJson(reader, partidaListType);
+            if (partidaList != null) {
+                partidas.clear();
+                partidas.addAll(partidaList);
+                System.out.println("Partidas cargadas desde el archivo correctamente.");
+            } else {
+                System.out.println("No se encontraron partidas en el archivo.");
             }
         } catch (IOException e) {
             System.err.println("Error al leer el archivo: " + e.getMessage());
@@ -113,6 +123,22 @@ public class Gestion {
         }
     }
 
+    public void leerJugadoresEnArchivo() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("jugadores.json"))) {
+            Gson gson = new Gson();
+            Type jugadorListType = new TypeToken<List<Jugador>>() {}.getType();
+            List<Jugador> jugadorList = gson.fromJson(reader, jugadorListType);
+            if (jugadorList != null) {
+                jugadores.clear();
+                jugadores.addAll(jugadorList);
+                System.out.println("Jugadores cargados desde el archivo correctamente.");
+            } else { System.out.println("No se encontraron jugadores en el archivo.");
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo: " + e.getMessage());
+        }
+    }
+    
     public void registrarJugador(String correo, String alias) {
         jugadores.add(new Jugador(correo, alias));
         System.out.println("Jugador registrado con éxito.");
