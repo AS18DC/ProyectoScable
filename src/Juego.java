@@ -67,7 +67,7 @@ class Juego{
         this.jugador1 = jugador1;
         this.jugador2 = jugador2;
         this.saco = new Saco();
-        this.tablero = new Tablero();
+        this.tablero = new Tablero(saco);
         this.tiempoInicio = System.currentTimeMillis();
     }
 
@@ -94,7 +94,8 @@ class Juego{
         System.out.println();
         System.out.println("EL jugador "+jugador1.getNombre()+" saco: "+jugador1.getLetras());
         System.out.println("EL jugador "+jugador2.getNombre()+" saco: "+jugador2.getLetras());
-
+        jugador1.setPuntajePartida(0);
+        jugador2.setPuntajePartida(0);
 
         boolean turnoJugador1 = true;
 
@@ -125,7 +126,7 @@ class Juego{
             System.out.println();
 
             System.out.println("Turno de " + jugadorActual.getNombre());
-            System.out.println("Puntaje de "+ jugadorActual.getPuntaje());
+            System.out.println("Puntaje es "+ jugadorActual.getPuntajePartida());
             System.out.println("Letras disponibles: " + jugadorActual.getLetras());
             Scanner scanner = new Scanner(System.in);
             System.out.println("___________________________________");
@@ -195,11 +196,12 @@ class Juego{
                             col = 7;
                         }
 
-                        if (tablero.colocarPalabra(palabra, fila, col, horizontal2) > 0) {
+                        if (tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual) > 0) {
                             ArrayList<Character> usadas = new ArrayList<>();
                             for (char letra : palabra.toCharArray()) {
                                 usadas.add(letra);
                             }
+                            jugadorActual.setPuntajePartida(jugadorActual.getPuntajePartida() + tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual));
                             jugadorActual.usarLetras(usadas);
                             saco.repartirLetras(jugadorActual, 7);
                             contadorMovimientos++;
@@ -232,11 +234,13 @@ class Juego{
                             horizontal2 = true;
                         }
 
-                        if (tablero.colocarPalabra(palabra, fila, col, horizontal2) > 0) {
+                        if (tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual) > 0) {
                             ArrayList<Character> usadas = new ArrayList<>();
                             for (char letra : palabra.toCharArray()) {
                                 usadas.add(letra);
                             }
+
+                            jugadorActual.setPuntajePartida(jugadorActual.getPuntajePartida() + tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual));
                             jugadorActual.usarLetras(usadas);
                             //quitar letras usadas
                             saco.repartirLetras(jugadorActual, 7);

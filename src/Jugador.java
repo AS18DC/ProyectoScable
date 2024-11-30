@@ -4,6 +4,7 @@ class Jugador {
     private String nombre;
     private String correoElectronico;
     private int puntaje;
+    private int puntajePartida;
     private List<String> letras;
 
     public Jugador(String correoElectronico, String nombre) {
@@ -15,6 +16,14 @@ class Jugador {
 
     public String getNombre() {
         return nombre;
+    }
+
+    public int getPuntajePartida() {
+        return puntajePartida;
+    }
+
+    public void setPuntajePartida(int puntajePartida) {
+        this.puntajePartida = puntajePartida;
     }
 
     public int getPuntaje() {
