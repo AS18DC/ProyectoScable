@@ -111,6 +111,7 @@ class Juego{
         saco.repartirLetras(jugador2, 7);
 
         pausar(3000);
+        tablero.colocarMultiplicadores();
 
 
         int contadorMovimientos = 0;
@@ -118,13 +119,13 @@ class Juego{
             Jugador jugadorActual = turnoJugador1 ? jugador1 : jugador2;
             System.out.println();
             System.out.println();
-            System.out.println("**************************-SCRABBLE-****************************");
+            System.out.println("**************************-SCRABBLE-*****************************");
 
-            tablero.colocarMultiplicadores();
             tablero.mostrarTableroConColores();
             System.out.println();
 
             System.out.println("Turno de " + jugadorActual.getNombre());
+            System.out.println("Puntaje de "+ jugadorActual.getPuntaje());
             System.out.println("Letras disponibles: " + jugadorActual.getLetras());
             Scanner scanner = new Scanner(System.in);
             System.out.println("___________________________________");
@@ -194,7 +195,7 @@ class Juego{
                             col = 7;
                         }
 
-                        if (tablero.colocarPalabra(palabra, fila, col, horizontal2)) {
+                        if (tablero.colocarPalabra(palabra, fila, col, horizontal2) > 0) {
                             ArrayList<Character> usadas = new ArrayList<>();
                             for (char letra : palabra.toCharArray()) {
                                 usadas.add(letra);
@@ -231,12 +232,13 @@ class Juego{
                             horizontal2 = true;
                         }
 
-                        if (tablero.colocarPalabra(palabra, fila, col, horizontal2)) {
+                        if (tablero.colocarPalabra(palabra, fila, col, horizontal2) > 0) {
                             ArrayList<Character> usadas = new ArrayList<>();
                             for (char letra : palabra.toCharArray()) {
                                 usadas.add(letra);
                             }
                             jugadorActual.usarLetras(usadas);
+                            //quitar letras usadas
                             saco.repartirLetras(jugadorActual, 7);
                             contadorMovimientos++;
                         } else {
