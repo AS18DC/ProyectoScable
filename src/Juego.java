@@ -112,6 +112,7 @@ class Juego{
 
         pausar(3000);
 
+
         int contadorMovimientos = 0;
         while (true) {
             Jugador jugadorActual = turnoJugador1 ? jugador1 : jugador2;
@@ -119,7 +120,8 @@ class Juego{
             System.out.println();
             System.out.println("**************************-SCRABBLE-****************************");
 
-            tablero.mostrarTablero();
+            tablero.colocarMultiplicadores();
+            tablero.mostrarTableroConColores();
             System.out.println();
 
             System.out.println("Turno de " + jugadorActual.getNombre());
