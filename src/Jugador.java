@@ -47,8 +47,10 @@ class Jugador {
     }
 
     public void agregarLetra(String letra, int puntaje) {
-        letras.add(letra);
-        this.puntaje += puntaje;
+        if (letras.size() < 7) {
+            letras.add(letra);
+            this.puntaje += puntaje;
+        }
     }
 
     public boolean quitarLetra(String letra) {
@@ -57,30 +59,21 @@ class Jugador {
 
 
     public boolean verificarLetrasParaPalabra(String palabra) {
-        // Crear un mapa para contar las letras en la mano del jugador
         Map<String, Integer> letrasEnMano = new HashMap<>();
-
-        // Contar las letras en la mano
         for (String letra : letras) {
             letrasEnMano.put(letra, letrasEnMano.getOrDefault(letra, 0) + 1);
         }
-
-        // Verificar si el jugador tiene las letras necesarias para la palabra
-        ///cambiarlo a que lea en String
-        ///hacer funcion para leer los CH, LL, RR
         for (char c : palabra.toCharArray()) {
-            String letra = String.valueOf(c).toUpperCase(); // Asegurarse de que la letra sea mayúscula
+            String letra = String.valueOf(c).toUpperCase();
             if (!letrasEnMano.containsKey(letra) || letrasEnMano.get(letra) <= 0) {
-                return false; // No tiene la letra necesaria
+                return false;
             }
-            // Decrementar el conteo de la letra utilizada
             letrasEnMano.put(letra, letrasEnMano.get(letra) - 1);
         }
-
-        return true; // Todas las letras están disponibles
+        return true;
     }
 
-    public void usarLetras(List<Character> usadas) {
+    public void usarLetras(List<String> usadas) {
         letras.removeAll(usadas);
     }
 }

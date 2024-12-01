@@ -178,15 +178,16 @@ class Juego{
                         }
 
                         if (tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual) > 0) {
-                            ArrayList<Character> usadas = new ArrayList<>();
+                            ArrayList<String> usadas = new ArrayList<>();
                             for (char letra : palabra.toCharArray()) {
-                                usadas.add(letra);
+                                usadas.add(String.valueOf(letra));
                             }
-                            jugadorActual.setPuntajePartida(jugadorActual.getPuntajePartida() + tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual));
                             jugadorActual.usarLetras(usadas);
-                            saco.repartirLetras(jugadorActual, 7);
+                            saco.repartirLetras(jugadorActual, usadas.size());
+                            int puntosGanados = tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual);
+                            jugadorActual.setPuntajePartida(jugadorActual.getPuntajePartida() + puntosGanados);
                             contadorMovimientos++;
-                        } else {
+                    } else {
                             System.out.println("No se pudo colocar la palabra. Intente de nuevo.");
                             continue;
                         }
@@ -216,15 +217,14 @@ class Juego{
                         }
 
                         if (tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual) > 0) {
-                            ArrayList<Character> usadas = new ArrayList<>();
+                            ArrayList<String> usadas = new ArrayList<>();
                             for (char letra : palabra.toCharArray()) {
-                                usadas.add(letra);
+                                usadas.add(String.valueOf(letra));
                             }
-
-                            jugadorActual.setPuntajePartida(jugadorActual.getPuntajePartida() + tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual));
                             jugadorActual.usarLetras(usadas);
-                            //quitar letras usadas
-                            saco.repartirLetras(jugadorActual, 7);
+                            saco.repartirLetras(jugadorActual, usadas.size());
+                            int puntosGanados = tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual);
+                            jugadorActual.setPuntajePartida(jugadorActual.getPuntajePartida() + puntosGanados);
                             contadorMovimientos++;
                         } else {
                             System.out.println("No se pudo colocar la palabra. Intente de nuevo.");

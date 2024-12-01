@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,6 +20,7 @@ class Tablero{
             Arrays.fill(tablero[i], " "); // Inicializa con un espacio en blanco como String
         }
     }
+
 
 
 
@@ -69,10 +71,26 @@ class Tablero{
         tablero[9][9] = fondoAmarillo + textoNegro + "3XL" + reset;
     }
 
+    private int obtenerPuntajeLetra(String letra) {
+        // Convertir el carácter a mayúscula para asegurar consistencia
+        String letraString = String.valueOf(letra).toUpperCase();
+
+        // Buscar en la lista de letras del saco
+        for (Letra letraSaco : saco.getLetras()) {
+            if (letraSaco.letra.equalsIgnoreCase(letraString)) {
+                return letraSaco.puntaje;
+            }
+        }
+
+        // Si no se encuentra la letra, retornar 0
+        System.out.println("Letra no encontrada: " + letraString);
+        return 0;
+    }
+
     public int colocarPalabra(String palabra, int fila, int col, boolean horizontal, Jugador jugador) {
         int puntaje = 0; // Variable para acumular el puntaje
         int multiplicadorPalabra = 1; // Multiplicador para el puntaje total de la palabra
-        List<Letra> letrasDisponibles = saco.getLetras();
+        List<String> letrasUsadas = new ArrayList<>(); // Letras usadas por el jugador
 
         if (fila < 0 || fila >= 15 || col < 0 || col >= 15) return puntaje;
 
@@ -82,46 +100,35 @@ class Tablero{
             // Verificar colisiones
             for (int i = 0; i < palabra.length(); i++) {
                 String casilla = tablero[fila][col + i];
-                // Si la casilla está ocupada por una letra diferente, terminar
                 if (!casilla.trim().isEmpty() && !casilla.equals(String.valueOf(palabra.charAt(i))) &&
                         !casilla.contains("XP") && !casilla.contains("XL")) {
                     return puntaje; // Colisión con otra letra
                 }
             }
 
-
             // Colocar la palabra
             for (int i = 0; i < palabra.length(); i++) {
                 String casilla = tablero[fila][col + i];
                 char letra = palabra.charAt(i);
-                int puntajeLetra = 0; // Puntaje base por letra
+                letrasUsadas.add(String.valueOf(letra)); // Registrar la letra usada
+                int puntajeLetra = obtenerPuntajeLetra(String.valueOf(letra));
 
-                // Buscar el puntaje de la letra en el saco
-                for (Letra letraSaco : saco.getLetras()) {
-                    if (letraSaco.letra.equals(String.valueOf(letra))) {
-                        puntajeLetra = letraSaco.puntaje;
-                        break;
-                    }
-                }
-
-                // Vaciar la casilla si tiene un multiplicador
+                // Verificar multiplicadores
                 if (casilla.contains("XP") || casilla.contains("XL")) {
-                    // Asignar puntaje según el multiplicador
                     if (casilla.contains("3XL")) {
-                        puntajeLetra *= 3; // Multiplicador de 3 para letra
-                    } else if (casilla.contains(" 2XL")) {
-                        puntajeLetra *= 2; // Multiplicador de 2 para letra
+                        puntajeLetra *= 3;
+                    } else if (casilla.contains("2XL")) {
+                        puntajeLetra *= 2;
                     } else if (casilla.contains("3XP")) {
-                        multiplicadorPalabra *= 3; // Multiplicador de 3 para palabra
+                        multiplicadorPalabra *= 3;
                     } else if (casilla.contains("2XP")) {
-                        multiplicadorPalabra *= 2; // Multiplicador de 2 para palabra
+                        multiplicadorPalabra *= 2;
                     }
                     tablero[fila][col + i] = " "; // Vaciar la casilla
                 }
 
-                // Colocar la letra
-                tablero[fila][col + i] = String.valueOf(letra); // Colocar la letra
-                puntaje += puntajeLetra; // Sumar el puntaje de la letra
+                tablero[fila][col + i] = String.valueOf(letra);
+                puntaje += puntajeLetra;
             }
         } else { // Vertical
             if (fila + palabra.length() > 15) return puntaje;
@@ -129,7 +136,6 @@ class Tablero{
             // Verificar colisiones
             for (int i = 0; i < palabra.length(); i++) {
                 String casilla = tablero[fila + i][col];
-                // Si la casilla está ocupada por una letra diferente, terminar
                 if (!casilla.trim().isEmpty() && !casilla.equals(String.valueOf(palabra.charAt(i))) &&
                         !casilla.contains("XP") && !casilla.contains("XL")) {
                     return puntaje; // Colisión con otra letra
@@ -140,42 +146,41 @@ class Tablero{
             for (int i = 0; i < palabra.length(); i++) {
                 String casilla = tablero[fila + i][col];
                 char letra = palabra.charAt(i);
-                int puntajeLetra = 0; // Puntaje base por letra
+                letrasUsadas.add(String.valueOf(letra)); // Registrar la letra usada
+                int puntajeLetra = obtenerPuntajeLetra(String.valueOf(letra));
 
-                // Buscar el puntaje de la letra en el saco
-                for (Letra letraSaco : saco.getLetras()) {
-                    if (letraSaco.letra.equals(String.valueOf(letra))) {
-                        puntajeLetra = letraSaco.puntaje;
-                        break;
-                    }
-                }
-
-                // Vaciar la casilla si tiene un multiplicador
+                // Verificar multiplicadores
                 if (casilla.contains("XP") || casilla.contains("XL")) {
-                    // Asignar puntaje según el multiplicador
                     if (casilla.contains("3XL")) {
-                        puntajeLetra *= 3; // Multiplicador de 3 para letra
+                        puntajeLetra *= 3;
                     } else if (casilla.contains("2XL")) {
-                        puntajeLetra *= 2; // Multiplicador de 2 para letra
+                        puntajeLetra *= 2;
                     } else if (casilla.contains("3XP")) {
-                        multiplicadorPalabra *= 3; // Multiplicador de 3 para palabra
+                        multiplicadorPalabra *= 3;
                     } else if (casilla.contains("2XP")) {
-                        multiplicadorPalabra *= 2; // Multiplicador de 2 para palabra
+                        multiplicadorPalabra *= 2;
                     }
                     tablero[fila + i][col] = " "; // Vaciar la casilla
                 }
 
-                // Colocar la letra
-                tablero[fila + i][col] = String.valueOf(letra); // Colocar la letra
-                puntaje += puntajeLetra; // Sumar el puntaje de la letra
+                tablero[fila + i][col] = String.valueOf(letra);
+                puntaje += puntajeLetra;
             }
         }
 
-        // Aplicar el multiplicador de palabra al puntaje total
+        // Calcular el puntaje total
         puntaje *= multiplicadorPalabra;
-        jugador.agregarLetra(palabra, puntaje); // Sumar el puntaje total al jugador
-        return puntaje; // Retornar el puntaje total
+        jugador.usarLetras(letrasUsadas); // Remover las letras usadas del jugador
+
+        // Repartir nuevas letras al jugador para mantener 7 si es posible
+        int letrasFaltantes = 7 - jugador.getLetras().size();
+        if (letrasFaltantes > 0) {
+            saco.repartirLetras(jugador, letrasFaltantes);
+        }
+
+        return puntaje;
     }
+
     public void mostrarTableroConColores() {
         // Imprimir encabezado de columnas
         //System.out.print("    ");
