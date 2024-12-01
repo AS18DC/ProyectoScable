@@ -44,9 +44,13 @@ class Saco {
         return letras;
     }
 
+
+
     public void quitarLetrasJugador(Jugador jugador) {
         jugador.getLetras().clear();
     }
+
+
 
     public void devolverLetrasAlSaco(Jugador jugador) {
         List<String> letrasJugador = jugador.getLetras(); // Obtener las letras del jugador
