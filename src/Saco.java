@@ -114,7 +114,7 @@ class Saco {
         // Verificar si el jugador tiene la letra que quiere cambiar
         Scanner scanner = new Scanner(System.in);
         while (!jugador.getLetras().contains(letraACambiar)){
-                System.out.println("El jugador no tiene la letra: " + letraACambiar);
+            System.out.println("El jugador no tiene la letra: " + letraACambiar);
             System.out.println("Coloque la letra a cambiar: ");
             letraACambiar = scanner.nextLine();
         }

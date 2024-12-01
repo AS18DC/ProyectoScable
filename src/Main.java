@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        Gestion gestion = new Gestion();
         int opcion;
 
         do {
@@ -28,7 +29,6 @@ public class Main {
                     System.out.println("Has seleccionado la Opción 2.");
                     break;
                 case 3:
-                    Gestion gestion = new Gestion();
                     gestion.menuRegistro(gestion);
                     break;
                 case 4:
