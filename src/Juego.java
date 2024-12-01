@@ -26,25 +26,6 @@ class Juego{
         return numero;
     }
 
-//    public Jugador seleccionJugador() {
-//        Scanner scanner = new Scanner(System.in);
-//        Jugador jugador = new Jugador("", "");
-//        Gestion gestion = new Gestion();
-//
-//        System.out.println("Coloque el nombre del jugador: ");
-//        String nombreExistente = scanner.nextLine();
-//        GestionListaJSON.leerJugadoresExistentes(); // Lee la lista de jugadores existentes
-//        jugador = gestion.consultarJugador(nombreExistente);
-//
-//        if (jugador != null && jugador.getNombre() != null) {
-//            System.out.println("Jugador encontrado.");
-//            return jugador; // Jugador encontrado, retornarlo
-//        } else {
-//            System.out.println("Jugador no encontrado.");
-//            return null; // Retorna null si el jugador no es encontrado
-//        }
-//    }
-
     public Jugador seleccionJugador() {
         Scanner scanner = new Scanner(System.in);
         Gestion gestion = new Gestion();
