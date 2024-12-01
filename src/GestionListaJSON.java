@@ -12,7 +12,6 @@ import java.util.LinkedList;
 public class GestionListaJSON {
     private static final String FileJugadores = "jugadores.json";
     private static final String FilePartidas = "partidas.json";
-    private static LinkedList<Jugador> jugadores;
 
     public static LinkedList<Jugador> leerJugadoresExistentes() {
         File archivo = new File(FileJugadores);
@@ -42,5 +41,31 @@ public class GestionListaJSON {
         }
     }
 
+    public static LinkedList<Partida> leerPartidasExistentes() {
+        File archivo = new File(FilePartidas);
+
+        if (!archivo.exists()) {
+            return new LinkedList<>();
+        }
+
+        Gson gson = new Gson();
+        try (FileReader reader = new FileReader(FilePartidas)) {
+            Type tipoLista = new TypeToken<LinkedList<Jugador>>() {}.getType();
+            return gson.fromJson(reader, tipoLista);
+        } catch (IOException e) {
+            System.err.println("Error al leer las partidas existentes: " + e.getMessage());
+            return new LinkedList<>();
+        }
+    }
+
+    public static void guardarPartidas(LinkedList<Partida> partidas) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter(FilePartidas)) {
+            gson.toJson(partidas, writer);
+            System.out.println("Lista actualizada guardada exitosamente en " + FilePartidas);
+        } catch (IOException e) {
+            System.err.println("Error al guardar las partidas: " + e.getMessage());
+        }
+    }
 
 }
