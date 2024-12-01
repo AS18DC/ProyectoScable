@@ -1,14 +1,5 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
-import java.io.BufferedReader;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public class Gestion {
 
@@ -16,57 +7,16 @@ public class Gestion {
     private LinkedList<Partida> partidas;
 
     public Gestion() {
-        jugadores = new LinkedList<Jugador>();
-        partidas = new LinkedList<Partida>();
         this.jugadores = GestionListaJSON.leerJugadoresExistentes();
+        if(jugadores == null){
+            jugadores = new LinkedList<>();
+        }
+        partidas = new LinkedList<>();
     }
 
     public void agregarPartida(Partida partida) {
         partidas.add(partida);
         System.out.println("Partida registrada con éxito.");
-        guardarPartidasEnArchivo();
-    }
-
-    public void guardarPartidasEnArchivo() {
-        try (FileWriter file = new FileWriter("partidas.json", true)) {
-            if (new File("partidas.json").length() > 2) {
-                file.write("[\n");
-            }
-            for (int i = 0; i < partidas.size(); i++) {
-                Partida partida = partidas.get(i);
-                file.write("{\n" +
-                        "  \"alias\": \"" + partida.getAlias() + "\",\n" +
-                        "  \"gano\": " + partida.isGano() + ",\n" +
-                        "  \"puntos\": " + partida.getPuntos() + ",\n" +
-                        "  \"tiempoTotal\": " + partida.getTiempoTotal() + ",\n" +
-                        "  \"palabrasColocadas\": " + partida.getPalabrasColocadas() + "\n" +
-                        "}");
-                if (i < partidas.size() - 1) {
-                    file.write(",\n");
-                }
-            }
-            file.write("\n]");
-            System.out.println("Partidas guardadas correctamente en partidas.json.");
-        } catch (IOException e) {
-            System.out.println("Error al guardar en archivo: " + e.getMessage());
-        }
-    }
-
-    public void leerPartidasEnArchivo() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("partidas.json"))) {
-            Gson gson = new Gson();
-            Type partidaListType = new TypeToken<List<Partida>>() {}.getType();
-            List<Partida> partidaList = gson.fromJson(reader, partidaListType);
-            if (partidaList != null) {
-                partidas.clear();
-                partidas.addAll(partidaList);
-                System.out.println("Partidas cargadas desde el archivo correctamente.");
-            } else {
-                System.out.println("No se encontraron partidas en el archivo.");
-            }
-        } catch (IOException e) {
-            System.err.println("Error al leer el archivo: " + e.getMessage());
-        }
     }
 
     public void mostrarEstadisticasDePartidas(String aliasJugador) {
@@ -101,6 +51,9 @@ public class Gestion {
     }
 
     public void registrarJugador(String correo, String alias) {
+        if (jugadores==null){
+            jugadores = new LinkedList<>();
+        }
         jugadores.add(new Jugador(correo, alias));
     }
 
@@ -170,12 +123,16 @@ public class Gestion {
                 String alias = scanner.nextLine();
                 boolean validplayer= false;
 
-                while (validplayer){
+                while (!validplayer){
                     try {
                         validarJugador(alias,correo);
                         validplayer = true;
                     } catch (JugadorInvalido e) {
-                        throw new RuntimeException();
+                        System.out.println(e.getMessage()); // Mostrar mensaje de error específico
+                        System.out.print("Introduce nuevamente el alias del jugador: ");
+                        alias = scanner.nextLine();
+                        System.out.print("Introduce nuevamente el correo del jugador: ");
+                        correo = scanner.nextLine();
                     }
                 }
                 registrarJugador(correo, alias);

@@ -217,9 +217,4 @@ class Tablero{
         return " ".repeat(espaciosIzquierda) + texto + " ".repeat(espaciosDerecha);
     }
 
-    public void limpiarTablero() {
-        for (int i = 0; i < 15; i++) {
-            Arrays.fill(tablero[i], " ");
-        }
-    }
 }

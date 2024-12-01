@@ -30,7 +30,6 @@ public class GestionListaJSON {
         }
     }
 
-    // Guardar jugadores en el archivo JSON
     public static void guardarJugadores(LinkedList<Jugador> jugadores) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try (FileWriter writer = new FileWriter(FileJugadores)) {
