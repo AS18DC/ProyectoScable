@@ -39,7 +39,7 @@ class Saco {
         letras.add(new Letra("X", 10, 1));
         letras.add(new Letra("Y", 5, 1));
         letras.add(new Letra("Z", 10, 1));
-        letras.add(new Letra(" ", 0, 2));
+        letras.add(new Letra("-", 0, 2));
 
     }
 
@@ -97,11 +97,9 @@ class Saco {
             distancia2 = Ñ;
         }
 
-
-
-        if (distancia1 < distancia2) {
+        if ((primerCaracter1=='-') || (distancia1 < distancia2)) {
             return true;
-        } else if (distancia2 < distancia1) {
+        } else if ((primerCaracter2=='-') || (distancia2 < distancia1)) {
             return false;
         } else {
             // Si ambas distancias son iguales, podemos devolver cualquiera de las dos
@@ -116,7 +114,7 @@ class Saco {
         // Verificar si el jugador tiene la letra que quiere cambiar
         Scanner scanner = new Scanner(System.in);
         while (!jugador.getLetras().contains(letraACambiar)){
-                System.out.println("El jugador no tiene la letra: " + letraACambiar);
+            System.out.println("El jugador no tiene la letra: " + letraACambiar);
             System.out.println("Coloque la letra a cambiar: ");
             letraACambiar = scanner.nextLine();
         }

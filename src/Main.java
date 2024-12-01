@@ -7,11 +7,10 @@ public class Main {
         int opcion;
 
         do {
-            System.out.println(" ");
             System.out.println("=== Menú Scrabble ===");
-            System.out.println("1. Registros de usuarios");
-            System.out.println("2. Iniciar Juego");
-            System.out.println("3. Continuar Partida");
+            System.out.println("1. Iniciar Juego");
+            System.out.println("2. Continuar Partida");
+            System.out.println("3. Registros de usuarios");
             System.out.println("4. Salir");
             System.out.print("Seleccione una opción: ");
 
@@ -21,17 +20,16 @@ public class Main {
 
             switch (opcion) {
                 case 1:
-                    gestion.menuRegistro(gestion);
-                    break;
-                case 2:
-                    System.out.println("Has seleccionado la Opción 2.");
                     Jugador jugador1 = new Jugador("", "");
                     Jugador jugador2 = new Jugador("", "");
                     Juego juego = new Juego(jugador1, jugador2);
                     juego.iniciarPartida();
                     break;
+                case 2:
+                    System.out.println("Has seleccionado la Opción 2.");
+                    break;
                 case 3:
-                    System.out.println("Has seleccionado la Opción 3.");
+                    gestion.menuRegistro(gestion);
                     break;
                 case 4:
                     System.out.println("Saliendo del programa...");
