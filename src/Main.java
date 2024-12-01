@@ -24,7 +24,7 @@ public class Main {
                     try {
                         Jugador jugador1 = new Jugador("", "");
                         Jugador jugador2 = new Jugador("", "");
-                        String rutaDiccionario = "/Users/santiagodefreitas/Downloads/listado-general.txt";
+                        String rutaDiccionario = "src/listado-general.txt";
                         Juego juego = new Juego(jugador1, jugador2, rutaDiccionario);
                         juego.iniciarPartida();
                     } catch (IOException e) {

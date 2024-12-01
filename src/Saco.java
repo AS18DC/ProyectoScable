@@ -45,11 +45,9 @@ class Saco {
     }
 
 
-
     public void quitarLetrasJugador(Jugador jugador) {
         jugador.getLetras().clear();
     }
-
 
 
     public void devolverLetrasAlSaco(Jugador jugador) {
@@ -93,7 +91,6 @@ class Saco {
     }
 
 
-
     public boolean letraMasCercanaA(List<String> letra1, List<String> letra2) {
         String primer = letra1.get(0);
         String segundo = letra2.get(0);
@@ -103,15 +100,15 @@ class Saco {
         int distancia2 = Math.abs(primerCaracter2 - 'A');
 
         char Ñ = 13;
-        if (primerCaracter1 == Ñ ){
+        if (primerCaracter1 == Ñ) {
             distancia1 = Ñ;
-        }else if (primerCaracter2 == Ñ) {
+        } else if (primerCaracter2 == Ñ) {
             distancia2 = Ñ;
         }
 
-        if ((primerCaracter1=='-') || (distancia1 < distancia2)) {
+        if ((primerCaracter1 == '-') || (distancia1 < distancia2)) {
             return true;
-        } else if ((primerCaracter2=='-') || (distancia2 < distancia1)) {
+        } else if ((primerCaracter2 == '-') || (distancia2 < distancia1)) {
             return false;
         } else {
             System.out.println("Las dos letras son iguales se va a volver a sortear: ");
@@ -123,20 +120,26 @@ class Saco {
 
     public boolean cambiarFicha(Jugador jugador, String letraACambiar) {
         Scanner scanner = new Scanner(System.in);
-        while (!jugador.getLetras().contains(letraACambiar)){
+
+        // Verificar si el jugador tiene la letra a cambiar
+        while (!jugador.getLetras().contains(letraACambiar)) {
             System.out.println("El jugador no tiene la letra: " + letraACambiar);
             System.out.println("Coloque la letra a cambiar: ");
             letraACambiar = scanner.nextLine();
         }
 
+        // Verificar si hay letras disponibles en el saco
         if (letras.isEmpty()) {
             System.out.println("No hay letras disponibles en el saco para cambiar.");
             return false; // No se puede realizar el cambio
         }
 
+        // Seleccionar una letra aleatoria del saco
         Random random = new Random();
         Letra letraAleatoria = letras.get(random.nextInt(letras.size()));
-        jugador.quitarLetra(letraACambiar);
+
+        // Cambiar solo una instancia de la letra
+        jugador.quitarLetra(letraACambiar); // Esto debe quitar solo una instancia de la letra
         jugador.agregarLetra(letraAleatoria.letra, letraAleatoria.puntaje);
 
         System.out.println("Cambio realizado: " + letraACambiar + " por " + letraAleatoria.letra);
