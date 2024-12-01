@@ -92,6 +92,7 @@ class Tablero{
         int multiplicadorPalabra = 1; // Multiplicador para el puntaje total de la palabra
         List<String> letrasUsadas = new ArrayList<>(); // Letras usadas por el jugador
 
+        // Validar límites del tablero
         if (fila < 0 || fila >= 15 || col < 0 || col >= 15) return puntaje;
 
         if (horizontal) {
@@ -168,17 +169,9 @@ class Tablero{
             }
         }
 
-        // Calcular el puntaje total
-        puntaje *= multiplicadorPalabra;
-        jugador.usarLetras(letrasUsadas); // Remover las letras usadas del jugador
-
-        // Repartir nuevas letras al jugador para mantener 7 si es posible
-        int letrasFaltantes = 7 - jugador.getLetras().size();
-        if (letrasFaltantes > 0) {
-            saco.repartirLetras(jugador, letrasFaltantes);
-        }
-
-        return puntaje;
+        // Aplicar el multiplicador al puntaje total
+        //puntaje *= multiplicadorPalabra;
+        return puntaje * multiplicadorPalabra; // Retornar el puntaje total
     }
 
     public void mostrarTableroConColores() {
