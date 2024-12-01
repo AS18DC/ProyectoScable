@@ -26,42 +26,41 @@ class Juego{
         return numero;
     }
 
+//    public Jugador seleccionJugador() {
+//        Scanner scanner = new Scanner(System.in);
+//        Jugador jugador = new Jugador("", "");
+//        Gestion gestion = new Gestion();
+//
+//        System.out.println("Coloque el nombre del jugador: ");
+//        String nombreExistente = scanner.nextLine();
+//        GestionListaJSON.leerJugadoresExistentes(); // Lee la lista de jugadores existentes
+//        jugador = gestion.consultarJugador(nombreExistente);
+//
+//        if (jugador != null && jugador.getNombre() != null) {
+//            System.out.println("Jugador encontrado.");
+//            return jugador; // Jugador encontrado, retornarlo
+//        } else {
+//            System.out.println("Jugador no encontrado.");
+//            return null; // Retorna null si el jugador no es encontrado
+//        }
+//    }
+
     public Jugador seleccionJugador() {
         Scanner scanner = new Scanner(System.in);
-        Jugador jugador = new Jugador("", "");
-        Validar validar = new Validar();
-        int opcion;
+        Gestion gestion = new Gestion();
+        Jugador jugador;
 
-        do {
-            System.out.println("1. Jugador Existente");
-            System.out.println("2. Crear Jugador");
-            System.out.println("3. Salir");
-            System.out.print("Seleccione una opción: ");
-            opcion = scanner.nextInt();
-            scanner.nextLine(); // Limpia el buffer
-            System.out.println();
+        System.out.println("Coloque el nombre del jugador: ");
+        String nombreExistente = scanner.nextLine();
+        jugador = gestion.consultarJugador(nombreExistente);
 
-            switch (opcion) {
-                case 1:
-                    System.out.println("Coloque el nombre del jugador: ");
-                    String nombreExistente = scanner.nextLine(); // Cambiado a nextLine()
-                    break;
-                case 2:
-                    System.out.println("Iniciemos con la creacion del jugador");
-                    String correo = validar.validarEmail(scanner, validar);
-                    System.out.print("Coloque el nombre del jugador: ");
-                    String nombreCreado = scanner.nextLine();
-                    return new Jugador(correo, nombreCreado);
-
-                case 3:
-                    System.out.println("Saliendo del programa...");
-                    break;
-                default:
-                    System.out.println("Opción no válida. Por favor, seleccione una opción del 1 al 3.");
-            }
-            System.out.println();
-            return jugador;
-        } while (opcion != 3);
+        if (jugador != null) {
+            System.out.println("Jugador encontrado.");
+            return jugador; // Jugador encontrado, retornarlo
+        } else {
+            System.out.println("Jugador no encontrado.");
+            return null; // Retorna null si el jugador no es encontrado
+        }
     }
 
     public Juego(Jugador jugador1, Jugador jugador2) {
@@ -83,18 +82,18 @@ class Juego{
 ///************************************************************************************************\\\
     public void iniciarPartida() {
         System.out.println("!!! El juego ha iniciado !!!");
-        System.out.println("Ingrese Jugador 1: ");
+        System.out.println("Datos Jugador 1: ");
         jugador1=seleccionJugador();
         System.out.println();
 
-        System.out.println("Ingrese Jugador 2: ");
+        System.out.println("Datos Jugador 2: ");
         jugador2=seleccionJugador();
 
         saco.repartirLetras(jugador1, 1);
         saco.repartirLetras(jugador2, 1);
         System.out.println();
-        System.out.println("EL jugador "+jugador1.getNombre()+" saco: "+jugador1.getLetras());
-        System.out.println("EL jugador "+jugador2.getNombre()+" saco: "+jugador2.getLetras());
+        System.out.println("El jugador "+jugador1.getNombre()+" saco: "+jugador1.getLetras());
+        System.out.println("El jugador "+jugador2.getNombre()+" saco: "+jugador2.getLetras());
 
 
         boolean turnoJugador1 = true;

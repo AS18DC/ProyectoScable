@@ -18,6 +18,7 @@ public class Gestion {
     public Gestion() {
         jugadores = new LinkedList<Jugador>();
         partidas = new LinkedList<Partida>();
+        this.jugadores = GestionListaJSON.leerJugadoresExistentes();
     }
 
     public void agregarPartida(Partida partida) {
@@ -99,58 +100,18 @@ public class Gestion {
         }
     }
 
-    public void guardarJugadoresEnArchivo() {
-        try (FileWriter file = new FileWriter("jugadores.json", true)) {
-            if (new File("jugadores.json").length() > 2) {
-                file.write(",\n");
-            }
-
-            file.write("[\n");
-            for (int i = 0; i < jugadores.size(); i++) {
-                Jugador jugador = jugadores.get(i);
-                file.write("{\n" +
-                        "  \"correo\": \"" + jugador.getCorreoElectronico() + "\",\n" +
-                        "  \"alias\": \"" + jugador.getNombre() + "\"\n" +
-                        "}");
-                if (i < jugadores.size() - 1) {
-                    file.write(",\n");
-                }
-            }
-            file.write("\n]");
-            System.out.println("Jugadores guardados correctamente en jugadores.json.");
-        } catch (IOException e) {
-            System.out.println("Error al guardar en archivo: " + e.getMessage());
-        }
-    }
-
-    public void leerJugadoresEnArchivo() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("jugadores.json"))) {
-            Gson gson = new Gson();
-            Type jugadorListType = new TypeToken<List<Jugador>>() {}.getType();
-            List<Jugador> jugadorList = gson.fromJson(reader, jugadorListType);
-            if (jugadorList != null) {
-                jugadores.clear();
-                jugadores.addAll(jugadorList);
-                System.out.println("Jugadores cargados desde el archivo correctamente.");
-            } else { System.out.println("No se encontraron jugadores en el archivo.");
-            }
-        } catch (IOException e) {
-            System.err.println("Error al leer el archivo: " + e.getMessage());
-        }
-    }
-    
     public void registrarJugador(String correo, String alias) {
         jugadores.add(new Jugador(correo, alias));
-        System.out.println("Jugador registrado con éxito.");
-        guardarJugadoresEnArchivo();
     }
 
     public Jugador consultarJugador(String alias) {
+        GestionListaJSON.leerJugadoresExistentes();
         for (Jugador jugador : jugadores) {
             if (jugador.getNombre().equalsIgnoreCase(alias)) {
                 return jugador;
             }
         }
+        System.out.println("El jugador no se encuentra en el archivo de registros. Intente con otro alias.");
         return null;
     }
 
@@ -176,9 +137,17 @@ public class Gestion {
         System.out.println("Jugador con alias \"" + alias + "\" no encontrado.");
     }
 
+    public void validarJugador(String nombre, String correoElectronico) throws JugadorInvalido {
+        if (nombre == null || nombre.trim().isEmpty() || nombre.length() < 3) {
+            throw new JugadorInvalido("Nombre inválido: debe tener al menos 3 caracteres.");
+        }
+        if (correoElectronico == null || !correoElectronico.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")) {
+            throw new JugadorInvalido("Email inválido: " + correoElectronico);
+        }
+    }
+
     public void menuRegistro(Gestion gestionJugador) {
         Scanner scanner = new Scanner(System.in);
-        Validar validar = new Validar();
 
         while (true) {
             System.out.println("\n--- Menú de opciones ---");
@@ -195,10 +164,23 @@ public class Gestion {
             scanner.nextLine();
 
             if (opcion == 1) {
-                String correo = validar.validarEmail(scanner, validar);
+                System.out.print("Introduce el correo del jugador: ");
+                String correo = scanner.nextLine();
                 System.out.print("Introduce el alias del jugador: ");
                 String alias = scanner.nextLine();
-                gestionJugador.registrarJugador(correo, alias);
+                boolean validplayer= false;
+
+                while (validplayer){
+                    try {
+                        validarJugador(alias,correo);
+                        validplayer = true;
+                    } catch (JugadorInvalido e) {
+                        throw new RuntimeException();
+                    }
+                }
+                registrarJugador(correo, alias);
+                GestionListaJSON.leerJugadoresExistentes();
+                GestionListaJSON.guardarJugadores(jugadores);
 
             } else if (opcion == 2) {
                 System.out.print("Introduce el alias del jugador que deseas consultar: ");

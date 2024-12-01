@@ -3,9 +3,11 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        Gestion gestion = new Gestion();
         int opcion;
 
         do {
+            System.out.println(" ");
             System.out.println("=== Menú Scrabble ===");
             System.out.println("1. Registros de usuarios");
             System.out.println("2. Iniciar Juego");
@@ -19,7 +21,6 @@ public class Main {
 
             switch (opcion) {
                 case 1:
-                    Gestion gestion = new Gestion();
                     gestion.menuRegistro(gestion);
                     break;
                 case 2:
