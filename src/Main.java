@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -20,11 +21,15 @@ public class Main {
 
             switch (opcion) {
                 case 1:
-                    Jugador jugador1 = new Jugador("", "");
-                    Jugador jugador2 = new Jugador("", "");
-                    Juego juego = new Juego(jugador1, jugador2);
-                    juego.iniciarPartida();
-                    break;
+                    try {
+                        Jugador jugador1 = new Jugador("", "");
+                        Jugador jugador2 = new Jugador("", "");
+                        String rutaDiccionario = "/Users/santiagodefreitas/Downloads/listado-general.txt";
+                        Juego juego = new Juego(jugador1, jugador2, rutaDiccionario);
+                        juego.iniciarPartida();
+                    } catch (IOException e) {
+                        System.out.println("Error al cargar el diccionario: " + e.getMessage());
+                    }
                 case 2:
                     System.out.println("Has seleccionado la Opción 2.");
                     break;
