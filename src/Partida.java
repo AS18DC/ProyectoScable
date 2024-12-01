@@ -1,5 +1,4 @@
 public class Partida {
-
         private String alias;
         private boolean gano;
         private int puntos;
@@ -14,9 +13,7 @@ public class Partida {
             this.palabrasColocadas = palabrasColocadas;
         }
 
-        public String getAlias() {
-            return this.alias;
-        }
+        public String getAlias() {return this.alias;}
 
         public void setAlias(String alias) {
             this.alias = alias;
