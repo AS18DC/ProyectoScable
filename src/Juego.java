@@ -97,8 +97,8 @@ class Juego{
             System.out.println("El jugador que tiene el primer turno es: " + jugador2.getNombre());
             turnoJugador1 = !turnoJugador1;
         }
-        saco.quitarLetrasJugador(jugador1);
-        saco.quitarLetrasJugador(jugador2);
+        saco.devolverLetrasAlSaco(jugador1);
+        saco.devolverLetrasAlSaco(jugador2);
 
         saco.repartirLetras(jugador1, 7);
         saco.repartirLetras(jugador2, 7);
@@ -114,6 +114,7 @@ class Juego{
             System.out.println("**************************-SCRABBLE-*****************************");
 
             tablero.mostrarTableroConColores();
+            System.out.println("Cantidad en el saco: "+saco.contarLetrasEnSaco());
             System.out.println();
 
             System.out.println("Turno de " + jugadorActual.getNombre());
@@ -137,9 +138,7 @@ class Juego{
                         saco.repartirLetras(jugadorActual, 7);
                         System.out.println("Nuevas Letras disponibles: " + jugadorActual.getLetras());
                     } else {
-                        System.out.println("Cual ficha quiere cambiar?");
-                        String letraACambiar = scanner.nextLine();
-                        saco.cambiarFicha(jugadorActual, letraACambiar);
+                        saco.cambiarFichas(jugadorActual);
                         System.out.println("Nueva Letra disponible: " + jugadorActual.getLetras());
                     }
                     turnoCompletado = true; // Cambio de fichas completa el turno

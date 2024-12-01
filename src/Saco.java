@@ -49,6 +49,14 @@ class Saco {
         jugador.getLetras().clear();
     }
 
+    public void agregarLetra(String letra) {
+        for (Letra l : letras) {
+            if (l.letra.equals(letra)) {
+                l.cantidad++; // Incrementar la cantidad de la letra
+                return;
+            }
+        }
+    }
 
     public void devolverLetrasAlSaco(Jugador jugador) {
         List<String> letrasJugador = jugador.getLetras(); // Obtener las letras del jugador
@@ -74,17 +82,26 @@ class Saco {
         int letrasFaltantes = 7 - jugador.getLetras().size();
         cantidad = Math.min(cantidad, letrasFaltantes);
 
+        // Repartir letras hasta alcanzar la cantidad deseada o hasta que se agoten las letras
         while (letrasRepartidas < cantidad && !letras.isEmpty()) {
             int index = rand.nextInt(letras.size());
             Letra letra = letras.get(index);
 
+            // Verificar si hay letras disponibles
             if (letra.cantidad > 0) {
+                // Agregar la letra al jugador
                 jugador.agregarLetra(letra.letra, letra.puntaje);
                 letra.cantidad--;
                 letrasRepartidas++;
             }
+
+            // Si la letra se ha agotado, eliminarla de la lista
+            if (letra.cantidad == 0) {
+                letras.remove(index);
+            }
         }
 
+        // Mensaje si no se pudieron repartir todas las letras solicitadas
         if (letrasRepartidas < cantidad) {
             System.out.println("No hay suficientes letras disponibles en el saco para repartir " + cantidad + " letras.");
         }
@@ -118,14 +135,31 @@ class Saco {
     }
 
 
-    public boolean cambiarFicha(Jugador jugador, String letraACambiar) {
+    public boolean cambiarFichas(Jugador jugador) {
         Scanner scanner = new Scanner(System.in);
 
-        // Verificar si el jugador tiene la letra a cambiar
-        while (!jugador.getLetras().contains(letraACambiar)) {
-            System.out.println("El jugador no tiene la letra: " + letraACambiar);
-            System.out.println("Coloque la letra a cambiar: ");
+        // Mostrar las letras que tiene el jugador
+        System.out.println("Letras disponibles del jugador: " + jugador.getLetras());
+
+        // Lista para almacenar las letras a cambiar
+        List<String> letrasACambiar = new ArrayList<>();
+        String letraACambiar;
+
+        // Preguntar al usuario qué letras quiere cambiar
+        while (true) {
+            System.out.println("Ingrese la letra a cambiar (o 'salir' para terminar): ");
             letraACambiar = scanner.nextLine();
+
+            if (letraACambiar.equalsIgnoreCase("salir")) {
+                break; // Salir del bucle si el usuario escribe 'salir'
+            }
+
+            // Verificar si el jugador tiene la letra
+            if (jugador.getLetras().contains(letraACambiar)) {
+                letrasACambiar.add(letraACambiar);
+            } else {
+                System.out.println("El jugador no tiene la letra: " + letraACambiar);
+            }
         }
 
         // Verificar si hay letras disponibles en el saco
@@ -134,15 +168,43 @@ class Saco {
             return false; // No se puede realizar el cambio
         }
 
-        // Seleccionar una letra aleatoria del saco
-        Random random = new Random();
-        Letra letraAleatoria = letras.get(random.nextInt(letras.size()));
+        // Cambiar las letras seleccionadas
+        for (String letra : letrasACambiar) {
+            // Devolver la letra al saco
+            agregarLetra(letra);
 
-        // Cambiar solo una instancia de la letra
-        jugador.quitarLetra(letraACambiar); // Esto debe quitar solo una instancia de la letra
-        jugador.agregarLetra(letraAleatoria.letra, letraAleatoria.puntaje);
+            // Quitar la letra del jugador
+            jugador.quitarLetra(letra);
 
-        System.out.println("Cambio realizado: " + letraACambiar + " por " + letraAleatoria.letra);
+            // Obtener una letra aleatoria del saco
+            Random random = new Random();
+            Letra letraAleatoria = letras.get(random.nextInt(letras.size()));
+
+            // Agregar la nueva letra al jugador
+            jugador.agregarLetra(letraAleatoria.letra, letraAleatoria.puntaje);
+
+            // Decrementar la cantidad de la letra aleatoria en el saco
+            letraAleatoria.cantidad--;
+
+            // Si la letra aleatoria se ha agotado, eliminarla del saco
+            if (letraAleatoria.cantidad == 0) {
+                letras.remove(letraAleatoria);
+            }
+
+            System.out.println("Cambio realizado: " + letra + " por " + letraAleatoria.letra);
+        }
+
         return true;
+    }
+
+
+    public int contarLetrasEnSaco() {
+        int totalLetras = 0;
+
+        for (Letra letra : letras) {
+            totalLetras += letra.cantidad; // Sumar la cantidad de cada letra
+        }
+
+        return totalLetras; // Retornar el total
     }
 }
