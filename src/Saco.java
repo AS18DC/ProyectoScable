@@ -59,19 +59,59 @@ class Saco {
     }
 
     public void devolverLetrasAlSaco(Jugador jugador) {
-        List<String> letrasJugador = jugador.getLetras(); // Obtener las letras del jugador
-
-        // Iterar sobre las letras del jugador
+        List<String> letrasJugador = new ArrayList<>(jugador.getLetras());
         for (String letra : letrasJugador) {
-            // Buscar la letra en el saco
+            boolean letraEncontrada = false;
             for (Letra letraSaco : letras) {
                 if (letraSaco.letra.equals(letra)) {
-                    letraSaco.cantidad++; // Aumentar la cantidad en el saco
+                    letraSaco.cantidad++; // Incrementa la cantidad independientemente de su valor actual
+                    letraEncontrada = true;
                     break;
                 }
             }
+
+            // Si la letra no se encontró, significa que probablemente ya no estaba en el saco
+            if (!letraEncontrada) {
+                // Volver a agregar la letra al saco
+                letras.add(new Letra(letra, obtenerPuntajeDeLaLetra(letra), 1));
+            }
         }
         quitarLetrasJugador(jugador);
+    }
+
+    private int obtenerPuntajeDeLaLetra(String letra) {
+        switch (letra) {
+            case "A": return 1;
+            case "B": return 4;
+            case "C": return 3;
+            case "CH": return 8;
+            case "D": return 3;
+            case "E": return 1;
+            case "F": return 5;
+            case "G": return 3;
+            case "H": return 5;
+            case "I": return 1;
+            case "J": return 10;
+            case "L": return 2;
+            case "LL": return 8;
+            case "M": return 3;
+            case "N": return 2;
+            case "Ñ": return 10;
+            case "O": return 1;
+            case "P": return 4;
+            case "Q": return 8;
+            case "R": return 2;
+            case "RR": return 8;
+            case "S": return 1;
+            case "T": return 2;
+            case "U": return 1;
+            case "V": return 4;
+            case "X": return 10;
+            case "Y": return 5;
+            case "Z": return 10;
+            case "-": return 0;
+            default: return 1; // Valor por defecto para cualquier letra no reconocida
+        }
     }
 
     public void repartirLetras(Jugador jugador, int cantidad) {
@@ -138,23 +178,19 @@ class Saco {
     public boolean cambiarFichas(Jugador jugador) {
         Scanner scanner = new Scanner(System.in);
 
-        // Mostrar las letras que tiene el jugador
         System.out.println("Letras disponibles del jugador: " + jugador.getLetras());
 
-        // Lista para almacenar las letras a cambiar
         List<String> letrasACambiar = new ArrayList<>();
         String letraACambiar;
 
-        // Preguntar al usuario qué letras quiere cambiar
         while (true) {
             System.out.println("Ingrese la letra a cambiar (o 'salir' para terminar): ");
             letraACambiar = scanner.nextLine();
 
             if (letraACambiar.equalsIgnoreCase("salir")) {
-                break; // Salir del bucle si el usuario escribe 'salir'
+                break;
             }
 
-            // Verificar si el jugador tiene la letra
             if (jugador.getLetras().contains(letraACambiar)) {
                 letrasACambiar.add(letraACambiar);
             } else {
@@ -162,7 +198,6 @@ class Saco {
             }
         }
 
-        // Verificar si hay letras disponibles en el saco
         if (letras.isEmpty()) {
             System.out.println("No hay letras disponibles en el saco para cambiar.");
             return false; // No se puede realizar el cambio
@@ -171,7 +206,19 @@ class Saco {
         // Cambiar las letras seleccionadas
         for (String letra : letrasACambiar) {
             // Devolver la letra al saco
-            agregarLetra(letra);
+            boolean letraEncontrada = false;
+            for (Letra letraSaco : letras) {
+                if (letraSaco.letra.equals(letra)) {
+                    letraSaco.cantidad++; // Incrementa la cantidad
+                    letraEncontrada = true;
+                    break;
+                }
+            }
+
+            // Si la letra no se encontró en el saco, agregarla
+            if (!letraEncontrada) {
+                letras.add(new Letra(letra, obtenerPuntajeDeLaLetra(letra), 1));
+            }
 
             // Quitar la letra del jugador
             jugador.quitarLetra(letra);
