@@ -8,4 +8,4 @@ NOTA: Para que el manejo de JSONs funcione utilizamos la libreria "gson.2.8.8".
       Otra cosa importante para que el proyecto funcione es tener descargado el
       documento "listado-general.txt", el cual fue hallado por nosotros y hace la 
       función de diccionario. En el momento que se tenga descargado, copiar y pegar
-      la dirección del documento en el archivo Main donde se define la variable rutaArchivo.
+      la dirección del documento en el archivo Main donde se define la variable rutaDiccionario.
