@@ -80,27 +80,6 @@ class Tablero {
         tablero[9][9] = fondoAmarillo + textoNegro + "3XL" + reset;
     }
 
-    /**
-     * Obtiene el puntaje correspondiente a una letra específica.
-     *
-     * @param letra la letra cuyo puntaje se desea obtener.
-     * @return el puntaje de la letra.
-     */
-    private int obtenerPuntajeLetra(String letra) {
-        // Convertir el carácter a mayúscula para asegurar consistencia
-        String letraString = String.valueOf(letra).toUpperCase();
-
-        // Buscar en la lista de letras del saco
-        for (Letra letraSaco : saco.getLetras()) {
-            if (letraSaco.letra.equalsIgnoreCase(letraString)) {
-                return letraSaco.puntaje;
-            }
-        }
-
-        // Si no se encuentra la letra, retornar 0
-        System.out.println("Letra no encontrada: " + letraString);
-        return 0;
-    }
 
     /**
      * Coloca una palabra en el tablero y calcula el puntaje obtenido.
@@ -123,14 +102,6 @@ class Tablero {
         // Convertir palabra a mayúsculas para consistencia
         palabra = palabra.toUpperCase();
 
-        // Verificar si el jugador tiene las letras necesarias
-        for (char letra : palabra.toCharArray()) {
-            if (!jugador.getLetras().contains(String.valueOf(letra))) {
-                System.out.println("No tienes todas las letras para formar la palabra.");
-                return 0;
-            }
-        }
-
         // Lógica para colocar la palabra (horizontal o vertical)
         try {
             if (horizontal) {
@@ -152,12 +123,25 @@ class Tablero {
                 }
 
                 // Colocar la palabra horizontalmente
-                for (int i = 0; i < palabra.length(); i++) {
-                    char letraActual = palabra.charAt(i);
+                for (int i = 0; i < palabra.length(); ) {
+                    String letraActual = String.valueOf(palabra.charAt(i));
                     String casillaActual = tablero[fila][col + i];
 
+                    // Verificar si estamos colocando un conjunto
+                    if (i < palabra.length() - 1) {
+                        String posibleConjunto = palabra.substring(i, i + 2);
+                        if (posibleConjunto.equals("CH") || posibleConjunto.equals("LL") || posibleConjunto.equals("RR")) {
+                            // Colocar el conjunto en la primera casilla
+                            tablero[fila][col + i] = posibleConjunto; // Colocar el conjunto
+                            letrasUsadas.add(posibleConjunto);
+                            puntaje += saco.obtenerPuntajeDeLaLetra(posibleConjunto); // Asumiendo que tienes un método para obtener el puntaje del conjunto
+                            i += 2; // Incrementar i en 2, ya que el conjunto ocupa dos posiciones
+                            continue; // Continuar al siguiente ciclo
+                        }
+                    }
+
                     // Calcular puntaje de la letra
-                    int puntajeLetra = obtenerPuntajeLetra(String.valueOf(letraActual));
+                    int puntajeLetra = saco.obtenerPuntajeDeLaLetra(letraActual);
 
                     // Verificar multiplicadores
                     if (casillaActual.contains("XP") || casillaActual.contains("XL")) {
@@ -173,13 +157,14 @@ class Tablero {
                     }
 
                     // Colocar letra en el tablero
-                    tablero[fila][col + i] = String.valueOf(letraActual);
+                    tablero[fila][col + i] = letraActual; // Aquí se coloca la letra actual
 
                     // Acumular puntaje
                     puntaje += puntajeLetra;
 
                     // Registrar letra usada
-                    letrasUsadas.add(String.valueOf(letraActual));
+                    letrasUsadas.add(letraActual);
+                    i++; // Incrementar i en 1 para la siguiente letra
                 }
             } else {
                 // Lógica vertical (similar a la horizontal)
@@ -200,12 +185,25 @@ class Tablero {
                 }
 
                 // Colocar la palabra verticalmente
-                for (int i = 0; i < palabra.length(); i++) {
-                    char letraActual = palabra.charAt(i);
+                for (int i = 0; i < palabra.length(); ) {
+                    String letraActual = String.valueOf(palabra.charAt(i));
                     String casillaActual = tablero[fila + i][col];
 
+                    // Verificar si estamos colocando un conjunto
+                    if (i < palabra.length() - 1) {
+                        String posibleConjunto = palabra.substring(i, i + 2);
+                        if (posibleConjunto.equals("CH") || posibleConjunto.equals("LL") || posibleConjunto.equals("RR")) {
+                            // Colocar el conjunto en la primera casilla
+                            tablero[fila + i][col] = posibleConjunto; // Colocar el conjunto
+                            letrasUsadas.add(posibleConjunto);
+                            puntaje += saco.obtenerPuntajeDeLaLetra(posibleConjunto); // Asumiendo que tienes un método para obtener el puntaje del conjunto
+                            i += 2; // Incrementar i en 2, ya que el conjunto ocupa dos posiciones
+                            continue; // Continuar al siguiente ciclo
+                        }
+                    }
+
                     // Calcular puntaje de la letra
-                    int puntajeLetra = obtenerPuntajeLetra(String.valueOf(letraActual));
+                    int puntajeLetra = saco.obtenerPuntajeDeLaLetra(letraActual);
 
                     // Verificar multiplicadores
                     if (casillaActual.contains("XP") || casillaActual.contains("XL")) {
@@ -221,28 +219,24 @@ class Tablero {
                     }
 
                     // Colocar letra en el tablero
-                    tablero[fila + i][col] = String.valueOf(letraActual);
+                    tablero[fila + i][col] = letraActual; // Aquí se coloca la letra actual
 
                     // Acumular puntaje
                     puntaje += puntajeLetra;
 
                     // Registrar letra usada
-                    letrasUsadas.add(String.valueOf(letraActual));
+                    letrasUsadas.add(letraActual);
+                    i++; // Incrementar i en 1 para la siguiente letra
                 }
             }
-
-            // Aplicar multiplicador de palabra
-            puntaje *= multiplicadorPalabra;
-
-            // Quitar letras usadas del jugador
-            jugador.usarLetras(letrasUsadas);
-
-            return puntaje;
-
         } catch (Exception e) {
-            System.out.println("Error al colocar la palabra: " + e.getMessage());
-            return 0;
+            return 0; // Manejo de excepciones
         }
+
+        // Aplicar multiplicador de palabra
+        puntaje *= multiplicadorPalabra;
+
+        return puntaje; // Retornar el puntaje total
     }
 
     /**

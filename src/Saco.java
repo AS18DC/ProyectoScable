@@ -106,7 +106,7 @@ class Saco {
      * @param letra la letra cuyo puntaje se desea obtener.
      * @return el puntaje de la letra.
      */
-    private int obtenerPuntajeDeLaLetra(String letra) {
+    public int obtenerPuntajeDeLaLetra(String letra) {
         switch (letra) {
             case "A": return 1;
             case "B": return 4;
@@ -137,7 +137,7 @@ class Saco {
             case "Y": return 5;
             case "Z": return 10;
             case "-": return 0;
-            default: return 1; // Valor por defecto para cualquier letra no reconocida
+            default: return 0; // Valor por defecto para cualquier letra no reconocida
         }
     }
 

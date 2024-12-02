@@ -195,6 +195,32 @@ class Juego {
                             continue; // Regresa al inicio del bucle para intentar de nuevo
                         }
 
+                        if (palabra.contains("-")) {
+                            // Contar cuántos comodines hay en la palabra
+                            int cantidadComodines = palabra.length() - palabra.replace("-", "").length();
+
+                            if (cantidadComodines == 1) {
+                                // Si hay un solo comodín
+                                System.out.println("Coloque la letra a asignar a comodín:");
+                                String comodin = scanner.nextLine();
+                                palabra = palabra.replace("-", comodin);
+                                System.out.println("Palabra con comodín reemplazado: " + palabra);
+                            } else if (cantidadComodines == 2) {
+                                // Si hay dos comodines
+                                System.out.println("Coloque la letra a asignar al primer comodín:");
+                                String comodin1 = scanner.nextLine();
+                                palabra = palabra.replaceFirst("-", comodin1); // Reemplaza el primer comodín
+
+                                System.out.println("Coloque la letra a asignar al segundo comodín:");
+                                String comodin2 = scanner.nextLine();
+                                palabra = palabra.replaceFirst("-", comodin2); // Reemplaza el segundo comodín
+
+                                System.out.println("Palabra con comodines reemplazados: " + palabra);
+                            } else {
+                                System.out.println("Se permiten hasta dos comodines.");
+                            }
+                        }
+
                         if (!validarPalabra(palabra)) {
                             System.out.println("La palabra no está en el diccionario.");
                             continue; // Regresa al inicio del bucle para intentar de nuevo
