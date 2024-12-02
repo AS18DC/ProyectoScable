@@ -5,5 +5,12 @@
     "puntaje": 0,
     "puntajePartida": 0,
     "letras": []
+  },
+  {
+    "nombre": "etesech",
+    "correoElectronico": "etesech@sech.com",
+    "puntaje": 0,
+    "puntajePartida": 0,
+    "letras": []
   }
 ]

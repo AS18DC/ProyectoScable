@@ -28,7 +28,7 @@ public class Main {
                     try {
                         Jugador jugador1 = new Jugador("", "");
                         Jugador jugador2 = new Jugador("", "");
-                        String rutaDiccionario = "src/listado-general.txt";
+                        String rutaDiccionario = "src/listado-general-sin-acentos.txt";
                         Juego juego = new Juego(jugador1, jugador2, rutaDiccionario);
 
                         // Llamamos a iniciarPartida y verificamos su resultado
