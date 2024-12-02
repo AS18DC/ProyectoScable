@@ -2,7 +2,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class Juego{
+/**
+ * Clase que representa el juego de Scrabble.
+ */
+class Juego {
     private Jugador jugador1;
     private Jugador jugador2;
     private Saco saco;
@@ -10,17 +13,38 @@ class Juego{
     private long tiempoInicio;
     private Diccionario diccionario;
 
+    /**
+     * Constructor del juego de Scrabble.
+     *
+     * @param jugador1 El primer jugador.
+     * @param jugador2 El segundo jugador.
+     * @param rutaDiccionario La ruta del archivo del diccionario.
+     * @throws IOException Si ocurre un error al cargar el diccionario.
+     */
+    public Juego(Jugador jugador1, Jugador jugador2, String rutaDiccionario) throws IOException {
+        this.jugador1 = jugador1;
+        this.jugador2 = jugador2;
+        this.saco = new Saco();
+        this.tablero = new Tablero(saco);
+        this.tiempoInicio = System.currentTimeMillis();
+        this.diccionario = new Diccionario(rutaDiccionario);
+    }
 
-    public int validarNumero(){
+    /**
+     * Valida si un número está en el rango de 0 a 14.
+     *
+     * @return El número validado.
+     */
+    public int validarNumero() {
         Scanner scanner = new Scanner(System.in);
-        int numero=0;
+        int numero = 0;
         boolean entradaValida = false;
         System.out.print(" (0-14):");
         while (!entradaValida) {
             numero = scanner.nextInt();
             if (numero >= 0 && numero <= 14) {
                 entradaValida = true;
-            }else{
+            } else {
                 System.out.println("Error: El número debe estar entre 0 y 14. Intente de nuevo.");
                 scanner.nextLine();
             }
@@ -28,6 +52,11 @@ class Juego{
         return numero;
     }
 
+    /**
+     * Permite seleccionar un jugador existente.
+     *
+     * @return El jugador seleccionado o null si no se encuentra.
+     */
     public Jugador seleccionJugador() {
         Scanner scanner = new Scanner(System.in);
         Gestion gestion = new Gestion();
@@ -46,22 +75,25 @@ class Juego{
         }
     }
 
-    public Juego(Jugador jugador1, Jugador jugador2, String rutaDiccionario) throws IOException {
-        this.jugador1 = jugador1;
-        this.jugador2 = jugador2;
-        this.saco = new Saco();
-        this.tablero = new Tablero(saco);
-        this.tiempoInicio = System.currentTimeMillis();
-        this.diccionario = new Diccionario(rutaDiccionario);
-    }
-
+    /**
+     * Pausa la ejecución del juego por un número de milisegundos.
+     *
+     * @param milisegundos El número de milisegundos a pausar.
+     */
     public static void pausar(int milisegundos) {
         try {
             Thread.sleep(milisegundos);
         } catch (InterruptedException e) {
+            // Manejar la excepción si es necesario
         }
     }
 
+    /**
+     * Valida si una palabra existe en el diccionario.
+     *
+     * @param palabra La palabra a validar.
+     * @return true si la palabra es válida, false en caso contrario.
+     */
     private boolean validarPalabra(String palabra) {
         if (!diccionario.existePalabra(palabra)) {
             System.out.println("La palabra '" + palabra + "' no es válida.");
@@ -69,9 +101,10 @@ class Juego{
         }
         return true;
     }
-
-
-    ///************************************************************************************************\\\
+///************************************************************************************************\\\
+    /**
+     * Inicia la partida de Scrabble.
+     */
     public void iniciarPartida() {
         Gestion gestion = new Gestion();
         System.out.println("!!! El juego ha iniciado !!!");
@@ -117,7 +150,7 @@ class Juego{
             System.out.println("**************************-SCRABBLE-*****************************");
 
             tablero.mostrarTableroConColores();
-            System.out.println("Cantidad en el saco: "+saco.contarLetrasEnSaco());
+            System.out.println("Cantidad en el saco: " + saco.contarLetrasEnSaco());
             System.out.println();
 
             System.out.println("Turno de " + jugadorActual.getNombre());
@@ -132,8 +165,7 @@ class Juego{
                 System.out.println("Quiere cambiar alguna ficha? Si/No ---- Escriba ''Exit'' para salir de la partida");
                 String cambioFicha = scanner.nextLine();
 
-                if(cambioFicha.equalsIgnoreCase("Exit")){
-//                    Gestion.guardarPartidaGestion(partidas);
+                if (cambioFicha.equalsIgnoreCase("Exit")) {
                     break;
                 }
 
@@ -218,7 +250,7 @@ class Juego{
                                 }
 
                                 // Actualizar el puntaje del jugador
-                                System.out.println("Ganaste "+puntosGanados+" puntos");
+                                System.out.println("Ganaste " + puntosGanados + " puntos");
                                 jugadorActual.setPuntajePartida(jugadorActual.getPuntajePartida() + puntosGanados);
                                 contadorMovimientos++;
 
@@ -226,9 +258,8 @@ class Juego{
                                 jugadorActual.usarLetras(usadas);
                                 saco.repartirLetras(jugadorActual, usadas.size());
 
-
                                 turnoCompletado = true; // Marcar el turno como completado
-                        } else {
+                            } else {
                                 System.out.println("No se pudo colocar la palabra. Intente de nuevo.");
                                 continue;
                             }
@@ -256,7 +287,7 @@ class Juego{
                                 }
 
                                 // Actualizar el puntaje del jugador
-                                System.out.println("Ganaste "+puntosGanados+" puntos");
+                                System.out.println("Ganaste " + puntosGanados + " puntos");
                                 jugadorActual.setPuntajePartida(jugadorActual.getPuntajePartida() + puntosGanados);
                                 contadorMovimientos++;
 
@@ -273,8 +304,6 @@ class Juego{
                         turnoCompletado = true;
                     }
                 }
-
-                ///--------------------------------------------------------------------------------
             }
             if (jugador1.getLetras().isEmpty() || jugador2.getLetras().isEmpty()) {
                 break; // Terminar el juego
@@ -284,7 +313,9 @@ class Juego{
         finalizarPartida();
     }
 
-
+    /**
+     * Finaliza la partida de Scrabble, mostrando los puntajes y el ganador.
+     */
     public void finalizarPartida() {
         long tiempoFin = System.currentTimeMillis();
         long tiempoTotal = (tiempoFin - tiempoInicio) / 1000;
