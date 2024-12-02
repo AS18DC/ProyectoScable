@@ -11,7 +11,10 @@ public class Gestion {
         if(jugadores == null){
             jugadores = new LinkedList<>();
         }
-        partidas = new LinkedList<>();
+        this.partidas = GestionListaJSON.leerPartidasExistentes();
+        if(partidas == null){
+            partidas = new LinkedList<>();
+        }
     }
 
     public void agregarPartida(Partida partida) {

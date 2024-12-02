@@ -73,27 +73,14 @@ class Juego{
 
     ///************************************************************************************************\\\
     public void iniciarPartida() {
+        Gestion gestion = new Gestion();
         System.out.println("!!! El juego ha iniciado !!!");
         System.out.println(" ");
-
-        while (jugador1 == null) {
-            System.out.println("Datos Jugador 1: ");
-            jugador1 = seleccionJugador();
-            if (jugador1 == null) {
-                System.out.println("Error: Jugador 1 no válido. Intenta nuevamente.");
-            }
-        }
+        System.out.println("Datos Jugador 1: ");
+        jugador1 = seleccionJugador();
         System.out.println(" ");
-        while (jugador2 == null || jugador2.equals(jugador1)) {
-            System.out.println("Datos Jugador 2: ");
-            jugador2 = seleccionJugador();
-            if (jugador2 == null) {
-                System.out.println("Error: Jugador 2 no válido. Intenta nuevamente.");
-            } else if (jugador2.equals(jugador1)) {
-                System.out.println("Error: Jugador 2 no puede ser el mismo que Jugador 1. Intenta nuevamente.");
-                jugador2 = null;
-            }
-        }
+        System.out.println("Datos Jugador 2: ");
+        jugador2 = seleccionJugador();
         System.out.println("Ambos jugadores han sido seleccionados correctamente. ¡Listos para jugar!");
         System.out.println(" ");
 
@@ -142,8 +129,13 @@ class Juego{
             boolean turnoCompletado = false;
 
             while (!turnoCompletado) {
-                System.out.println("Quiere cambiar alguna ficha? Si/No");
+                System.out.println("Quiere cambiar alguna ficha? Si/No ---- Escriba ''Exit'' para salir de la partida");
                 String cambioFicha = scanner.nextLine();
+
+                if(cambioFicha.equalsIgnoreCase("Exit")){
+//                    Gestion.guardarPartidaGestion(partidas);
+                    break;
+                }
 
                 if (cambioFicha.equalsIgnoreCase("Si")) {
                     System.out.println("Quiere cambiar todas las fichas? Si/No");
