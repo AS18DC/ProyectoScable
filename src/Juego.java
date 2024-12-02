@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -123,8 +124,15 @@ class Juego {
         System.out.println(" ");
         System.out.println("Datos Jugador 2: ");
         jugador2 = seleccionJugador();
-        System.out.println("Ambos jugadores han sido seleccionados correctamente. ¡Listos para jugar!");
-        System.out.println(" ");
+        if (jugador2 == null) {
+            return false;
+        } else if (Objects.equals(jugador2.getNombre(), jugador1.getNombre())) {
+            System.out.println("Jugador 1 "+jugador1.getNombre()+" es igual a Jugador 2 "+jugador2);
+            return false;
+        }else {
+            System.out.println("Ambos jugadores han sido seleccionados correctamente. ¡Listos para jugar!");
+            System.out.println(" ");
+        }
 
         saco.repartirLetras(jugador1, 1);
         saco.repartirLetras(jugador2, 1);
