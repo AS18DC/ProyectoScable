@@ -8,11 +8,18 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.LinkedList;
 
-
+/**
+ * Clase que gestiona la lectura y escritura de archivos JSON para jugadores y partidas.
+ */
 public class GestionListaJSON {
     private static final String FileJugadores = "jugadores.json";
     private static final String FilePartidas = "partidas.json";
 
+    /**
+     * Lee los jugadores existentes desde un archivo JSON.
+     *
+     * @return una lista de objetos Jugador.
+     */
     public static LinkedList<Jugador> leerJugadoresExistentes() {
         File archivo = new File(FileJugadores);
 
@@ -30,6 +37,11 @@ public class GestionListaJSON {
         }
     }
 
+    /**
+     * Guarda los jugadores en un archivo JSON.
+     *
+     * @param jugadores la lista de jugadores a guardar.
+     */
     public static void guardarJugadores(LinkedList<Jugador> jugadores) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try (FileWriter writer = new FileWriter(FileJugadores)) {
@@ -40,6 +52,11 @@ public class GestionListaJSON {
         }
     }
 
+    /**
+     * Lee las partidas existentes desde un archivo JSON.
+     *
+     * @return una lista de objetos Partida.
+     */
     public static LinkedList<Partida> leerPartidasExistentes() {
         File archivo = new File(FilePartidas);
 
@@ -49,7 +66,7 @@ public class GestionListaJSON {
 
         Gson gson = new Gson();
         try (FileReader reader = new FileReader(FilePartidas)) {
-            Type tipoLista = new TypeToken<LinkedList<Jugador>>() {}.getType();
+            Type tipoLista = new TypeToken<LinkedList<Partida>>() {}.getType();
             return gson.fromJson(reader, tipoLista);
         } catch (IOException e) {
             System.err.println("Error al leer las partidas existentes: " + e.getMessage());
@@ -57,6 +74,11 @@ public class GestionListaJSON {
         }
     }
 
+    /**
+     * Guarda las partidas en un archivo JSON.
+     *
+     * @param partidas la lista de partidas a guardar.
+     */
     public static void guardarPartidas(LinkedList<Partida> partidas) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try (FileWriter writer = new FileWriter(FilePartidas)) {
@@ -66,5 +88,4 @@ public class GestionListaJSON {
             System.err.println("Error al guardar las partidas: " + e.getMessage());
         }
     }
-
 }

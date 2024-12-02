@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.util.Scanner;
 
+/** * Esta es la clase principal para el juego de Scrabble. Proporciona un menú para iniciar * un nuevo juego,
+ *  continuar un juego anterior, gestionar registros de usuarios y salir del programa. */
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);

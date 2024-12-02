@@ -2,7 +2,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class Tablero{
+/**
+ * La clase Tablero representa el tablero de juego para un juego de palabras.
+ * Contiene una matriz de Strings que representa las posiciones en el tablero y métodos para manipularlo.
+ */
+class Tablero {
     private String[][] tablero;
     private Saco saco;
     private static final String fondoRojo = "\u001B[48;5;124m"; // Doble palabra
@@ -13,6 +17,11 @@ class Tablero{
     private static final String fondoAmarillo = "\u001B[48;5;142m"; // Triple letra
     private static final String reset = "\u001B[0m"; // Restablecer color
 
+    /**
+     * Constructor que inicializa el tablero con un saco de letras.
+     *
+     * @param saco el saco de letras utilizado en el juego.
+     */
     public Tablero(Saco saco) {
         this.saco = saco;
         tablero = new String[15][15]; // Tablero de 15x15
@@ -21,9 +30,9 @@ class Tablero{
         }
     }
 
-
-
-
+    /**
+     * Coloca los multiplicadores de puntos en el tablero.
+     */
     public void colocarMultiplicadores() {
         // Doble palabra
         tablero[0][0] = fondoRojo + "2XP" + reset;
@@ -71,6 +80,12 @@ class Tablero{
         tablero[9][9] = fondoAmarillo + textoNegro + "3XL" + reset;
     }
 
+    /**
+     * Obtiene el puntaje correspondiente a una letra específica.
+     *
+     * @param letra la letra cuyo puntaje se desea obtener.
+     * @return el puntaje de la letra.
+     */
     private int obtenerPuntajeLetra(String letra) {
         // Convertir el carácter a mayúscula para asegurar consistencia
         String letraString = String.valueOf(letra).toUpperCase();
@@ -87,6 +102,16 @@ class Tablero{
         return 0;
     }
 
+    /**
+     * Coloca una palabra en el tablero y calcula el puntaje obtenido.
+     *
+     * @param palabra    la palabra a colocar en el tablero.
+     * @param fila       la fila inicial donde se colocará la palabra.
+     * @param col        la columna inicial donde se colocará la palabra.
+     * @param horizontal indica si la palabra se coloca horizontalmente (true) o verticalmente (false).
+     * @param jugador    el jugador que coloca la palabra.
+     * @return el puntaje obtenido al colocar la palabra, o 0 si la colocación no es válida.
+     */
     public int colocarPalabra(String palabra, int fila, int col, boolean horizontal, Jugador jugador) {
         int puntaje = 0; // Variable para acumular el puntaje
         int multiplicadorPalabra = 1; // Multiplicador para el puntaje total de la palabra
@@ -220,9 +245,11 @@ class Tablero{
         }
     }
 
+    /**
+     * Muestra el tablero de juego con los colores y los multiplicadores correspondientes.
+     */
     public void mostrarTableroConColores() {
         // Imprimir encabezado de columnas
-        //System.out.print("    ");
         System.out.printf("%s%s  . %s", fondoGris, textoNegro, reset);
         for (int col = 0; col < tablero[0].length; col++) {
             System.out.printf("|%s%2d %s", fondoGris + textoNegro, col, reset); // Coordenadas en gris con texto negro
@@ -235,8 +262,6 @@ class Tablero{
             System.out.printf("%s %s%2d %s|", fondoGris, textoNegro, fila, reset); // Coordenadas en gris
             for (int col = 0; col < tablero[fila].length; col++) {
                 String letra = tablero[fila][col];
-
-
 
                 // No aplicar fondo a las letras del tablero
                 System.out.printf("%s", centrarTexto(letra, 3)); // Solo texto sin fondo
@@ -251,6 +276,13 @@ class Tablero{
         System.out.println("3X= x3 en letra(L) o palabra(P)      2X= x2 en letra(L) o palabra(P)");
     }
 
+    /**
+     * Centra el texto dentro de un ancho especificado.
+     *
+     * @param texto el texto a centrar.
+     * @param ancho el ancho en el que se centrará el texto.
+     * @return el texto centrado.
+     */
     public String centrarTexto(String texto, int ancho) {
         if (texto.trim().isEmpty()) {
             return " ".repeat(ancho);
@@ -263,6 +295,9 @@ class Tablero{
         return " ".repeat(espaciosIzquierda) + texto + " ".repeat(espaciosDerecha);
     }
 
+    /**
+     * Limpia el tablero, llenándolo con espacios en blanco.
+     */
     public void limpiarTablero() {
         for (int i = 0; i < 15; i++) {
             Arrays.fill(tablero[i], " ");
