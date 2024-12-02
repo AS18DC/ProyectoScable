@@ -217,6 +217,7 @@ class Juego {
 
                         if (!jugadorActual.verificarLetrasParaPalabra(palabra)) {
                             System.out.println("El jugador no puede jugar la palabra: " + palabra);
+                            System.out.println();
                             continue; // Regresa al inicio del bucle para intentar de nuevo
                         }
 
@@ -248,6 +249,7 @@ class Juego {
 
                         if (!validarPalabra(palabra)) {
                             System.out.println("La palabra no está en el diccionario.");
+                            System.out.println();
                             continue; // Regresa al inicio del bucle para intentar de nuevo
                         }
 
@@ -266,7 +268,7 @@ class Juego {
                                 fila = 7 - (palabra.length() / 2);
                                 col = 7;
                             }
-                            int puntosGanados = tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual);
+                            int puntosGanados = tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual, contadorMovimientos);
 
                             if (puntosGanados > 0) {
                                 ArrayList<String> usadas = new ArrayList<>();
@@ -286,6 +288,7 @@ class Juego {
                                 turnoCompletado = true; // Marcar el turno como completado
                             } else {
                                 System.out.println("No se pudo colocar la palabra. Intente de nuevo.");
+                                System.out.println();
                                 continue;
                             }
                         } else {
@@ -303,7 +306,7 @@ class Juego {
                                 horizontal2 = true;
                             }
 
-                            int puntosGanados = tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual);
+                            int puntosGanados = tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual, contadorMovimientos);
 
                             if (puntosGanados > 0) {
                                 ArrayList<String> usadas = new ArrayList<>();
@@ -322,6 +325,7 @@ class Juego {
                                 turnoCompletado = true; // Marcar el turno como completado
                             } else {
                                 System.out.println("No se pudo colocar la palabra. Intente de nuevo.");
+                                System.out.println();
                                 continue;
                             }
                         }

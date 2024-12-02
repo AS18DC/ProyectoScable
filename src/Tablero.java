@@ -91,7 +91,7 @@ class Tablero {
      * @param jugador    el jugador que coloca la palabra.
      * @return el puntaje obtenido al colocar la palabra, o 0 si la colocación no es válida.
      */
-    public int colocarPalabra(String palabra, int fila, int col, boolean horizontal, Jugador jugador) {
+    public int colocarPalabra(String palabra, int fila, int col, boolean horizontal, Jugador jugador, int turno) {
         int puntaje = 0; // Variable para acumular el puntaje
         int multiplicadorPalabra = 1; // Multiplicador para el puntaje total de la palabra
         List<String> letrasUsadas = new ArrayList<>(); // Letras usadas por el jugador
