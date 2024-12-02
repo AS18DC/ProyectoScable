@@ -197,15 +197,19 @@ class Juego{
                                 for (char letra : palabra.toCharArray()) {
                                     usadas.add(String.valueOf(letra));
                                 }
-                                jugadorActual.usarLetras(usadas);
-                                saco.repartirLetras(jugadorActual, usadas.size());
 
                                 // Actualizar el puntaje del jugador
                                 System.out.println("Ganaste "+puntosGanados+" puntos");
                                 jugadorActual.setPuntajePartida(jugadorActual.getPuntajePartida() + puntosGanados);
                                 contadorMovimientos++;
-                                turnoCompletado = true;
-                            } else {
+
+                                usadas.replaceAll(String::toUpperCase);
+                                jugadorActual.usarLetras(usadas);
+                                saco.repartirLetras(jugadorActual, usadas.size());
+
+
+                                turnoCompletado = true; // Marcar el turno como completado
+                        } else {
                                 System.out.println("No se pudo colocar la palabra. Intente de nuevo.");
                                 continue;
                             }
@@ -231,13 +235,15 @@ class Juego{
                                 for (char letra : palabra.toCharArray()) {
                                     usadas.add(String.valueOf(letra));
                                 }
-                                jugadorActual.usarLetras(usadas);
-                                saco.repartirLetras(jugadorActual, usadas.size());
 
                                 // Actualizar el puntaje del jugador
                                 System.out.println("Ganaste "+puntosGanados+" puntos");
                                 jugadorActual.setPuntajePartida(jugadorActual.getPuntajePartida() + puntosGanados);
                                 contadorMovimientos++;
+
+                                usadas.replaceAll(String::toUpperCase);
+                                jugadorActual.usarLetras(usadas);
+                                saco.repartirLetras(jugadorActual, usadas.size());
                                 turnoCompletado = true; // Marcar el turno como completado
                             } else {
                                 System.out.println("No se pudo colocar la palabra. Intente de nuevo.");

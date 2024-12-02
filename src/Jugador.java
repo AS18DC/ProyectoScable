@@ -74,6 +74,12 @@ class Jugador {
     }
 
     public void usarLetras(List<String> usadas) {
-        letras.removeAll(usadas);
+        for (String letra : usadas) {
+            // Eliminar la letra del jugador
+            if (letras.contains(letra)) {
+                letras.remove(letra); // Elimina solo la primera coincidencia
+            }
+        }
+
     }
 }
