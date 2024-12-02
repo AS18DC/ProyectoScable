@@ -71,21 +71,6 @@ class Tablero{
         tablero[9][9] = fondoAmarillo + textoNegro + "3XL" + reset;
     }
 
-    private int obtenerPuntajeLetra(String letra) {
-        // Convertir el carácter a mayúscula para asegurar consistencia
-        String letraString = String.valueOf(letra).toUpperCase();
-
-        // Buscar en la lista de letras del saco
-        for (Letra letraSaco : saco.getLetras()) {
-            if (letraSaco.letra.equalsIgnoreCase(letraString)) {
-                return letraSaco.puntaje;
-            }
-        }
-
-        // Si no se encuentra la letra, retornar 0
-        System.out.println("Letra no encontrada: " + letraString);
-        return 0;
-    }
 
     public int colocarPalabra(String palabra, int fila, int col, boolean horizontal, Jugador jugador) {
         int puntaje = 0; // Variable para acumular el puntaje
@@ -132,7 +117,7 @@ class Tablero{
                     String casillaActual = tablero[fila][col + i];
 
                     // Calcular puntaje de la letra
-                    int puntajeLetra = obtenerPuntajeLetra(String.valueOf(letraActual));
+                    int puntajeLetra = saco.obtenerPuntajeDeLaLetra(String.valueOf(letraActual));
 
                     // Verificar multiplicadores
                     if (casillaActual.contains("XP") || casillaActual.contains("XL")) {
@@ -180,7 +165,7 @@ class Tablero{
                     String casillaActual = tablero[fila + i][col];
 
                     // Calcular puntaje de la letra
-                    int puntajeLetra = obtenerPuntajeLetra(String.valueOf(letraActual));
+                    int puntajeLetra = saco.obtenerPuntajeDeLaLetra(String.valueOf(letraActual));
 
                     // Verificar multiplicadores
                     if (casillaActual.contains("XP") || casillaActual.contains("XL")) {

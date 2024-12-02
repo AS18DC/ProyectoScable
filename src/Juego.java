@@ -163,6 +163,13 @@ class Juego{
                             continue; // Regresa al inicio del bucle para intentar de nuevo
                         }
 
+                        if (palabra.contains("-")) {
+                            System.out.println("Coloque la letra a asignar a comodin");
+                            String comodin = scanner.nextLine();
+                            palabra = palabra.replace("-", comodin);
+                            System.out.println(palabra);
+                        }
+
                         if (!validarPalabra(palabra)) {
                             System.out.println("La palabra no está en el diccionario.");
                             continue; // Regresa al inicio del bucle para intentar de nuevo
