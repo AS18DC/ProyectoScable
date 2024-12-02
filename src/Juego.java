@@ -288,6 +288,7 @@ class Juego {
                                 turnoCompletado = true; // Marcar el turno como completado
                             } else {
                                 System.out.println("No se pudo colocar la palabra. Intente de nuevo.");
+                                System.out.println("La palabra tiene que estar cruzada con otra");
                                 System.out.println();
                                 continue;
                             }
@@ -325,6 +326,7 @@ class Juego {
                                 turnoCompletado = true; // Marcar el turno como completado
                             } else {
                                 System.out.println("No se pudo colocar la palabra. Intente de nuevo.");
+                                System.out.println("La palabra tiene que estar cruzada con otra");
                                 System.out.println();
                                 continue;
                             }

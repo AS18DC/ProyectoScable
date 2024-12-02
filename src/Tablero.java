@@ -91,153 +91,132 @@ class Tablero {
      * @param jugador    el jugador que coloca la palabra.
      * @return el puntaje obtenido al colocar la palabra, o 0 si la colocación no es válida.
      */
+    /**
+     * Coloca una palabra en el tablero y calcula el puntaje obtenido.
+     *
+     * @param palabra    la palabra a colocar en el tablero.
+     * @param fila       la fila inicial donde se colocará la palabra.
+     * @param col        la columna inicial donde se colocará la palabra.
+     * @param horizontal indica si la palabra se coloca horizontalmente (true) o verticalmente (false).
+     * @param jugador    el jugador que coloca la palabra.
+     * @param turno      el número de turno actual del juego.
+     * @return el puntaje obtenido al colocar la palabra, o 0 si la colocación no es válida.
+     */
     public int colocarPalabra(String palabra, int fila, int col, boolean horizontal, Jugador jugador, int turno) {
-        int puntaje = 0; // Variable para acumular el puntaje
+        int puntaje = 0;
         int multiplicadorPalabra = 1; // Multiplicador para el puntaje total de la palabra
-        List<String> letrasUsadas = new ArrayList<>(); // Letras usadas por el jugador
+        List<String> letrasUsadas = new ArrayList<>();
 
         // Validar límites del tablero
         if (fila < 0 || fila >= 15 || col < 0 || col >= 15) return 0;
 
-        // Convertir palabra a mayúsculas para consistencia
-        palabra = palabra.toUpperCase();
+        palabra = palabra.toUpperCase(); // Convertir palabra a mayúsculas para consistencia
 
-        // Lógica para colocar la palabra (horizontal o vertical)
-        try {
+        boolean cruzaConOtraPalabra = false;
+
+        // Verificar si la palabra cruza con otra ya existente a partir del turno 2
+        if (turno > 0) {
             if (horizontal) {
-                // Verificar límites horizontales
-                if (col + palabra.length() > 15) return 0;
-
-                // Verificar colisiones y preparar colocación
                 for (int i = 0; i < palabra.length(); i++) {
-                    String casilla = tablero[fila][col + i];
-                    char letraActual = palabra.charAt(i);
+                    int filaActual = fila;
+                    int colActual = col + i;
 
-                    // Validar colocación de letra
-                    if (!casilla.trim().isEmpty() &&
-                            !casilla.equals(String.valueOf(letraActual)) &&
-                            !casilla.contains("XP") &&
-                            !casilla.contains("XL")) {
-                        return 0; // Colisión con otra letra
+                    if (colActual >= 15) return 0; // Verificar que no salga del tablero
+
+                    String casilla = tablero[filaActual][colActual];
+                    if (!casilla.trim().isEmpty() && !casilla.contains("XP") && !casilla.contains("XL")) {
+                        cruzaConOtraPalabra = true; // Hay intersección con otra palabra
+                    }
+
+                    // Verificar celdas adyacentes
+                    if ((filaActual > 0 && !tablero[filaActual - 1][colActual].trim().isEmpty() && !tablero[filaActual - 1][colActual].contains("XP") && !tablero[filaActual - 1][colActual].contains("XL")) ||
+                            (filaActual < 14 && !tablero[filaActual + 1][colActual].trim().isEmpty() && !tablero[filaActual + 1][colActual].contains("XP") && !tablero[filaActual + 1][colActual].contains("XL"))) {
+                        cruzaConOtraPalabra = true;
                     }
                 }
+            } else { // Vertical
+                for (int i = 0; i < palabra.length(); i++) {
+                    int filaActual = fila + i;
+                    int colActual = col;
 
-                // Colocar la palabra horizontalmente
-                for (int i = 0; i < palabra.length(); ) {
+                    if (filaActual >= 15) return 0; // Verificar que no salga del tablero
+
+                    String casilla = tablero[filaActual][colActual];
+                    if (!casilla.trim().isEmpty() && !casilla.contains("XP") && !casilla.contains("XL")) {
+                        cruzaConOtraPalabra = true; // Hay intersección con otra palabra
+                    }
+
+                    // Verificar celdas adyacentes
+                    if ((colActual > 0 && !tablero[filaActual][colActual - 1].trim().isEmpty() && !tablero[filaActual][colActual - 1].contains("XP") && !tablero[filaActual][colActual - 1].contains("XL")) ||
+                            (colActual < 14 && !tablero[filaActual][colActual + 1].trim().isEmpty() && !tablero[filaActual][colActual + 1].contains("XP") && !tablero[filaActual][colActual + 1].contains("XL"))) {
+                        cruzaConOtraPalabra = true;
+                    }
+                }
+            }
+
+            if (!cruzaConOtraPalabra) return 0; // Si no cruza con ninguna palabra, la colocación es inválida
+        }
+
+        // Verificar límites y colisiones, luego colocar la palabra (similar al código original)
+        try {
+            if (horizontal) {
+                if (col + palabra.length() > 15) return 0;
+
+                for (int i = 0; i < palabra.length(); i++) {
                     String letraActual = String.valueOf(palabra.charAt(i));
                     String casillaActual = tablero[fila][col + i];
 
-                    // Verificar si estamos colocando un conjunto
-                    if (i < palabra.length() - 1) {
-                        String posibleConjunto = palabra.substring(i, i + 2);
-                        if (posibleConjunto.equals("CH") || posibleConjunto.equals("LL") || posibleConjunto.equals("RR")) {
-                            // Colocar el conjunto en la primera casilla
-                            tablero[fila][col + i] = posibleConjunto; // Colocar el conjunto
-                            letrasUsadas.add(posibleConjunto);
-                            puntaje += saco.obtenerPuntajeDeLaLetra(posibleConjunto); // Asumiendo que tienes un método para obtener el puntaje del conjunto
-                            i += 2; // Incrementar i en 2, ya que el conjunto ocupa dos posiciones
-                            continue; // Continuar al siguiente ciclo
-                        }
+                    if (!casillaActual.trim().isEmpty() &&
+                            !casillaActual.equals(letraActual) &&
+                            !casillaActual.contains("XP") &&
+                            !casillaActual.contains("XL")) {
+                        return 0;
                     }
 
-                    // Calcular puntaje de la letra
                     int puntajeLetra = saco.obtenerPuntajeDeLaLetra(letraActual);
+                    if (casillaActual.contains("3XL")) puntajeLetra *= 3;
+                    else if (casillaActual.contains("2XL")) puntajeLetra *= 2;
+                    else if (casillaActual.contains("3XP")) multiplicadorPalabra *= 3;
+                    else if (casillaActual.contains("2XP")) multiplicadorPalabra *= 2;
 
-                    // Verificar multiplicadores
-                    if (casillaActual.contains("XP") || casillaActual.contains("XL")) {
-                        if (casillaActual.contains("3XL")) {
-                            puntajeLetra *= 3;
-                        } else if (casillaActual.contains("2XL")) {
-                            puntajeLetra *= 2;
-                        } else if (casillaActual.contains("3XP")) {
-                            multiplicadorPalabra *= 3;
-                        } else if (casillaActual.contains("2XP")) {
-                            multiplicadorPalabra *= 2;
-                        }
-                    }
-
-                    // Colocar letra en el tablero
-                    tablero[fila][col + i] = letraActual; // Aquí se coloca la letra actual
-
-                    // Acumular puntaje
+                    tablero[fila][col + i] = letraActual;
                     puntaje += puntajeLetra;
-
-                    // Registrar letra usada
                     letrasUsadas.add(letraActual);
-                    i++; // Incrementar i en 1 para la siguiente letra
                 }
-            } else {
-                // Lógica vertical (similar a la horizontal)
+            } else { // Vertical
                 if (fila + palabra.length() > 15) return 0;
 
-                // Verificar colisiones y preparar colocación
                 for (int i = 0; i < palabra.length(); i++) {
-                    String casilla = tablero[fila + i][col];
-                    char letraActual = palabra.charAt(i);
-
-                    // Validar colocación de letra
-                    if (!casilla.trim().isEmpty() &&
-                            !casilla.equals(String.valueOf(letraActual)) &&
-                            !casilla.contains("XP") &&
-                            !casilla.contains("XL")) {
-                        return 0; // Colisión con otra letra
-                    }
-                }
-
-                // Colocar la palabra verticalmente
-                for (int i = 0; i < palabra.length(); ) {
                     String letraActual = String.valueOf(palabra.charAt(i));
                     String casillaActual = tablero[fila + i][col];
 
-                    // Verificar si estamos colocando un conjunto
-                    if (i < palabra.length() - 1) {
-                        String posibleConjunto = palabra.substring(i, i + 2);
-                        if (posibleConjunto.equals("CH") || posibleConjunto.equals("LL") || posibleConjunto.equals("RR")) {
-                            // Colocar el conjunto en la primera casilla
-                            tablero[fila + i][col] = posibleConjunto; // Colocar el conjunto
-                            letrasUsadas.add(posibleConjunto);
-                            puntaje += saco.obtenerPuntajeDeLaLetra(posibleConjunto); // Asumiendo que tienes un método para obtener el puntaje del conjunto
-                            i += 2; // Incrementar i en 2, ya que el conjunto ocupa dos posiciones
-                            continue; // Continuar al siguiente ciclo
-                        }
+                    if (!casillaActual.trim().isEmpty() &&
+                            !casillaActual.equals(letraActual) &&
+                            !casillaActual.contains("XP") &&
+                            !casillaActual.contains("XL")) {
+                        return 0;
                     }
 
-                    // Calcular puntaje de la letra
                     int puntajeLetra = saco.obtenerPuntajeDeLaLetra(letraActual);
+                    if (casillaActual.contains("3XL")) puntajeLetra *= 3;
+                    else if (casillaActual.contains("2XL")) puntajeLetra *= 2;
+                    else if (casillaActual.contains("3XP")) multiplicadorPalabra *= 3;
+                    else if (casillaActual.contains("2XP")) multiplicadorPalabra *= 2;
 
-                    // Verificar multiplicadores
-                    if (casillaActual.contains("XP") || casillaActual.contains("XL")) {
-                        if (casillaActual.contains("3XL")) {
-                            puntajeLetra *= 3;
-                        } else if (casillaActual.contains("2XL")) {
-                            puntajeLetra *= 2;
-                        } else if (casillaActual.contains("3XP")) {
-                            multiplicadorPalabra *= 3;
-                        } else if (casillaActual.contains("2XP")) {
-                            multiplicadorPalabra *= 2;
-                        }
-                    }
-
-                    // Colocar letra en el tablero
-                    tablero[fila + i][col] = letraActual; // Aquí se coloca la letra actual
-
-                    // Acumular puntaje
+                    tablero[fila + i][col] = letraActual;
                     puntaje += puntajeLetra;
-
-                    // Registrar letra usada
                     letrasUsadas.add(letraActual);
-                    i++; // Incrementar i en 1 para la siguiente letra
                 }
             }
         } catch (Exception e) {
-            return 0; // Manejo de excepciones
+            return 0;
         }
 
-        // Aplicar multiplicador de palabra
-        puntaje *= multiplicadorPalabra;
-
-        return puntaje; // Retornar el puntaje total
+        puntaje *= multiplicadorPalabra; // Aplicar multiplicador de palabra
+        return puntaje;
     }
+
+
 
     /**
      * Muestra el tablero de juego con los colores y los multiplicadores correspondientes.
