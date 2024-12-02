@@ -33,7 +33,7 @@ public class Main {
 
                         // Llamamos a iniciarPartida y verificamos su resultado
                         if (!juego.iniciarPartida()) {
-                            System.out.println("La partida no se pudo iniciar. Regresando al menú...");
+                            System.out.println("Regresando al menú...");
                             // No es necesario hacer nada aquí, el bucle volverá al inicio
                         } else {
                             System.out.println("Partida iniciada con éxito.");

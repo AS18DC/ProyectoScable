@@ -178,13 +178,21 @@ class Juego {
 
             boolean turnoCompletado = false;
 
+            String exit = " ";
+            if (exit.equalsIgnoreCase("exit")){
+                return false;
+            }
+
             while (!turnoCompletado) {
-                System.out.println("Quiere cambiar alguna ficha? Si/No ---- Escriba ''Exit'' para salir de la partida");
+                System.out.println("Escriba ''Exit'' para salir de la partida");
+                System.out.println("Quiere cambiar alguna ficha? Si/No");
                 String cambioFicha = scanner.nextLine();
 
-                if (cambioFicha.equalsIgnoreCase("Exit")) {
-                    break;
+                if (cambioFicha.equalsIgnoreCase("exit")){
+                    exit = "exit";
+                    return false;
                 }
+
 
                 if (cambioFicha.equalsIgnoreCase("Si")) {
                     System.out.println("Quiere cambiar todas las fichas? Si/No");
