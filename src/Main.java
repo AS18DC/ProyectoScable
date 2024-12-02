@@ -3,6 +3,9 @@ import java.util.Scanner;
 
 /** * Esta es la clase principal para el juego de Scrabble. Proporciona un menú para iniciar * un nuevo juego,
  *  continuar un juego anterior, gestionar registros de usuarios y salir del programa. */
+import java.io.IOException;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -19,7 +22,6 @@ public class Main {
 
             opcion = scanner.nextInt();
             System.out.println();
-            System.out.println();
 
             switch (opcion) {
                 case 1:
@@ -28,10 +30,18 @@ public class Main {
                         Jugador jugador2 = new Jugador("", "");
                         String rutaDiccionario = "src/listado-general.txt";
                         Juego juego = new Juego(jugador1, jugador2, rutaDiccionario);
-                        juego.iniciarPartida();
+
+                        // Llamamos a iniciarPartida y verificamos su resultado
+                        if (!juego.iniciarPartida()) {
+                            System.out.println("La partida no se pudo iniciar. Regresando al menú...");
+                            // No es necesario hacer nada aquí, el bucle volverá al inicio
+                        } else {
+                            System.out.println("Partida iniciada con éxito.");
+                        }
                     } catch (IOException e) {
                         System.out.println("Error al cargar el diccionario: " + e.getMessage());
                     }
+                    break; // Asegúrate de incluir el break aquí
                 case 2:
                     System.out.println("Has seleccionado la Opción 2.");
                     break;
@@ -48,5 +58,7 @@ public class Main {
             System.out.println();
 
         } while (opcion != 4);
+
+        scanner.close(); // Cerrar el scanner al final
     }
 }

@@ -92,7 +92,6 @@ public class Gestion {
                 return jugador;
             }
         }
-        System.out.println("El jugador no se encuentra en el archivo de registros. Intente con otro alias.");
         return null;
     }
 
@@ -244,5 +243,6 @@ public class Gestion {
             }
         }
     }
+
 }
 

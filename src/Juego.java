@@ -16,8 +16,8 @@ class Juego {
     /**
      * Constructor del juego de Scrabble.
      *
-     * @param jugador1 El primer jugador.
-     * @param jugador2 El segundo jugador.
+     * @param jugador1        El primer jugador.
+     * @param jugador2        El segundo jugador.
      * @param rutaDiccionario La ruta del archivo del diccionario.
      * @throws IOException Si ocurre un error al cargar el diccionario.
      */
@@ -60,19 +60,25 @@ class Juego {
     public Jugador seleccionJugador() {
         Scanner scanner = new Scanner(System.in);
         Gestion gestion = new Gestion();
-        Jugador jugador;
+        Jugador jugador = null; // Inicializamos jugador como null
 
-        System.out.println("Coloque el nombre del jugador: ");
-        String nombreExistente = scanner.nextLine();
-        jugador = gestion.consultarJugador(nombreExistente);
+        while (jugador == null) { // Bucle que se ejecuta mientras jugador sea null
+            System.out.println("Coloque el nombre del jugador: ");
+            String nombreExistente = scanner.nextLine();
+            jugador = gestion.consultarJugador(nombreExistente); // Consultamos el jugador
 
-        if (jugador != null) {
-            System.out.println("Jugador encontrado.");
-            return jugador; // Jugador encontrado, retornarlo
-        } else {
-            System.out.println("Jugador no encontrado.");
-            return null; // Retorna null si el jugador no es encontrado
+            if (jugador != null) {
+                System.out.println("Jugador encontrado.");
+            } else {
+                System.out.println("Jugador no encontrado. Desea volver al menu? si/no");// Mensaje si no se encuentra el jugador
+                String decision = scanner.nextLine();
+                if (decision.equalsIgnoreCase("Si")) {
+                    return null;
+                }
+            }
         }
+
+        return jugador; // Retornamos el jugador encontrado
     }
 
     /**
@@ -105,12 +111,15 @@ class Juego {
     /**
      * Inicia la partida de Scrabble.
      */
-    public void iniciarPartida() {
+    public boolean iniciarPartida() {
         Gestion gestion = new Gestion();
         System.out.println("!!! El juego ha iniciado !!!");
         System.out.println(" ");
         System.out.println("Datos Jugador 1: ");
         jugador1 = seleccionJugador();
+        if (jugador1 == null) {
+            return false;
+        }
         System.out.println(" ");
         System.out.println("Datos Jugador 2: ");
         jugador2 = seleccionJugador();
@@ -311,6 +320,7 @@ class Juego {
             turnoJugador1 = !turnoJugador1; // Cambiar turno
         }
         finalizarPartida();
+        return true;
     }
 
     /**
