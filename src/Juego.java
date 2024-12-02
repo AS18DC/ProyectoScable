@@ -91,11 +91,12 @@ class Juego{
                 System.out.println("Error: Jugador 2 no válido. Intenta nuevamente.");
             } else if (jugador2.equals(jugador1)) {
                 System.out.println("Error: Jugador 2 no puede ser el mismo que Jugador 1. Intenta nuevamente.");
-                jugador2 = null; // Reinicia si son iguales
+                jugador2 = null;
             }
         }
         System.out.println("Ambos jugadores han sido seleccionados correctamente. ¡Listos para jugar!");
         System.out.println(" ");
+
         saco.repartirLetras(jugador1, 1);
         saco.repartirLetras(jugador2, 1);
         System.out.println();
