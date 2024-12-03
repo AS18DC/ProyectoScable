@@ -53,6 +53,30 @@ class Juego {
         return numero;
     }
 
+    public void guardarPartida(String alias) {
+        TableroManager.guardarJuego(alias, tablero, jugador1, jugador2); // Cambiar aquí
+    }
+
+    public void cargarPartida(String alias) {
+        JuegoGuardado juegoGuardado = TableroManager.cargarJuego(alias, saco);
+
+        // Cargar el tablero
+        this.tablero = juegoGuardado.getTablero();
+
+        // Cargar los jugadores
+        Partida partida = juegoGuardado.getPartida();
+        if (partida.getJugador1() != null) {
+            this.jugador1 = partida.getJugador1();
+        }
+        if (partida.getJugador2() != null) {
+            this.jugador2 = partida.getJugador2();
+        }
+
+        // Cargar otros atributos necesarios
+        this.jugador1.setPuntajePartida(partida.getPuntos());
+        this.jugador2.setPuntajePartida(partida.getPuntos());
+        // Si deseas, puedes cargar más atributos, como palabras colocadas, etc.
+    }
     /**
      * Permite seleccionar un jugador existente.
      *
@@ -113,7 +137,6 @@ class Juego {
      * Inicia la partida de Scrabble.
      */
     public boolean iniciarPartida() {
-        Gestion gestion = new Gestion();
         System.out.println("!!! El juego ha iniciado !!!");
         System.out.println(" ");
         System.out.println("Datos Jugador 1: ");
@@ -190,6 +213,9 @@ class Juego {
 
                 if (cambioFicha.equalsIgnoreCase("exit")){
                     exit = "exit";
+                    System.out.println("Ingrese el alias de la partida para su guardado: ");
+                    String aliasGuardar = scanner.nextLine();
+                    guardarPartida(aliasGuardar);
                     return false;
                 }
 
@@ -354,5 +380,204 @@ class Juego {
         System.out.println("Puntaje Jugador 1: " + jugador1.getPuntaje());
         System.out.println("Puntaje Jugador 2: " + jugador2.getPuntaje());
         System.out.println("Tiempo de la partida: " + tiempoTotal + " segundos.");
+    }
+
+    public boolean reanudarPartida() {
+        System.out.println("!!! Reanudando la partida !!!");
+        System.out.println(" ");
+
+        // Asegurarse de que los jugadores y el tablero estén cargados correctamente
+        System.out.println("Datos Jugador 1: " + jugador1.getNombre());
+        System.out.println("Datos Jugador 2: " + jugador2.getNombre());
+        System.out.println("Puntaje Jugador 1: " + jugador1.getPuntajePartida());
+        System.out.println("Puntaje Jugador 2: " + jugador2.getPuntajePartida());
+        System.out.println(" ");
+
+        boolean turnoJugador1 = jugador1.getPuntajePartida() >= jugador2.getPuntajePartida(); // Determina quién comienza según el puntaje
+
+        saco.devolverLetrasAlSaco(jugador1);
+        saco.devolverLetrasAlSaco(jugador2);
+
+        // El saco ya tiene las letras de los jugadores, así que no es necesario repartir nuevas letras
+        // Aquí asumimos que el estado de las letras de los jugadores ya está cargado
+
+        int contadorMovimientos = 0;
+
+        while (true) {
+            Jugador jugadorActual = turnoJugador1 ? jugador1 : jugador2;
+            System.out.println();
+            System.out.println("**************************-SCRABBLE-*****************************");
+
+            tablero.mostrarTableroConColores();
+            System.out.println("Cantidad en el saco: " + saco.contarLetrasEnSaco());
+            System.out.println();
+
+            System.out.println("Turno de " + jugadorActual.getNombre());
+            System.out.println("Puntaje es " + jugadorActual.getPuntajePartida());
+            System.out.println("Letras disponibles: " + jugadorActual.getLetras());
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("___________________________________");
+
+            boolean turnoCompletado = false;
+
+            while (!turnoCompletado) {
+                System.out.println("Escriba 'exit' para salir de la partida");
+                System.out.println("¿Quiere cambiar alguna ficha? Si/No");
+                String cambioFicha = scanner.nextLine();
+
+                if (cambioFicha.equalsIgnoreCase("exit")) {
+                    System.out.println("Ingrese el alias de la partida para su guardado: ");
+                    String aliasGuardar = scanner.nextLine();
+                    guardarPartida(aliasGuardar);
+                    return false;
+                }
+
+                if (cambioFicha.equalsIgnoreCase("Si")) {
+                    System.out.println("¿Quiere cambiar todas las fichas? Si/No");
+                    String cambioTodasLasFichas = scanner.nextLine();
+
+                    if (cambioTodasLasFichas.equalsIgnoreCase("Si")) {
+                        saco.devolverLetrasAlSaco(jugadorActual);
+                        saco.repartirLetras(jugadorActual, 7);
+                        System.out.println("Nuevas Letras disponibles: " + jugadorActual.getLetras());
+                    } else {
+                        saco.cambiarFichas(jugadorActual);
+                        System.out.println("Nueva Letra disponible: " + jugadorActual.getLetras());
+                    }
+                    turnoCompletado = true; // Cambio de fichas completa el turno
+                } else {
+                    System.out.println("¿Puede colocar palabra? Si/No");
+                    String disponibilidadTurno = scanner.nextLine();
+
+                    if (disponibilidadTurno.equalsIgnoreCase("Si")) {
+                        System.out.print("Ingrese la palabra: ");
+                        String palabra = scanner.nextLine();
+
+                        if (!jugadorActual.verificarLetrasParaPalabra(palabra)) {
+                            System.out.println("El jugador no puede jugar la palabra: " + palabra);
+                            System.out.println();
+                            continue; // Regresa al inicio del bucle para intentar de nuevo
+                        }
+
+                        if (palabra.contains("-")) {
+                            // Contar cuántos comodines hay en la palabra
+                            int cantidadComodines = palabra.length() - palabra.replace("-", "").length();
+
+                            if (cantidadComodines == 1) {
+                                // Si hay un solo comodín
+                                System.out.println("Coloque la letra a asignar a comodín:");
+                                String comodin = scanner.nextLine();
+                                palabra = palabra.replace("-", comodin);
+                                System.out.println("Palabra con comodín reemplazado: " + palabra);
+                            } else if (cantidadComodines == 2) {
+                                // Si hay dos comodines
+                                System.out.println("Coloque la letra a asignar al primer comod ín:");
+                                String comodin1 = scanner.nextLine();
+                                palabra = palabra.replaceFirst("-", comodin1); // Reemplaza el primer comodín
+
+                                System.out.println("Coloque la letra a asignar al segundo comodín:");
+                                String comodin2 = scanner.nextLine();
+                                palabra = palabra.replaceFirst("-", comodin2); // Reemplaza el segundo comodín
+
+                                System.out.println("Palabra con comodines reemplazados: " + palabra);
+                            } else {
+                                System.out.println("Se permiten hasta dos comodines.");
+                            }
+                        }
+
+                        if (!validarPalabra(palabra)) {
+                            System.out.println("La palabra no está en el diccionario.");
+                            System.out.println();
+                            continue; // Regresa al inicio del bucle para intentar de nuevo
+                        }
+
+                        if (contadorMovimientos == 0) {
+                            System.out.print("¿Horizontal? (true/false): ");
+                            String horizontal = scanner.nextLine();
+
+                            boolean horizontal2 = false;
+                            int fila = 0;
+                            int col = 0;
+                            if (horizontal.equalsIgnoreCase("true")) {
+                                horizontal2 = true;
+                                fila = 7;
+                                col = 7 - (palabra.length() / 2);
+                            } else {
+                                fila = 7 - (palabra.length() / 2);
+                                col = 7;
+                            }
+                            int puntosGanados = tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual, contadorMovimientos);
+
+                            if (puntosGanados > 0) {
+                                ArrayList<String> usadas = new ArrayList<>();
+                                for (char letra : palabra.toCharArray()) {
+                                    usadas.add(String.valueOf(letra));
+                                }
+
+                                // Actualizar el puntaje del jugador
+                                System.out.println("Ganaste " + puntosGanados + " puntos");
+                                jugadorActual.setPuntajePartida(jugadorActual.getPuntajePartida() + puntosGanados);
+                                contadorMovimientos++;
+
+                                usadas.replaceAll(String::toUpperCase);
+                                jugadorActual.usarLetras(usadas);
+                                saco.repartirLetras(jugadorActual, usadas.size());
+
+                                turnoCompletado = true; // Marcar el turno como completado
+                            } else {
+                                System.out.println("No se pudo colocar la palabra. Intente de nuevo.");
+                                System.out.println();
+                                continue;
+                            }
+                        } else {
+                            System.out.print("Ingrese fila: ");
+                            int fila = validarNumero();
+
+                            System.out.print("Ingrese columna: ");
+                            int col = validarNumero();
+
+                            System.out.print("¿Horizontal? (true/false): ");
+                            String horizontal = scanner.nextLine();
+
+                            boolean horizontal2 = false;
+                            if (horizontal.equalsIgnoreCase("true")) {
+                                horizontal2 = true;
+                            }
+
+                            int puntosGanados = tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual, contadorMovimientos);
+
+                            if (puntosGanados > 0) {
+                                ArrayList<String> usadas = new ArrayList<>();
+                                for (char letra : palabra.toCharArray()) {
+                                    usadas.add(String.valueOf(letra));
+                                }
+
+                                // Actualizar el puntaje del jugador
+                                System.out.println("Ganaste " + puntosGanados + " puntos");
+                                jugadorActual.setPuntajePartida(jugadorActual.getPuntajePartida() + puntosGanados);
+                                contadorMovimientos++;
+
+                                usadas.replaceAll(String::toUpperCase);
+                                jugadorActual.usarLetras(usadas);
+                                saco.repartirLetras(jugadorActual, usadas.size());
+                                turnoCompletado = true; // Marcar el turno como completado
+                            } else {
+                                System.out.println("No se pudo colocar la palabra. Intente de nuevo.");
+                                System.out.println();
+                                continue;
+                            }
+                        }
+                    } else {
+                        turnoCompletado = true;
+                    }
+                }
+                if (jugador1.getLetras().isEmpty() || jugador2.getLetras().isEmpty()) {
+                    break; // Terminar el juego
+                }
+                turnoJugador1 = !turnoJugador1; // Cambiar turno
+            }
+            finalizarPartida();
+            return true;
+        }
     }
 }

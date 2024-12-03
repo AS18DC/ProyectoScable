@@ -3,28 +3,40 @@
  */
 public class Partida {
     private String alias;
+    private Jugador jugador1; // Agregar jugador1
+    private Jugador jugador2; // Agregar jugador2
     private boolean gano;
     private int puntos;
     private long tiempoTotal;
     private int palabrasColocadas;
 
-    /**
-     * Constructor de la clase Partida.
-     *
-     * @param alias El alias del jugador.
-     * @param puntos Los puntos obtenidos en la partida.
-     * @param gano Indica si el jugador ganó la partida.
-     * @param tiempoTotal El tiempo total de la partida en segundos.
-     * @param palabrasColocadas El número de palabras colocadas durante la partida.
-     */
-    public Partida(String alias, int puntos, boolean gano, long tiempoTotal, int palabrasColocadas) {
+    // Constructor modificado
+    public Partida(String alias, Jugador jugador1, Jugador jugador2, int puntos, boolean gano, long tiempoTotal, int palabrasColocadas) {
         this.alias = alias;
+        this.jugador1 = jugador1;
+        this.jugador2 = jugador2;
         this.puntos = puntos;
         this.gano = gano;
         this.tiempoTotal = tiempoTotal;
         this.palabrasColocadas = palabrasColocadas;
     }
 
+    // Métodos getters y setters para jugador1 y jugador2
+    public Jugador getJugador1() {
+        return jugador1;
+    }
+
+    public void setJugador1(Jugador jugador1) {
+        this.jugador1 = jugador1;
+    }
+
+    public Jugador getJugador2() {
+        return jugador2;
+    }
+
+    public void setJugador2(Jugador jugador2) {
+        this.jugador2 = jugador2;
+    }
     /**
      * Obtiene el alias del jugador.
      *

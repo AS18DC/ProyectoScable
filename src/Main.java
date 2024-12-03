@@ -43,8 +43,7 @@ public class Main {
                     }
                     break; // Asegúrate de incluir el break aquí
                 case 2:
-                    System.out.println("Has seleccionado la Opción 2.");
-                    break;
+
                 case 3:
                     gestion.menuRegistro(gestion);
                     break;
