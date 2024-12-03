@@ -4,17 +4,19 @@
 public class Partida {
     private String alias;
     private Jugador jugador1; // Agregar jugador1
-    private Jugador jugador2; // Agregar jugador2
+    private Jugador jugador2;
+    private Saco saco; // Agregar jugador2
     private boolean gano;
     private int puntos;
     private long tiempoTotal;
     private int palabrasColocadas;
 
     // Constructor modificado
-    public Partida(String alias, Jugador jugador1, Jugador jugador2, int puntos, boolean gano, long tiempoTotal, int palabrasColocadas) {
+    public Partida(String alias, Jugador jugador1, Jugador jugador2, Saco saco, int puntos, boolean gano, long tiempoTotal, int palabrasColocadas) {
         this.alias = alias;
         this.jugador1 = jugador1;
         this.jugador2 = jugador2;
+        this.saco = saco;
         this.puntos = puntos;
         this.gano = gano;
         this.tiempoTotal = tiempoTotal;
@@ -33,6 +35,15 @@ public class Partida {
     public Jugador getJugador2() {
         return jugador2;
     }
+
+    public Saco getSaco() {
+        return saco; // Agregar getter para saco
+    }
+
+    public void setSaco(Saco saco) {
+        this.saco = saco; // Agregar setter para saco
+    }
+
 
     public void setJugador2(Jugador jugador2) {
         this.jugador2 = jugador2;

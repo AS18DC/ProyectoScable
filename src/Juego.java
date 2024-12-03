@@ -57,11 +57,15 @@ class Juego {
     }
 
     public void guardarPartida(String alias) {
-        TableroManager.guardarJuego(alias, tablero, jugador1, jugador2); // Cambiar aquí
+        // Crear la partida incluyendo las letras de los jugadores
+        Partida partida = new Partida(alias, jugador1, jugador2, saco, jugador1.getPuntajePartida() + jugador2.getPuntajePartida(), false, (System.currentTimeMillis() - tiempoInicio) / 1000, 0);
+
+        TableroManager.guardarJuego(alias, tablero, jugador1, jugador2, saco);
     }
 
+
     public void cargarPartida(String alias)throws IOException {
-        JuegoGuardado juegoGuardado = TableroManager.cargarJuego(alias, saco);
+        JuegoGuardado juegoGuardado = TableroManager.cargarJuego(alias);
 
         // Cargar el tablero
         this.tablero = juegoGuardado.getTablero();
@@ -73,6 +77,12 @@ class Juego {
         }
         if (partida.getJugador2() != null) {
             this.jugador2 = partida.getJugador2();
+        }
+        if (partida.getSaco() != null) {
+            this.saco = partida.getSaco(); // Cargar el saco
+        } else {
+            // Inicializa el saco si es null
+            this.saco = new Saco(); // o cualquier lógica para inicializar un nuevo saco
         }
 
         // Cargar otros atributos necesarios
@@ -396,7 +406,13 @@ class Juego {
         System.out.println("Puntaje Jugador 2: " + jugador2.getPuntajePartida());
         System.out.println(" ");
 
+        if (saco == null) {
+            System.err.println("Error: El saco no está inicializado. No se puede reanudar la partida.");
+            return false; // Salir del metodo si el saco no está inicializado
+        }
+
         boolean turnoJugador1 = jugador1.getPuntajePartida() >= jugador2.getPuntajePartida(); // Determina quién comienza según el puntaje
+
 
         saco.devolverLetrasAlSaco(jugador1);
         saco.devolverLetrasAlSaco(jugador2);
