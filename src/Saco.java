@@ -3,19 +3,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-/**
- * La clase Saco representa un saco de letras para un juego de palabras.
- * Contiene una lista de objetos Letra y proporciona métodos para manipular las letras.
- */
 class Saco {
     private List<Letra> letras;
 
-    /**
-     * Constructor que inicializa el saco con todas las letras y sus cantidades predeterminadas.
-     */
     public Saco() {
         letras = new ArrayList<>();
-        // Inicialización de las letras con sus valores y cantidades.
         letras.add(new Letra("A", 1, 12));
         letras.add(new Letra("B", 4, 2));
         letras.add(new Letra("C", 3, 4));
@@ -45,28 +37,18 @@ class Saco {
         letras.add(new Letra("Y", 5, 1));
         letras.add(new Letra("Z", 10, 1));
         letras.add(new Letra("-", 0, 2));
+
     }
 
-    /**
-     * Obtiene la lista de letras en el saco.
-     * @return la lista de letras.
-     */
     public List<Letra> getLetras() {
         return letras;
     }
 
-    /**
-     * Quita todas las letras del jugador.
-     * @param jugador el jugador al que se le quitarán las letras.
-     */
+
     public void quitarLetrasJugador(Jugador jugador) {
         jugador.getLetras().clear();
     }
 
-    /**
-     * Agrega una letra específica al saco.
-     * @param letra la letra a agregar.
-     */
     public void agregarLetra(String letra) {
         for (Letra l : letras) {
             if (l.letra.equals(letra)) {
@@ -76,10 +58,6 @@ class Saco {
         }
     }
 
-    /**
-     * Devuelve las letras del jugador al saco, incrementando la cantidad de cada letra en el saco.
-     * @param jugador el jugador que devuelve las letras.
-     */
     public void devolverLetrasAlSaco(Jugador jugador) {
         List<String> letrasJugador = new ArrayList<>(jugador.getLetras());
         for (String letra : letrasJugador) {
@@ -101,11 +79,6 @@ class Saco {
         quitarLetrasJugador(jugador);
     }
 
-    /**
-     * Obtiene el puntaje correspondiente a una letra específica.
-     * @param letra la letra cuyo puntaje se desea obtener.
-     * @return el puntaje de la letra.
-     */
     public int obtenerPuntajeDeLaLetra(String letra) {
         switch (letra) {
             case "A": return 1;
@@ -137,15 +110,10 @@ class Saco {
             case "Y": return 5;
             case "Z": return 10;
             case "-": return 0;
-            default: return 0; // Valor por defecto para cualquier letra no reconocida
+            default: return 1; // Valor por defecto para cualquier letra no reconocida
         }
     }
 
-    /**
-     * Reparte una cantidad específica de letras al jugador.
-     * @param jugador el jugador al que se le repartirán las letras.
-     * @param cantidad la cantidad de letras a repartir.
-     */
     public void repartirLetras(Jugador jugador, int cantidad) {
         Random rand = new Random();
         int letrasRepartidas = 0;
@@ -179,12 +147,7 @@ class Saco {
         }
     }
 
-    /**
-     * Determina si una letra es más cercana a otra en el alfabeto.
-     * @param letra1 la primera letra a comparar.
-     * @param letra2 la segunda letra a comparar.
-     * @return true si la primera letra es más cercana, false en caso contrario.
-     */
+
     public boolean letraMasCercanaA(List<String> letra1, List<String> letra2) {
         String primer = letra1.get(0);
         String segundo = letra2.get(0);
@@ -208,14 +171,10 @@ class Saco {
             System.out.println("Las dos letras son iguales se va a volver a sortear: ");
             return true;
         }
+
     }
 
 
-    /**
-     * Cambia las letras del jugador por letras nuevas del saco.
-     * @param jugador el jugador que desea cambiar sus letras.
-     * @return true si se realizó el cambio, false si no hay suficientes letras en el saco.
-     */
     public boolean cambiarFichas(Jugador jugador) {
         Scanner scanner = new Scanner(System.in);
 
@@ -285,10 +244,7 @@ class Saco {
         return true;
     }
 
-    /**
-     * Cuenta el total de letras disponibles en el saco.
-     * @return el total de letras en el saco.
-     */
+
     public int contarLetrasEnSaco() {
         int totalLetras = 0;
 
