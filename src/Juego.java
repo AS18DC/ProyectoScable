@@ -14,6 +14,9 @@ class Juego {
     private long tiempoInicio;
     private Diccionario diccionario;
 
+    public Juego() {
+    }
+
     /**
      * Constructor del juego de Scrabble.
      *
@@ -57,7 +60,7 @@ class Juego {
         TableroManager.guardarJuego(alias, tablero, jugador1, jugador2); // Cambiar aquí
     }
 
-    public void cargarPartida(String alias) {
+    public void cargarPartida(String alias)throws IOException {
         JuegoGuardado juegoGuardado = TableroManager.cargarJuego(alias, saco);
 
         // Cargar el tablero
