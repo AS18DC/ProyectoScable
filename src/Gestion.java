@@ -1,3 +1,4 @@
+
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -155,9 +156,8 @@ public class Gestion {
             System.out.println("2. Consultar jugador");
             System.out.println("3. Editar correo de un jugador");
             System.out.println("4. Editar alias de un jugador");
-            System.out.println("5. Registrar partida");
-            System.out.println("6. Mostrar estadísticas de partidas");
-            System.out.println("7. Volver a menú principal");
+            System.out.println("5. Mostrar estadísticas de partidas");
+            System.out.println("6. Volver a menú principal");
             System.out.print("Seleccione una opción: ");
 
             int opcion = scanner.nextInt();
@@ -212,29 +212,11 @@ public class Gestion {
                 gestionJugador.editarAlias(aliasEdicion, nuevoAlias);
 
             } else if (opcion == 5) {
-                System.out.print("Introduce el alias del jugador: ");
-                String aliasPartida = scanner.nextLine();
-                System.out.print("Introduce el puntaje de la partida: ");
-                int puntos = scanner.nextInt();
-                scanner.nextLine();
-                System.out.print("¿El jugador ganó la partida? (true/false): ");
-                boolean gano = scanner.nextBoolean();
-                scanner.nextLine();
-                System.out.print("Introduce el tiempo total de la partida (en segundos): ");
-                long tiempoTotal = scanner.nextLong();
-                scanner.nextLine();
-                System.out.print("Introduce el número de palabras colocadas: ");
-                int palabrasColocadas = scanner.nextInt();
-                scanner.nextLine();
-                Partida partida = new Partida(aliasPartida, puntos, gano, tiempoTotal, palabrasColocadas);
-                gestionJugador.agregarPartida(partida);
-
-            } else if (opcion == 6) {
                 System.out.print("Introduce el alias del jugador para mostrar sus estadísticas: ");
                 String aliasEstadisticas = scanner.nextLine();
                 gestionJugador.mostrarEstadisticasDePartidas(aliasEstadisticas);
 
-            } else if (opcion == 7) {
+            } else if (opcion == 6) {
                 System.out.println("Volviendo a menú principal...");
                 break;
 
@@ -245,4 +227,3 @@ public class Gestion {
     }
 
 }
-
