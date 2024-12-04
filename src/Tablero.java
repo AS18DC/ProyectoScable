@@ -216,7 +216,9 @@ class Tablero {
         return puntaje;
     }
 
-
+    public String[][] getTablero() {
+        return this.tablero;
+    }
 
     /**
      * Muestra el tablero de juego con los colores y los multiplicadores correspondientes.

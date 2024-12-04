@@ -3,8 +3,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    private static Juego juego; // Variable estática para mantener la instancia de Juego
-    private static boolean partidaIniciada = false; // Variable para rastrear si la partida ha comenzado
+    private static Juego juego;
+    private static boolean partidaIniciada = false;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -58,8 +58,8 @@ public class Main {
             Jugador jugador1 = new Jugador("", "");
             Jugador jugador2 = new Jugador("", "");
             String rutaDiccionario = "src/listado-general-sin-acentos.txt";
-            juego = new Juego(jugador1, jugador2, rutaDiccionario); // Inicializar juego aquí
-            partidaIniciada = true; // Indicamos que la partida ha comenzado
+            juego = new Juego(jugador1, jugador2, rutaDiccionario);
+            partidaIniciada = true;
 
             if (!juego.iniciarPartida()) {
                 System.out.println("Regresando al menú...");
@@ -76,11 +76,10 @@ public class Main {
         String alias = scanner.next(); // Leer el alias de la partida
 
         try {
-            // Intentar cargar la partida
-            juego = new Juego(); // Asegúrate de que el constructor por defecto esté disponible
+            juego = new Juego();
             juego.cargarPartida(alias);
-            partidaIniciada = true; // Si se carga correctamente, se considera que la partida ha comenzado
-            juego.reanudarPartida(); // Llamar a la función para reanudar la partida
+            partidaIniciada = true;
+            juego.reanudarPartida();
             System.out.println("Partida reanudada con éxito.");
         } catch (IOException e) {
             System.out.println("Error al cargar la partida: " + e.getMessage());

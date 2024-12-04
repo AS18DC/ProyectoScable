@@ -58,20 +58,39 @@ class Jugador {
     }
 
 
-    public boolean verificarLetrasParaPalabra(String palabra) {
+    public boolean verificarLetrasParaPalabra(String palabra, Tablero tablero) {
         Map<String, Integer> letrasEnMano = new HashMap<>();
         for (String letra : letras) {
             letrasEnMano.put(letra, letrasEnMano.getOrDefault(letra, 0) + 1);
         }
-        for (char c : palabra.toCharArray()) {
-            String letra = String.valueOf(c).toUpperCase();
-            if (!letrasEnMano.containsKey(letra) || letrasEnMano.get(letra) <= 0) {
+
+        Map<String, Integer> letrasEnTablero = new HashMap<>();
+        String[][] matrizTablero = tablero.getTablero();
+
+        for (int fila = 0; fila < matrizTablero.length; fila++) {
+            for (int col = 0; col < matrizTablero[fila].length; col++) {
+                String letraEnTablero = matrizTablero[fila][col].trim();
+                if (!letraEnTablero.isEmpty() && !letraEnTablero.contains("XP") && !letraEnTablero.contains("XL")) {
+                    letrasEnTablero.put(letraEnTablero, letrasEnTablero.getOrDefault(letraEnTablero, 0) + 1);
+                }
+            }
+        }
+
+        for (char c : palabra.toUpperCase().toCharArray()) {
+            String letra = String.valueOf(c);
+
+            if (letrasEnMano.getOrDefault(letra, 0) > 0) {
+                letrasEnMano.put(letra, letrasEnMano.get(letra) - 1);
+            } else if (letrasEnTablero.getOrDefault(letra, 0) > 0) {
+                letrasEnTablero.put(letra, letrasEnTablero.get(letra) - 1);
+            } else {
                 return false;
             }
-            letrasEnMano.put(letra, letrasEnMano.get(letra) - 1);
         }
+
         return true;
     }
+
 
     public void usarLetras(List<String> usadas) {
         for (String letra : usadas) {

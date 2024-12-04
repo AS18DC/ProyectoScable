@@ -254,7 +254,7 @@ class Juego {
                         System.out.print("Ingrese la palabra: ");
                         String palabra = scanner.nextLine();
 
-                        if (!jugadorActual.verificarLetrasParaPalabra(palabra)) {
+                        if (!jugadorActual.verificarLetrasParaPalabra(palabra, tablero)) {
                             System.out.println("El jugador no puede jugar la palabra: " + palabra);
                             System.out.println();
                             continue; // Regresa al inicio del bucle para intentar de nuevo
@@ -473,7 +473,7 @@ class Juego {
                         System.out.print("Ingrese la palabra: ");
                         String palabra = scanner.nextLine();
 
-                        if (!jugadorActual.verificarLetrasParaPalabra(palabra)) {
+                        if (!jugadorActual.verificarLetrasParaPalabra(palabra, tablero)) {
                             System.out.println("El jugador no puede jugar la palabra: " + palabra);
                             System.out.println();
                             continue; // Regresa al inicio del bucle para intentar de nuevo
