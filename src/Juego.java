@@ -15,9 +15,10 @@ class Juego {
     private long tiempoInicio;
     private Diccionario diccionario;
 
-    public Juego() {
-    }
 
+    public Juego(Diccionario diccionario) {
+        this.diccionario = diccionario;
+    }
     /**
      * Constructor del juego de Scrabble.
      *
@@ -81,6 +82,9 @@ class Juego {
             // Inicializa el saco si es null
             this.saco = new Saco(); // o cualquier lógica para inicializar un nuevo saco
         }
+
+        String rutaDiccionario = "src/listado-general-sin-acentos.txt"; // Ajusta la ruta si es necesario
+        this.diccionario = new Diccionario(rutaDiccionario);
 
         // Cargar otros atributos necesarios
         this.jugador1.setPuntajePartida(juegoGuardado.getPuntajeJugador1());

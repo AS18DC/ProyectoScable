@@ -76,7 +76,9 @@ public class Main {
         String alias = scanner.next(); // Leer el alias de la partida
 
         try {
-            juego = new Juego();
+            // Inicializar juego y diccionario
+            String rutaDiccionario = "src/listado-general-sin-acentos.txt"; // Ajusta según corresponda
+            juego = new Juego(new Diccionario(rutaDiccionario));
             juego.cargarPartida(alias);
             partidaIniciada = true;
             juego.reanudarPartida();
