@@ -440,6 +440,7 @@ class Juego {
         while (true) {
             Jugador jugadorActual = turnoJugador1 ? jugador1 : jugador2;
             System.out.println();
+            System.out.println();
             System.out.println("**************************-SCRABBLE-*****************************");
 
             tablero.mostrarTableroConColores();
@@ -454,20 +455,34 @@ class Juego {
 
             boolean turnoCompletado = false;
 
+            String exit = " ";
+            if (exit.equalsIgnoreCase("exit")){
+                return false;
+            }
+
             while (!turnoCompletado) {
-                System.out.println("Escriba 'exit' para salir de la partida");
-                System.out.println("¿Quiere cambiar alguna ficha? Si/No");
+                System.out.println("Escriba ''Exit'' para salir de la partida");
+                System.out.println("Quiere cambiar alguna ficha? Si/No");
                 String cambioFicha = scanner.nextLine();
 
-                if (cambioFicha.equalsIgnoreCase("exit")) {
+                if (cambioFicha.equalsIgnoreCase("exit")){
+                    exit = "exit";
                     System.out.println("Ingrese el alias de la partida para su guardado: ");
                     String aliasGuardar = scanner.nextLine();
                     guardarPartida(aliasGuardar);
                     return false;
                 }
 
+                if (cambioFicha.equalsIgnoreCase("eliminar")){
+                    System.out.println("Coloque ficha a Eliminar: ");
+                    String ficha = scanner.nextLine();
+                    jugadorActual.usarLetra(ficha);
+                    saco.repartirLetras(jugadorActual, 1);
+                }
+
+
                 if (cambioFicha.equalsIgnoreCase("Si")) {
-                    System.out.println("¿Quiere cambiar todas las fichas? Si/No");
+                    System.out.println("Quiere cambiar todas las fichas? Si/No");
                     String cambioTodasLasFichas = scanner.nextLine();
 
                     if (cambioTodasLasFichas.equalsIgnoreCase("Si")) {
@@ -480,7 +495,7 @@ class Juego {
                     }
                     turnoCompletado = true; // Cambio de fichas completa el turno
                 } else {
-                    System.out.println("¿Puede colocar palabra? Si/No");
+                    System.out.println("Puede colocar palabra? Si/No");
                     String disponibilidadTurno = scanner.nextLine();
 
                     if (disponibilidadTurno.equalsIgnoreCase("Si")) {
@@ -505,7 +520,7 @@ class Juego {
                                 System.out.println("Palabra con comodín reemplazado: " + palabra);
                             } else if (cantidadComodines == 2) {
                                 // Si hay dos comodines
-                                System.out.println("Coloque la letra a asignar al primer comod ín:");
+                                System.out.println("Coloque la letra a asignar al primer comodín:");
                                 String comodin1 = scanner.nextLine();
                                 palabra = palabra.replaceFirst("-", comodin1); // Reemplaza el primer comodín
 
@@ -605,13 +620,13 @@ class Juego {
                         turnoCompletado = true;
                     }
                 }
-                if (jugador1.getLetras().isEmpty() || jugador2.getLetras().isEmpty()) {
-                    break; // Terminar el juego
-                }
-                turnoJugador1 = !turnoJugador1; // Cambiar turno
             }
-            finalizarPartida();
-            return true;
+            if (jugador1.getLetras().isEmpty() || jugador2.getLetras().isEmpty()) {
+                break; // Terminar el juego
+            }
+            turnoJugador1 = !turnoJugador1; // Cambiar turno
         }
+        finalizarPartida();
+        return true;
     }
 }
