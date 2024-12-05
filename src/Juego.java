@@ -232,6 +232,13 @@ class Juego {
                     return false;
                 }
 
+                if (cambioFicha.equalsIgnoreCase("eliminar")){
+                    System.out.println("Coloque ficha a Eliminar: ");
+                    String ficha = scanner.nextLine();
+                    jugadorActual.usarLetra(ficha);
+                    saco.repartirLetras(jugadorActual, 1);
+                }
+
 
                 if (cambioFicha.equalsIgnoreCase("Si")) {
                     System.out.println("Quiere cambiar todas las fichas? Si/No");

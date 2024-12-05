@@ -157,15 +157,24 @@ class Tablero {
             if (!cruzaConOtraPalabra) return 0; // Si no cruza con ninguna palabra, la colocación es inválida
         }
 
-        // Verificar límites y colisiones, luego colocar la palabra (similar al código original)
+        // Verificar límites y colisiones, luego colocar la palabra
         try {
             if (horizontal) {
                 if (col + palabra.length() > 15) return 0;
 
-                for (int i = 0; i < palabra.length(); i++) {
+                for (int i = 0; i < palabra.length(); ) {
                     String letraActual = String.valueOf(palabra.charAt(i));
                     String casillaActual = tablero[fila][col + i];
 
+                    // Verificar si la letra actual es parte de una combinación doble
+                    if (i < palabra.length() - 1 && esCombinacionDoble(palabra.substring(i, i + 2))) {
+                        letraActual = palabra.substring(i, i + 2); // Tomar la combinación doble
+                        i += 2; // Saltar la letra que sigue a la combinación
+                    } else {
+                        i++; // Incrementar el índice en 1
+                    }
+
+                    // Verificar colisiones
                     if (!casillaActual.trim().isEmpty() &&
                             !casillaActual.equals(letraActual) &&
                             !casillaActual.contains("XP") &&
@@ -179,17 +188,26 @@ class Tablero {
                     else if (casillaActual.contains("3XP")) multiplicadorPalabra *= 3;
                     else if (casillaActual.contains("2XP")) multiplicadorPalabra *= 2;
 
-                    tablero[fila][col + i] = letraActual;
+                    tablero[fila][col + (i - 1)] = letraActual; // Colocar la letra o combinación en el tablero
                     puntaje += puntajeLetra;
                     letrasUsadas.add(letraActual);
                 }
             } else { // Vertical
                 if (fila + palabra.length() > 15) return 0;
 
-                for (int i = 0; i < palabra.length(); i++) {
+                for (int i = 0; i < palabra.length(); ) {
                     String letraActual = String.valueOf(palabra.charAt(i));
                     String casillaActual = tablero[fila + i][col];
 
+                    // Verificar si la letra actual es parte de una combinación doble
+                    if (i < palabra.length() - 1 && esCombinacionDoble(palabra.substring(i, i + 2))) {
+                        letraActual = palabra.substring(i, i + 2); // Tomar la combinación doble
+                        i += 2; // Saltar la letra que sigue a la combinación
+                    } else {
+                        i++; // Incrementar el índice en 1
+                    }
+
+                    // Verificar colisiones
                     if (!casillaActual.trim().isEmpty() &&
                             !casillaActual.equals(letraActual) &&
                             !casillaActual.contains("XP") &&
@@ -203,7 +221,7 @@ class Tablero {
                     else if (casillaActual.contains("3XP")) multiplicadorPalabra *= 3;
                     else if (casillaActual.contains("2XP")) multiplicadorPalabra *= 2;
 
-                    tablero[fila + i][col] = letraActual;
+                    tablero[fila + (i - 1)][col] = letraActual; // Colocar la letra o combinación en el tablero
                     puntaje += puntajeLetra;
                     letrasUsadas.add(letraActual);
                 }
@@ -215,6 +233,13 @@ class Tablero {
         puntaje *= multiplicadorPalabra; // Aplicar multiplicador de palabra
         return puntaje;
     }
+
+
+
+    private boolean esCombinacionDoble(String combinacion) {
+        return combinacion.equals("CH") || combinacion.equals("LL") || combinacion.equals("RR");
+    }
+
 
     public String[][] getTablero() {
         return this.tablero;

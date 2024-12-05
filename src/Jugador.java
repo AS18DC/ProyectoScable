@@ -77,8 +77,13 @@ class Jugador {
         }
 
         boolean tieneLetraEnMano = false;
-        for (char c : palabra.toUpperCase().toCharArray()) {
-            String letra = String.valueOf(c);
+        for (int i = 0; i < palabra.length(); i++) {
+            String letra = palabra.substring(i, Math.min(i + 2, palabra.length())).toUpperCase();
+            if (letrasEnMano.getOrDefault(letra, 0) > 0) {
+                tieneLetraEnMano = true;
+                break;
+            }
+            letra = String.valueOf(palabra.charAt(i)).toUpperCase();
             if (letrasEnMano.getOrDefault(letra, 0) > 0) {
                 tieneLetraEnMano = true;
                 break;
@@ -89,19 +94,33 @@ class Jugador {
             return false;
         }
 
-        for (char c : palabra.toUpperCase().toCharArray()) {
-            String letra = String.valueOf(c);
-
+        for (int i = 0; i < palabra.length(); i++) {
+            String letra = palabra.substring(i, Math.min(i + 2, palabra.length())).toUpperCase();
             if (letrasEnMano.getOrDefault(letra, 0) > 0) {
                 letrasEnMano.put(letra, letrasEnMano.get(letra) - 1);
-            } else if (letrasEnTablero.getOrDefault(letra, 0) > 0) {
-                letrasEnTablero.put(letra, letrasEnTablero.get(letra) - 1);
+                i++;
             } else {
-                return false;
+                letra = String.valueOf(palabra.charAt(i)).toUpperCase();
+                if (letrasEnMano.getOrDefault(letra, 0) > 0) {
+                    letrasEnMano.put(letra, letrasEnMano.get(letra) - 1);
+                } else if (letrasEnTablero.getOrDefault(letra, 0) > 0) {
+                    letrasEnTablero.put(letra, letrasEnTablero.get(letra) - 1);
+                } else {
+                    return false;
+                }
             }
         }
 
         return true;
+    }
+
+    public boolean usarLetra(String letra) {
+        // Verificar si la letra existe en las letras del jugador
+        if (letras.contains(letra)) {
+            letras.remove(letra); // Elimina solo la primera coincidencia
+            return true; // Indica que la letra fue usada correctamente
+        }
+        return false; // Indica que la letra no estaba disponible
     }
 
 

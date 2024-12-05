@@ -80,37 +80,50 @@ class Saco {
     }
 
     public int obtenerPuntajeDeLaLetra(String letra) {
-        switch (letra) {
-            case "A": return 1;
-            case "B": return 4;
-            case "C": return 3;
-            case "CH": return 8;
-            case "D": return 3;
-            case "E": return 1;
-            case "F": return 5;
-            case "G": return 3;
-            case "H": return 5;
-            case "I": return 1;
-            case "J": return 10;
-            case "L": return 2;
-            case "LL": return 8;
-            case "M": return 3;
-            case "N": return 2;
-            case "Ñ": return 10;
-            case "O": return 1;
-            case "P": return 4;
-            case "Q": return 8;
-            case "R": return 2;
-            case "RR": return 8;
-            case "S": return 1;
-            case "T": return 2;
-            case "U": return 1;
-            case "V": return 4;
-            case "X": return 10;
-            case "Y": return 5;
-            case "Z": return 10;
-            case "-": return 0;
-            default: return 1; // Valor por defecto para cualquier letra no reconocida
+        if (letra.length() == 2) {
+            // Puntajes para combinaciones dobles
+            if (letra.equals("CH")) return 8;
+            else if (letra.equals("LL")) return 8;
+            else if (letra.equals("RR")) return 8;
+            else return 0; // Combinación no válida
+        } else {
+            // Puntajes para letras individuales
+            switch (letra) {
+                case "A":
+                case "E":
+                case "I":
+                case "O":
+                case "U":
+                    return 1;
+                case "L":
+                case "N":
+                case "R":
+                case "S":
+                case "T":
+                    return 2;
+                case "D":
+                case "G":
+                    return 3;
+                case "B":
+                case "C":
+                case "M":
+                case "P":
+                    return 4;
+                case "F":
+                case "H":
+                case "V":
+                case "Y":
+                    return 5;
+                case "J":
+                case "K":
+                case "Q":
+                case "W":
+                case "X":
+                case "Z":
+                    return 8;
+                default:
+                    return 0; // Letra no válida
+            }
         }
     }
 

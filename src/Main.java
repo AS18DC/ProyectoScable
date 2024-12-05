@@ -20,7 +20,7 @@ public class Main {
                 case 1:
                     iniciarJuego(scanner);
                     break;
-
+                    
                 case 2:
                     continuarPartida(scanner);
                     break;
