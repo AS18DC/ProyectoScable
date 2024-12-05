@@ -21,22 +21,25 @@ public class TableroManager {
      * @param jugador2 el segundo jugador.
      * @param saco el saco de letras utilizado en el juego.
      */
-    public static void guardarJuego(String alias, Tablero tablero, Jugador jugador1, Jugador jugador2, Saco saco) {
+    public static void guardarJuego(String alias, Tablero tablero, Jugador jugador1, Jugador jugador2, Saco saco, int contadorMovimientos) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String filename = "juego_" + alias + ".json";
 
         List<String> letrasJugador1 = jugador1.getLetras();
         List<String> letrasJugador2 = jugador2.getLetras();
 
-        // Crear el juego guardado incluyendo puntajes
+        // Crear el juego guardado incluyendo el contador de movimientos
         JuegoGuardado juegoGuardado = new JuegoGuardado(
                 tablero,
                 new Partida(alias, jugador1, jugador2, saco, jugador1.getPuntajePartida(), false, 0, 0),
                 letrasJugador1,
                 letrasJugador2,
                 jugador1.getPuntajePartida(),
-                jugador2.getPuntajePartida()
+                jugador2.getPuntajePartida(),
+                contadorMovimientos // Agregar contadorMovimientos
         );
+
+        System.out.println("Guardando partida con contador de movimientos: " + contadorMovimientos);
 
         try (FileWriter writer = new FileWriter(filename)) {
             gson.toJson(juegoGuardado, writer);
@@ -45,6 +48,7 @@ public class TableroManager {
             System.err.println("Error al guardar el juego: " + e.getMessage());
         }
     }
+
 
     /**
      * Carga el estado del juego (tablero, jugadores y saco) desde un archivo JSON.
@@ -59,7 +63,7 @@ public class TableroManager {
         } catch (IOException e) {
             System.err.println("Error al cargar el juego: " + e.getMessage());
             return new JuegoGuardado(
-                    new Tablero(new Saco()), new Partida("", null, null, new Saco(), 0, false, 0, 0), new ArrayList<>(), new ArrayList<>(), 0, 0);
+                    new Tablero(new Saco()), new Partida("", null, null, new Saco(), 0, false, 0, 0), new ArrayList<>(), new ArrayList<>(), 0, 0, 0);
         }
     }
 }

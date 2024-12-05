@@ -14,6 +14,7 @@ class Juego {
     private Tablero tablero;
     private long tiempoInicio;
     private Diccionario diccionario;
+    private int contadorMovimientos;
 
 
     public Juego(Diccionario diccionario) {
@@ -34,6 +35,16 @@ class Juego {
         this.tablero = new Tablero(saco);
         this.tiempoInicio = System.currentTimeMillis();
         this.diccionario = new Diccionario(rutaDiccionario);
+    }
+
+
+    // Getters y Setters
+    public int getContadorMovimientos() {
+        return contadorMovimientos;
+    }
+
+    public void setContadorMovimientos(int contadorMovimientos) {
+        this.contadorMovimientos = contadorMovimientos;
     }
 
     /**
@@ -59,11 +70,15 @@ class Juego {
     }
 
     public void guardarPartida(String alias) {
-        TableroManager.guardarJuego(alias, tablero, jugador1, jugador2, saco);
+        int contadorMovimientos = this.contadorMovimientos;
+        TableroManager.guardarJuego(alias, tablero, jugador1, jugador2, saco, contadorMovimientos);
     }
 
     public void cargarPartida(String alias) throws IOException {
         JuegoGuardado juegoGuardado = TableroManager.cargarJuego(alias);
+
+        System.out.println("Cargando partida con contador de movimientos: " + this.contadorMovimientos);
+
 
         // Cargar el tablero
         this.tablero = juegoGuardado.getTablero();
@@ -100,6 +115,8 @@ class Juego {
         if (letrasJugador2 != null) {
             this.jugador2.setLetras(letrasJugador2);
         }
+
+        this.contadorMovimientos = juegoGuardado.getContadorMovimientos();
     }
 
 
@@ -339,7 +356,7 @@ class Juego {
                                 // Actualizar el puntaje del jugador
                                 System.out.println("Ganaste " + puntosGanados + " puntos");
                                 jugadorActual.setPuntajePartida(jugadorActual.getPuntajePartida() + puntosGanados);
-                                contadorMovimientos++;
+                                contadorMovimientos = contadorMovimientos+1;
 
                                 usadas.replaceAll(String::toUpperCase);
                                 jugadorActual.usarLetras(usadas);
@@ -377,7 +394,7 @@ class Juego {
                                 // Actualizar el puntaje del jugador
                                 System.out.println("Ganaste " + puntosGanados + " puntos");
                                 jugadorActual.setPuntajePartida(jugadorActual.getPuntajePartida() + puntosGanados);
-                                contadorMovimientos++;
+                                contadorMovimientos = contadorMovimientos +1 ;
 
                                 usadas.replaceAll(String::toUpperCase);
                                 jugadorActual.usarLetras(usadas);
@@ -428,7 +445,7 @@ class Juego {
         System.out.println("Puntaje Jugador 2: " + jugador2.getPuntajePartida());
         System.out.println("Letras Jugador 1: " + jugador1.getLetras());
         System.out.println("Letras Jugador 2: " + jugador2.getLetras());
-        System.out.println();
+        //System.out.println("Contador de movimientos: " + contadorMovimientos);
         System.out.println(" ");
 
         if (saco == null) {
@@ -436,10 +453,11 @@ class Juego {
             return false; // Salir del metodo si el saco no está inicializado
         }
 
+
         boolean turnoJugador1 = jugador1.getPuntajePartida() >= jugador2.getPuntajePartida(); // Determina quién comienza según el puntaje
 
 
-        int contadorMovimientos = 0;
+        int newContadorMovimientos = 1;
 
         while (true) {
             Jugador jugadorActual = turnoJugador1 ? jugador1 : jugador2;
@@ -544,7 +562,7 @@ class Juego {
                             continue; // Regresa al inicio del bucle para intentar de nuevo
                         }
 
-                        if (contadorMovimientos == 0) {
+                        if (newContadorMovimientos == 0) {
                             System.out.print("¿Horizontal? (true/false): ");
                             String horizontal = scanner.nextLine();
 
@@ -559,7 +577,7 @@ class Juego {
                                 fila = 7 - (palabra.length() / 2);
                                 col = 7;
                             }
-                            int puntosGanados = tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual, contadorMovimientos);
+                            int puntosGanados = tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual, newContadorMovimientos);
 
                             if (puntosGanados > 0) {
                                 ArrayList<String> usadas = new ArrayList<>();
@@ -570,7 +588,7 @@ class Juego {
                                 // Actualizar el puntaje del jugador
                                 System.out.println("Ganaste " + puntosGanados + " puntos");
                                 jugadorActual.setPuntajePartida(jugadorActual.getPuntajePartida() + puntosGanados);
-                                contadorMovimientos++;
+                                newContadorMovimientos++;
 
                                 usadas.replaceAll(String::toUpperCase);
                                 jugadorActual.usarLetras(usadas);
@@ -597,7 +615,7 @@ class Juego {
                                 horizontal2 = true;
                             }
 
-                            int puntosGanados = tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual, contadorMovimientos);
+                            int puntosGanados = tablero.colocarPalabra(palabra, fila, col, horizontal2, jugadorActual, newContadorMovimientos);
 
                             if (puntosGanados > 0) {
                                 ArrayList<String> usadas = new ArrayList<>();
@@ -608,7 +626,7 @@ class Juego {
                                 // Actualizar el puntaje del jugador
                                 System.out.println("Ganaste " + puntosGanados + " puntos");
                                 jugadorActual.setPuntajePartida(jugadorActual.getPuntajePartida() + puntosGanados);
-                                contadorMovimientos++;
+                                newContadorMovimientos++;
 
                                 usadas.replaceAll(String::toUpperCase);
                                 jugadorActual.usarLetras(usadas);

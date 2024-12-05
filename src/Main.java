@@ -57,7 +57,7 @@ public class Main {
         try {
             Jugador jugador1 = new Jugador("", "");
             Jugador jugador2 = new Jugador("", "");
-            String rutaDiccionario = "/Users/santiagodefreitas/Downloads/Copia de listado-general-sin-acentos.txt";
+            String rutaDiccionario = "src/listado-general-sin-acentos.txt";
             juego = new Juego(jugador1, jugador2, rutaDiccionario);
             partidaIniciada = true;
 
