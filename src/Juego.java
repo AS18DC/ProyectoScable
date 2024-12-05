@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -57,13 +58,10 @@ class Juego {
     }
 
     public void guardarPartida(String alias) {
-        // Crear la partida incluyendo las letras de los jugadores
-        Partida partida = new Partida(alias, jugador1, jugador2, saco, jugador1.getPuntajePartida() + jugador2.getPuntajePartida(), false, (System.currentTimeMillis() - tiempoInicio) / 1000, 0);
-
         TableroManager.guardarJuego(alias, tablero, jugador1, jugador2, saco);
     }
 
-    public void cargarPartida(String alias)throws IOException {
+    public void cargarPartida(String alias) throws IOException {
         JuegoGuardado juegoGuardado = TableroManager.cargarJuego(alias);
 
         // Cargar el tablero
@@ -85,10 +83,22 @@ class Juego {
         }
 
         // Cargar otros atributos necesarios
-        this.jugador1.setPuntajePartida(partida.getPuntos());
-        this.jugador2.setPuntajePartida(partida.getPuntos());
-        // Si deseas, puedes cargar más atributos, como palabras colocadas, etc.
+        this.jugador1.setPuntajePartida(juegoGuardado.getPuntajeJugador1());
+        this.jugador2.setPuntajePartida(juegoGuardado.getPuntajeJugador2());
+
+        // Cargar las letras de los jugadores
+        List<String> letrasJugador1 = juegoGuardado.getLetrasJugador1();
+        List<String> letrasJugador2 = juegoGuardado.getLetrasJugador2();
+
+        if (letrasJugador1 != null) {
+            this.jugador1.setLetras(letrasJugador1);
+        }
+        if (letrasJugador2 != null) {
+            this.jugador2.setLetras(letrasJugador2);
+        }
     }
+
+
 
     /**
      * Permite seleccionar un jugador existente.
@@ -412,6 +422,9 @@ class Juego {
         System.out.println("Datos Jugador 2: " + jugador2.getNombre());
         System.out.println("Puntaje Jugador 1: " + jugador1.getPuntajePartida());
         System.out.println("Puntaje Jugador 2: " + jugador2.getPuntajePartida());
+        System.out.println("Letras Jugador 1: " + jugador1.getLetras());
+        System.out.println("Letras Jugador 2: " + jugador2.getLetras());
+        System.out.println();
         System.out.println(" ");
 
         if (saco == null) {
@@ -421,12 +434,6 @@ class Juego {
 
         boolean turnoJugador1 = jugador1.getPuntajePartida() >= jugador2.getPuntajePartida(); // Determina quién comienza según el puntaje
 
-
-        saco.devolverLetrasAlSaco(jugador1);
-        saco.devolverLetrasAlSaco(jugador2);
-
-        // El saco ya tiene las letras de los jugadores, así que no es necesario repartir nuevas letras
-        // Aquí asumimos que el estado de las letras de los jugadores ya está cargado
 
         int contadorMovimientos = 0;
 
