@@ -77,6 +77,19 @@ class Jugador {
             }
         }
 
+        boolean tieneLetraEnMano = false;
+        for (char c : palabra.toUpperCase().toCharArray()) {
+            String letra = String.valueOf(c);
+            if (letrasEnMano.getOrDefault(letra, 0) > 0) {
+                tieneLetraEnMano = true;
+                break;
+            }
+        }
+
+        if (!tieneLetraEnMano) {
+            return false;
+        }
+
         for (char c : palabra.toUpperCase().toCharArray()) {
             String letra = String.valueOf(c);
 
@@ -91,6 +104,7 @@ class Jugador {
 
         return true;
     }
+
 
 
     public void usarLetras(List<String> usadas) {
