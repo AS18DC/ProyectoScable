@@ -45,6 +45,7 @@ class Jugador {
     public List<String> getLetras() {
         return letras;
     }
+    public void setLetras(List<String> letras) { this.letras = letras; }
 
     public void agregarLetra(String letra, int puntaje) {
         if (letras.size() < 7) {

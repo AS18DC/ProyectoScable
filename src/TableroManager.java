@@ -4,6 +4,8 @@ import com.google.gson.GsonBuilder;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * La clase TableroManager proporciona métodos para guardar y cargar el estado de un juego
@@ -22,8 +24,20 @@ public class TableroManager {
     public static void guardarJuego(String alias, Tablero tablero, Jugador jugador1, Jugador jugador2, Saco saco) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String filename = "juego_" + alias + ".json";
-        Partida partida = new Partida(alias, jugador1, jugador2, saco, jugador1.getPuntajePartida(), false, 0, 0);
-        JuegoGuardado juegoGuardado = new JuegoGuardado(tablero, partida);
+
+        List<String> letrasJugador1 = jugador1.getLetras();
+        List<String> letrasJugador2 = jugador2.getLetras();
+
+        // Crear el juego guardado incluyendo puntajes
+        JuegoGuardado juegoGuardado = new JuegoGuardado(
+                tablero,
+                new Partida(alias, jugador1, jugador2, saco, jugador1.getPuntajePartida(), false, 0, 0),
+                letrasJugador1,
+                letrasJugador2,
+                jugador1.getPuntajePartida(),
+                jugador2.getPuntajePartida()
+        );
+
         try (FileWriter writer = new FileWriter(filename)) {
             gson.toJson(juegoGuardado, writer);
             System.out.println("Juego guardado exitosamente en " + filename);
@@ -44,7 +58,8 @@ public class TableroManager {
             return gson.fromJson(reader, JuegoGuardado.class);
         } catch (IOException e) {
             System.err.println("Error al cargar el juego: " + e.getMessage());
-            return new JuegoGuardado(new Tablero(new Saco()), new Partida("", null, null, new Saco(), 0, false, 0, 0));
+            return new JuegoGuardado(
+                    new Tablero(new Saco()), new Partida("", null, null, new Saco(), 0, false, 0, 0), new ArrayList<>(), new ArrayList<>(), 0, 0);
         }
     }
 }

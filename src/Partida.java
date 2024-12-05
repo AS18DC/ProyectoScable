@@ -1,3 +1,4 @@
+import java.util.List;
 
 /**
  * Clase que representa una partida de Scrabble.
