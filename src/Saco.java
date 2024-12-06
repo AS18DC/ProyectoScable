@@ -3,9 +3,16 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * La clase Saco representa un saco de letras utilizado en un juego.
+ * Permite gestionar las letras disponibles y su distribución entre los jugadores.
+ */
 class Saco {
     private List<Letra> letras;
 
+    /**
+     * Constructor que inicializa el saco con las letras del juego y sus cantidades.
+     */
     public Saco() {
         letras = new ArrayList<>();
         letras.add(new Letra("A", 1, 12));
@@ -40,15 +47,29 @@ class Saco {
 
     }
 
+    /**
+     * Devuelve la lista de letras disponibles en el saco.
+     *
+     * @return la lista de letras disponibles.
+     */
     public List<Letra> getLetras() {
         return letras;
     }
 
-
+    /**
+     * Elimina todas las letras del jugador.
+     *
+     * @param jugador el jugador del que se van a eliminar las letras.
+     */
     public void quitarLetrasJugador(Jugador jugador) {
         jugador.getLetras().clear();
     }
 
+    /**
+     * Agrega una letra al saco incrementando su cantidad.
+     *
+     * @param letra la letra a agregar.
+     */
     public void agregarLetra(String letra) {
         for (Letra l : letras) {
             if (l.letra.equals(letra)) {
@@ -58,6 +79,11 @@ class Saco {
         }
     }
 
+    /**
+     * Devuelve las letras del jugador al saco, incrementando sus cantidades correspondientes.
+     *
+     * @param jugador el jugador cuyas letras se van a devolver al saco.
+     */
     public void devolverLetrasAlSaco(Jugador jugador) {
         List<String> letrasJugador = new ArrayList<>(jugador.getLetras());
         for (String letra : letrasJugador) {
@@ -79,6 +105,12 @@ class Saco {
         quitarLetrasJugador(jugador);
     }
 
+    /**
+     * Obtiene el puntaje de una letra específica.
+     *
+     * @param letra la letra cuyo puntaje se va a obtener.
+     * @return el puntaje de la letra.
+     */
     public int obtenerPuntajeDeLaLetra(String letra) {
         if (letra.length() == 2) {
             // Puntajes para combinaciones dobles
@@ -127,6 +159,12 @@ class Saco {
         }
     }
 
+    /**
+     * Reparte una cantidad específica de letras a un jugador.
+     *
+     * @param jugador el jugador que recibirá las letras.
+     * @param cantidad la cantidad de letras a repartir.
+     */
     public void repartirLetras(Jugador jugador, int cantidad) {
         Random rand = new Random();
         int letrasRepartidas = 0;
@@ -161,6 +199,13 @@ class Saco {
     }
 
 
+    /**
+     * Compara las letras de dos listas y determina cuál está más cerca de la letra 'A'.
+     *
+     * @param letra1 la primera lista de letras.
+     * @param letra2 la segunda lista de letras.
+     * @return true si la primera letra está más cerca de 'A', false en caso contrario.
+     */
     public boolean letraMasCercanaA(List<String> letra1, List<String> letra2) {
         String primer = letra1.get(0);
         String segundo = letra2.get(0);
@@ -181,13 +226,18 @@ class Saco {
         } else if ((primerCaracter2 == '-') || (distancia2 < distancia1)) {
             return false;
         } else {
-            System.out.println("Las dos letras son iguales se va a volver a sortear: ");
+            System.out.println("Las dos letras son iguales, se va a volver a sortear: ");
             return true;
         }
-
     }
 
 
+    /**
+     * Cambia las fichas del jugador con nuevas fichas del saco.
+     *
+     * @param jugador el jugador que quiere cambiar sus fichas.
+     * @return true si el cambio se realizó con éxito, false si no hay suficientes letras en el saco.
+     */
     public boolean cambiarFichas(Jugador jugador) {
         Scanner scanner = new Scanner(System.in);
 
@@ -257,7 +307,11 @@ class Saco {
         return true;
     }
 
-
+    /**
+     * Cuenta el número total de letras disponibles en el saco.
+     *
+     * @return el número total de letras en el saco.
+     */
     public int contarLetrasEnSaco() {
         int totalLetras = 0;
 

@@ -17,6 +17,11 @@ class Juego {
     private int contadorMovimientos;
 
 
+    /**
+     *
+     * Constructor del juego de Scrabble con diccionario.
+     *
+     * @param diccionario El diccionario utilizado en el juego. */
     public Juego(Diccionario diccionario) {
         this.diccionario = diccionario;
     }
@@ -38,7 +43,11 @@ class Juego {
     }
 
 
-    // Getters y Setters
+    /**
+     * Obtiene el contador de movimientos. *
+     *
+     * @return El contador de movimientos.
+     */
     public int getContadorMovimientos() {
         return contadorMovimientos;
     }
@@ -69,10 +78,24 @@ class Juego {
         return numero;
     }
 
+    /**
+     *  Guarda la partida actual.
+     *
+     * @param alias El alias con el que se guardará la partida.
+     */
+
     public void guardarPartida(String alias) {
         int contadorMovimientos = this.contadorMovimientos;
         TableroManager.guardarJuego(alias, tablero, jugador1, jugador2, saco, contadorMovimientos);
     }
+
+    /**
+     *
+     *  Carga una partida guardada.
+     *
+     * @param alias El alias de la partida guardada.
+     * @throws IOException Si ocurre un error al cargar la partida.
+     */
 
     public void cargarPartida(String alias) throws IOException {
         JuegoGuardado juegoGuardado = TableroManager.cargarJuego(alias);
@@ -433,6 +456,10 @@ class Juego {
         System.out.println("Puntaje Jugador 2: " + jugador2.getPuntaje());
         System.out.println("Tiempo de la partida: " + tiempoTotal + " segundos.");
     }
+
+    /**
+     * Reanuda la partida escogida segun el alias de la partida que se haya cargado.
+     */
 
     public boolean reanudarPartida() {
         System.out.println("!!! Reanudando la partida !!!");

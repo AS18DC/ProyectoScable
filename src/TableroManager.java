@@ -1,4 +1,3 @@
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.FileReader;
@@ -14,12 +13,14 @@ import java.util.List;
 public class TableroManager {
 
     /**
-     * Guarda el estado del juego (tablero, jugadores y saco) en un archivo JSON.
+     * Guarda el estado del juego (tablero, jugadores, saco y contador de movimientos) en un archivo JSON.
+     *
      * @param alias el alias de la partida.
      * @param tablero el tablero a guardar.
      * @param jugador1 el primer jugador.
      * @param jugador2 el segundo jugador.
      * @param saco el saco de letras utilizado en el juego.
+     * @param contadorMovimientos el contador de movimientos en el juego.
      */
     public static void guardarJuego(String alias, Tablero tablero, Jugador jugador1, Jugador jugador2, Saco saco, int contadorMovimientos) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -49,11 +50,11 @@ public class TableroManager {
         }
     }
 
-
     /**
-     * Carga el estado del juego (tablero, jugadores y saco) desde un archivo JSON.
+     * Carga el estado del juego (tablero, jugadores, saco y contador de movimientos) desde un archivo JSON.
+     *
      * @param alias el alias de la partida.
-     * @return el juego cargado o un juego vacío sí ocurre un error.
+     * @return el juego cargado o un juego vacío si ocurre un error.
      */
     public static JuegoGuardado cargarJuego(String alias) {
         Gson gson = new Gson();

@@ -4,7 +4,16 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Clase que elimina acentos de un archivo de texto.
+ */
 public class QuitarAcentos {
+
+    /**
+     * Metodo principal que ejecuta el programa para eliminar acentos de un archivo.
+     *
+     * @param args Los argumentos de línea de comando.
+     */
     public static void main(String[] args) {
         String rutaEntrada = "src/listado-general.txt"; // Ruta del archivo original
         String rutaSalida = "src/listado-general-sin-acentos.txt"; // Ruta del archivo de salida

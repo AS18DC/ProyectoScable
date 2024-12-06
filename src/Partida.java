@@ -13,7 +13,18 @@ public class Partida {
     private long tiempoTotal;
     private int palabrasColocadas;
 
-    // Constructor modificado
+    /**
+     * Constructor para crear una nueva partida.
+     *
+     * @param alias            El alias de la partida.
+     * @param jugador1         El primer jugador.
+     * @param jugador2         El segundo jugador.
+     * @param saco             El saco de letras.
+     * @param puntos           Los puntos de la partida.
+     * @param gano             Indicador de si la partida fue ganada.
+     * @param tiempoTotal      El tiempo total de la partida en milisegundos.
+     * @param palabrasColocadas La cantidad de palabras colocadas durante la partida.
+     */
     public Partida(String alias, Jugador jugador1, Jugador jugador2, Saco saco, int puntos, boolean gano, long tiempoTotal, int palabrasColocadas) {
         this.alias = alias;
         this.jugador1 = jugador1;
@@ -25,31 +36,60 @@ public class Partida {
         this.palabrasColocadas = palabrasColocadas;
     }
 
-    // Métodos getters y setters para jugador1 y jugador2
+    /**
+     * Obtiene el primer jugador.
+     *
+     * @return El primer jugador.
+     */
     public Jugador getJugador1() {
         return jugador1;
     }
 
+    /**
+     * Establece el primer jugador.
+     *
+     * @param jugador1 El primer jugador.
+     */
     public void setJugador1(Jugador jugador1) {
         this.jugador1 = jugador1;
     }
 
+    /**
+     * Obtiene el segundo jugador.
+     *
+     * @return El segundo jugador.
+     */
     public Jugador getJugador2() {
         return jugador2;
     }
 
-    public Saco getSaco() {
-        return saco; // Agregar getter para saco
-    }
-
-    public void setSaco(Saco saco) {
-        this.saco = saco; // Agregar setter para saco
-    }
-
-
+    /**
+     * Establece el segundo jugador.
+     *
+     * @param jugador2 El segundo jugador.
+     */
     public void setJugador2(Jugador jugador2) {
         this.jugador2 = jugador2;
     }
+
+    /**
+     * Obtiene el saco.
+     *
+     * @return El saco.
+     */
+    public Saco getSaco() {
+        return saco;
+    }
+
+    /**
+     * Establece el saco.
+     *
+     * @param saco El nuevo saco.
+     */
+    public void setSaco(Saco saco) {
+        this.saco = saco;
+    }
+
     /**
      * Obtiene el alias del jugador.
      *

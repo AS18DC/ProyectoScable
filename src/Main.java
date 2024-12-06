@@ -1,11 +1,18 @@
-
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Clase principal para ejecutar el juego de Scrabble.
+ */
 public class Main {
     private static Juego juego;
     private static boolean partidaIniciada = false;
 
+    /**
+     * Metodo principal para iniciar el programa.
+     *
+     * @param args Argumentos de línea de comando.
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Gestion gestion = new Gestion();
@@ -20,7 +27,7 @@ public class Main {
                 case 1:
                     iniciarJuego(scanner);
                     break;
-                    
+
                 case 2:
                     continuarPartida(scanner);
                     break;
@@ -44,6 +51,9 @@ public class Main {
         scanner.close(); // Cerrar el scanner al final
     }
 
+    /**
+     * Muestra el menú principal del juego.
+     */
     private static void mostrarMenu() {
         System.out.println("=== Menú Scrabble ===");
         System.out.println("1. Iniciar Juego");
@@ -53,6 +63,11 @@ public class Main {
         System.out.print("Seleccione una opción: ");
     }
 
+    /**
+     * Inicia un nuevo juego de Scrabble.
+     *
+     * @param scanner El escáner para leer la entrada del usuario.
+     */
     private static void iniciarJuego(Scanner scanner) {
         try {
             Jugador jugador1 = new Jugador("", "");
@@ -71,6 +86,11 @@ public class Main {
         }
     }
 
+    /**
+     * Continúa una partida guardada de Scrabble.
+     *
+     * @param scanner El escáner para leer la entrada del usuario.
+     */
     private static void continuarPartida(Scanner scanner) {
         System.out.print("Ingrese el alias de la partida que desea reanudar: ");
         String alias = scanner.next(); // Leer el alias de la partida

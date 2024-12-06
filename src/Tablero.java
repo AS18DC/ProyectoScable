@@ -89,16 +89,6 @@ class Tablero {
      * @param col        la columna inicial donde se colocará la palabra.
      * @param horizontal indica si la palabra se coloca horizontalmente (true) o verticalmente (false).
      * @param jugador    el jugador que coloca la palabra.
-     * @return el puntaje obtenido al colocar la palabra, o 0 si la colocación no es válida.
-     */
-    /**
-     * Coloca una palabra en el tablero y calcula el puntaje obtenido.
-     *
-     * @param palabra    la palabra a colocar en el tablero.
-     * @param fila       la fila inicial donde se colocará la palabra.
-     * @param col        la columna inicial donde se colocará la palabra.
-     * @param horizontal indica si la palabra se coloca horizontalmente (true) o verticalmente (false).
-     * @param jugador    el jugador que coloca la palabra.
      * @param turno      el número de turno actual del juego.
      * @return el puntaje obtenido al colocar la palabra, o 0 si la colocación no es válida.
      */
@@ -236,6 +226,12 @@ class Tablero {
 
 
 
+    /**
+     * Verifica si una combinación de letras es una combinación doble (CH, LL, RR).
+     *
+     * @param combinacion la combinación de letras a verificar.
+     * @return true si la combinación es doble, false en caso contrario.
+     */
     private boolean esCombinacionDoble(String combinacion) {
         return combinacion.equals("CH") || combinacion.equals("LL") || combinacion.equals("RR");
     }
