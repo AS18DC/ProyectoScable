@@ -48,7 +48,7 @@ public class Main {
 
         } while (opcion != 4);
 
-        scanner.close(); // Cerrar el scanner al final
+        scanner.close();
     }
 
     /**
@@ -97,7 +97,7 @@ public class Main {
 
         try {
             // Inicializar juego y diccionario
-            String rutaDiccionario = "src/listado-general-sin-acentos.txt"; // Ajusta según corresponda
+            String rutaDiccionario = "src/listado-general-sin-acentos.txt";
             juego = new Juego(new Diccionario(rutaDiccionario));
             juego.cargarPartida(alias);
             partidaIniciada = true;

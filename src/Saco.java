@@ -126,33 +126,43 @@ class Saco {
                 case "I":
                 case "O":
                 case "U":
+                case "S":
                     return 1;
+
                 case "L":
                 case "N":
                 case "R":
-                case "S":
                 case "T":
                     return 2;
+
+                case "C":
                 case "D":
                 case "G":
-                    return 3;
-                case "B":
-                case "C":
                 case "M":
+                    return 3;
+
+                case "V":
+                case "B":
                 case "P":
                     return 4;
+
                 case "F":
                 case "H":
-                case "V":
                 case "Y":
                     return 5;
-                case "J":
-                case "K":
+
                 case "Q":
-                case "W":
+                    return 8;
+
+                case "J":
+                case "Ñ":
                 case "X":
                 case "Z":
-                    return 8;
+                    return 10;
+
+                case "-":
+                    return 0;
+
                 default:
                     return 0; // Letra no válida
             }
@@ -221,10 +231,17 @@ class Saco {
             distancia2 = Ñ;
         }
 
-        if ((primerCaracter1 == '-') || (distancia1 < distancia2)) {
+        if ((primerCaracter1 == '-')) {
             return true;
-        } else if ((primerCaracter2 == '-') || (distancia2 < distancia1)) {
+        }else if ((primerCaracter2 == '-')) {
             return false;
+        }
+
+
+        if (distancia2 < distancia1) {
+            return false;
+        }else if (distancia1 < distancia2) {
+            return true;
         } else {
             System.out.println("Las dos letras son iguales, se va a volver a sortear: ");
             return true;

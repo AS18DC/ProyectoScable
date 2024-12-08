@@ -197,7 +197,7 @@ class Jugador {
      * @return true si la letra fue usada correctamente, false en caso contrario.
      */
     public boolean usarLetra(String letra) {
-        // Verificar si la letra existe en las letras del jugador
+        // Revisa si la letra existe en las letras del jugador
         if (letras.contains(letra)) {
             letras.remove(letra); // Elimina solo la primera coincidencia
             return true; // Indica que la letra fue usada correctamente
@@ -206,7 +206,7 @@ class Jugador {
     }
 
     /**
-     * Usa un conjunto de letras del jugador.
+     * Usa el conjunto de letras del jugador.
      *
      * @param usadas Las letras a usar.
      */
@@ -214,7 +214,7 @@ class Jugador {
         for (String letra : usadas) {
             // Eliminar la letra del jugador
             if (letras.contains(letra)) {
-                letras.remove(letra); // Elimina solo la primera coincidencia
+                letras.remove(letra);
             }
         }
     }

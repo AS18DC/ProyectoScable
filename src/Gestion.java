@@ -164,10 +164,10 @@ public class Gestion {
             scanner.nextLine();
 
             if (opcion == 1) {
-                System.out.print("Introduce el correo del jugador: ");
-                String correo = scanner.nextLine();
                 System.out.print("Introduce el alias del jugador: ");
                 String alias = scanner.nextLine();
+                System.out.print("Introduce el correo del jugador: ");
+                String correo = scanner.nextLine();
                 boolean validplayer= false;
 
                 while (!validplayer){
@@ -175,7 +175,7 @@ public class Gestion {
                         validarJugador(alias,correo);
                         validplayer = true;
                     } catch (JugadorInvalido e) {
-                        System.out.println(e.getMessage()); // Mostrar mensaje de error específico
+                        System.out.println(e.getMessage());
                         System.out.print("Introduce nuevamente el alias del jugador: ");
                         alias = scanner.nextLine();
                         System.out.print("Introduce nuevamente el correo del jugador: ");
