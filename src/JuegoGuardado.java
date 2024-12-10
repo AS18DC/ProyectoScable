@@ -11,6 +11,9 @@ public class JuegoGuardado {
     private int puntajeJugador1;
     private int puntajeJugador2;
     private int contadorMovimientos;
+    private long tiempoTotal;
+    private int palabrasColocadas;
+
 
     /**
      * Constructor para crear un nuevo juego guardado.
@@ -23,7 +26,7 @@ public class JuegoGuardado {
      * @param puntajeJugador2   El puntaje del jugador 2.
      * @param contadorMovimientos El contador de movimientos.
      */
-    public JuegoGuardado(Tablero tablero, Partida partida, List<String> letrasJugador1, List<String> letrasJugador2, int puntajeJugador1, int puntajeJugador2, int contadorMovimientos) {
+    public JuegoGuardado(Tablero tablero, Partida partida, List<String> letrasJugador1, List<String> letrasJugador2, int puntajeJugador1, int puntajeJugador2, int contadorMovimientos, long tiempoTotal, int palabrasColocadas) {
         this.tablero = tablero;
         this.partida = partida;
         this.letrasJugador1 = letrasJugador1;
@@ -31,6 +34,8 @@ public class JuegoGuardado {
         this.puntajeJugador1 = puntajeJugador1;
         this.puntajeJugador2 = puntajeJugador2;
         this.contadorMovimientos = contadorMovimientos;
+        this.tiempoTotal = tiempoTotal;
+        this.palabrasColocadas = palabrasColocadas;
     }
 
     /**
@@ -103,5 +108,13 @@ public class JuegoGuardado {
      */
     public void setContadorMovimientos(int contadorMovimientos) {
         this.contadorMovimientos = contadorMovimientos;
+    }
+
+    public long getTiempoTotal() {
+        return tiempoTotal;
+    }
+
+    public int getPalabrasColocadas() {
+        return palabrasColocadas;
     }
 }

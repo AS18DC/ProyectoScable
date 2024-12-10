@@ -22,7 +22,7 @@ public class TableroManager {
      * @param saco el saco de letras utilizado en el juego.
      * @param contadorMovimientos el contador de movimientos en el juego.
      */
-    public static void guardarJuego(String alias, Tablero tablero, Jugador jugador1, Jugador jugador2, Saco saco, int contadorMovimientos) {
+    public static void guardarJuego(String alias, Tablero tablero, Jugador jugador1, Jugador jugador2, Saco saco, int contadorMovimientos, long tiempoTotal, int palabrasColocadas) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String filename = "juego_" + alias + ".json";
 
@@ -37,7 +37,7 @@ public class TableroManager {
                 letrasJugador2,
                 jugador1.getPuntajePartida(),
                 jugador2.getPuntajePartida(),
-                contadorMovimientos // Agregar contadorMovimientos
+                contadorMovimientos, tiempoTotal, palabrasColocadas
         );
 
         System.out.println("Guardando partida con contador de movimientos: " + contadorMovimientos);
@@ -64,7 +64,7 @@ public class TableroManager {
         } catch (IOException e) {
             System.err.println("Error al cargar el juego: " + e.getMessage());
             return new JuegoGuardado(
-                    new Tablero(new Saco()), new Partida("", null, null, new Saco(), 0, false, 0, 0), new ArrayList<>(), new ArrayList<>(), 0, 0, 0);
+                    new Tablero(new Saco()), new Partida("", null, null, new Saco(), 0, false, 0, 0), new ArrayList<>(), new ArrayList<>(), 0, 0, 0, 0, 0);
         }
     }
 }

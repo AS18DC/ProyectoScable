@@ -24,16 +24,6 @@ public class Gestion {
             partidas = new LinkedList<>();
         }
     }
-
-    /**
-     * Agrega una nueva partida a la lista de partidas.
-     * @param partida La partida a agregar.
-     */
-    public void agregarPartida(Partida partida) {
-        partidas.add(partida);
-        System.out.println("Partida registrada con éxito.");
-    }
-
     /**
      * Muestra las estadísticas de partidas de un jugador específico.
      * @param aliasJugador El alias del jugador.

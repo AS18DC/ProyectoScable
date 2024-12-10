@@ -84,9 +84,9 @@ class Juego {
      * @param alias El alias con el que se guardará la partida.
      */
 
-    public void guardarPartida(String alias) {
+    public void guardarPartida(String alias,long tiempoTotal, int palabrasColocadas) {
         int contadorMovimientos = this.contadorMovimientos;
-        TableroManager.guardarJuego(alias, tablero, jugador1, jugador2, saco, contadorMovimientos);
+        TableroManager.guardarJuego(alias, tablero, jugador1, jugador2, saco, contadorMovimientos, tiempoTotal, palabrasColocadas );
     }
 
     /**
@@ -140,6 +140,9 @@ class Juego {
         }
 
         this.contadorMovimientos = juegoGuardado.getContadorMovimientos();
+
+        long tiempoTotal = juegoGuardado.getTiempoTotal();
+        int palabrasColocadas = juegoGuardado.getPalabrasColocadas();
     }
 
 
@@ -282,7 +285,9 @@ class Juego {
                     exit = "exit";
                     System.out.println("Ingrese el alias de la partida para su guardado: ");
                     String aliasGuardar = scanner.nextLine();
-                    guardarPartida(aliasGuardar);
+                    long tiempoTotal = (System.currentTimeMillis() - tiempoInicio) / 1000; // Calcular tiempo total
+                    int contadorPalabras = contadorMovimientos;
+                    guardarPartida(aliasGuardar, tiempoTotal, contadorPalabras);
                     return false;
                 }
 
@@ -455,6 +460,11 @@ class Juego {
         System.out.println("Puntaje Jugador 1: " + jugador1.getPuntaje());
         System.out.println("Puntaje Jugador 2: " + jugador2.getPuntaje());
         System.out.println("Tiempo de la partida: " + tiempoTotal + " segundos.");
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Ingrese el alias para guardar la partida: ");
+        String aliasGuardar = scanner.nextLine();
+        guardarPartida(aliasGuardar, tiempoTotal, contadorMovimientos);
     }
 
     /**
@@ -518,7 +528,10 @@ class Juego {
                     exit = "exit";
                     System.out.println("Ingrese el alias de la partida para su guardado: ");
                     String aliasGuardar = scanner.nextLine();
-                    guardarPartida(aliasGuardar);
+                    int palabrasColocadas = contadorMovimientos;
+                    long tiempoTotal = (System.currentTimeMillis() - tiempoInicio) / 1000; // Calcular tiempo total
+                    int contadorPalabras = contadorMovimientos;
+                    guardarPartida(aliasGuardar, tiempoTotal, contadorPalabras);
                     return false;
                 }
 
