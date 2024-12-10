@@ -1,4 +1,5 @@
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -24,19 +25,51 @@ public class Gestion {
             partidas = new LinkedList<>();
         }
     }
-    /**
-     * Muestra las estadísticas de partidas de un jugador específico.
-     * @param aliasJugador El alias del jugador.
-     */
+
+    public void cargarPartidasGuardadas() {
+        File currentDirectory = new File(".");
+        File[] files = currentDirectory.listFiles((dir, name) -> name.startsWith("juego_") && name.endsWith(".json"));
+
+        if (files != null && files.length > 0) {
+            for (File file : files){
+                String alias = file.getName().replace("juego_", "").replace(".json", "");
+                JuegoGuardado juegoGuardado = TableroManager.cargarJuego(alias);
+
+                if (juegoGuardado != null) {
+                    partidas.add(juegoGuardado.getPartida());
+                    System.out.println("Partida con alias \"" + alias + "\" cargada exitosamente.");
+                } else {
+                    System.err.println("Error al cargar la partida con alias \"" + alias + "\".");
+                }
+            }
+
+        } else {
+            System.out.println("No se encontraron partidas guardadas para cargar.");
+        }
+    }
+
+        /**
+         * Muestra las estadísticas de partidas de un jugador específico.
+         * @param aliasJugador El alias del jugador.
+         */
     public void mostrarEstadisticasDePartidas(String aliasJugador) {
+        // Validar si el jugador existe
+        Jugador jugador = consultarJugador(aliasJugador);
+        if (jugador == null) {
+            System.out.println("El jugador con alias \"" + aliasJugador + "\" no existe.");
+            return;
+        }
+
+        // Variables para acumular estadísticas
         int partidasJugadas = 0;
         int partidasGanadas = 0;
         int totalPuntos = 0;
         long totalTiempo = 0;
         int totalPalabrasColocadas = 0;
 
+        // Recorrer partidas para recolectar estadísticas
         for (Partida partida : partidas) {
-            if (partida.getAlias().equalsIgnoreCase(aliasJugador)) {
+            if (partida.getJugador1().getNombre().equalsIgnoreCase(aliasJugador) || partida.getJugador2().getNombre().equalsIgnoreCase(aliasJugador)) {
                 partidasJugadas++;
                 if (partida.isGano()) {
                     partidasGanadas++;
@@ -47,6 +80,7 @@ public class Gestion {
             }
         }
 
+        // Mostrar estadísticas o mensaje de falta de partidas
         if (partidasJugadas > 0) {
             System.out.println("Estadísticas de las partidas para el jugador \"" + aliasJugador + "\":");
             System.out.println("Total de partidas jugadas: " + partidasJugadas);
@@ -55,9 +89,10 @@ public class Gestion {
             System.out.println("Total de tiempo jugado (en segundos): " + totalTiempo);
             System.out.println("Total de palabras colocadas: " + totalPalabrasColocadas);
         } else {
-            System.out.println("No se encontraron partidas para el jugador \"" + aliasJugador + "\".");
+            System.out.println("No se encontraron partidas registradas para el jugador \"" + aliasJugador + "\".");
         }
     }
+
 
     /**
      * Registra un nuevo jugador.
@@ -202,6 +237,7 @@ public class Gestion {
                 gestionJugador.editarAlias(aliasEdicion, nuevoAlias);
 
             } else if (opcion == 5) {
+                cargarPartidasGuardadas();
                 System.out.print("Introduce el alias del jugador para mostrar sus estadísticas: ");
                 String aliasEstadisticas = scanner.nextLine();
                 gestionJugador.mostrarEstadisticasDePartidas(aliasEstadisticas);
